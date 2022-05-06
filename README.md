@@ -9,12 +9,11 @@ The SQL queries will answer business questions such as 'show average memory usag
 
 # Implementation
 
-I will be in charge of designing and implementing a monitoring tool that will assist a potential business need. 
-- using 
-    - Linux command lines
-    - Bash scripts
-    - PostgreSQL
-    - Docker
+I will be in charge of designing and implementing a monitoring tool that will assist a potential business need using 
+ - Linux command lines
+ - Bash scripts
+ - PostgreSQL
+ - Docker
 
 ### **Architecture**
 
@@ -34,10 +33,25 @@ The `agent` consists of two bash scripts
 - `host_info.sh` collects the host hardware info and insert it into the database. It will be run only once at the installation time.
 - `host_usage.sh` collects the current host usage (CPU and Memory) and then insert into the database. It will be triggered by the `crontab` job every minute.
 
-### ** Database Modeling
-Describe the schema of each table using markdown table syntax (do not put any sql code)
+### **Database**
 - `host_info`
+    - `host_id` : The unique identifier
+    - `host_name` : The full name of the node
+    - `host_cpu_number` : The sum of cpu core
+    - `host_cpu_architecture` : The generation 
+    - `host_cpu_model` : The manifacturer
+    - `host_cpu_mhz` : The sum, in megahertz, of the actively used CPU
+    - `host_L2_cache` : The sum, in mb memory bank built into the CPU
+    - `host_tot_memory` : The amount of ram
+    - `host_timestamp` : UTC timestamp (epoch)
 - `host_usage`
+    - `host_id` : unique identifier
+    - `host_timestamp` : UTC timestamp (epoch)
+    - `host_available_memo` : The amount of memory not being used
+    - `host_cpu_idel` :
+    - `host_cpu_kernel` :
+    - `host_disk_io` : The amount of disk space used
+    - `host_disk_available` : The amount of disk space available
 
 # Test
 
@@ -56,19 +70,49 @@ Use markdown code block for your quick-start commands
 - Insert hardware usage data into the DB using host_usage.sh
 - Crontab setup
 
-## Scripts
+# Scripts
+### **Description**
 Shell script description and usage (use markdown code block for script usage)
-- psql_docker.sh
-- host_info.sh
-- host_usage.sh
-- crontab
+- psql_docker.sh ...
+- host_info.sh ...
+- host_usage.sh ...
+- crontab ...
 - queries.sql (describe what business problem you are trying to resolve)
 
+### **Usage**
 
+- [psql_docker.sh](./README.md) :
+ ```
+ git status
+ git add
+ git commit
+```
+ 
+- [host_info.sh](./README.md) :
+ ```
+ git status
+ git add
+ git commit
+```
+ 
+- [host_usage.sh](./README.md) :
+ ```
+ git status
+ git add
+ git commit
+```
+ 
+- [queries.sql](./README.md) :
+ ```
+ git status
+ git add
+ git commit
+```
+ 
 # Deployment
 How did you deploy your app? (e.g. Github, crontab, docker)
 
 # Improvements
-- handle hardware update 
-- blah
-- blah
+1. handle hardware update 
+2. ...
+3. ...
