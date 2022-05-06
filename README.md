@@ -3,7 +3,7 @@
 
 A CentOS 7 based Linux node cluster agent
 This tool's goal is to keep track of each node's hardware characteristics and real-time resource utilisation (e.g. CPU/Memory) for future resource planning purposes (e.g. add/remove servers that might be too slow or under used). 
-The data will be saved in a PostgreSQL relational database management system (RDBMS) . 
+The data will be saved in a PostgreSQL relational database management system (RDBMS). 
 The SQL queries will answer business questions such as 'show average memory usage in percentage over 1 minute intervals for each node'.
 
 
@@ -20,10 +20,11 @@ I will be in charge of designing and implementing a monitoring tool that will as
 ![https://miro.medium.com/max/1052/1*mqDOdPn-r8OQgR1UyLRXkA.png](https://miro.medium.com/max/1052/1*mqDOdPn-r8OQgR1UyLRXkA.png)
 
 - A `psql` instance is used to persist all the data
-- The `bash agent` gathers server usage data, and then insert into the psql instance. The `agent` will be installed on every host/server/node. The `agent` consists of two bash scripts
+- The `bash agent` gathers server usage data, and then insert into the psql instance. The `agent` will be installed on every 
+
+host/server/node. The `agent` consists of two bash scripts
     - `host_info.sh` collects the host hardware info and insert it into the database. It will be run only once at the installation time.
     - `host_usage.sh` collects the current host usage (CPU and Memory) and then insert into the database. It will be triggered by the `crontab` job every minute.
-
 
 Each nodes are on a same network connected.
 - A `psql` data base is used to save the data
