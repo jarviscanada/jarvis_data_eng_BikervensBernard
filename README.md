@@ -36,23 +36,23 @@ The `agent` consists of two bash scripts
 
 ### **Database**
 - `host_info`
-    - `host_id` : The unique identifier
+    - `host_id` : The unique identifier psql db auto-increment
     - `host_name` : The full name of the node
     - `host_cpu_number` : The sum of cpu core
     - `host_cpu_architecture` : The generation 
-    - `host_cpu_model` : The manifacturer
+    - `host_cpu_model` : The manifacturer (e.g Intel(R) Xeon(R) CPU @ 2.30GHz)
     - `host_cpu_mhz` : The sum, in megahertz, of the actively used CPU
-    - `host_L2_cache` : The sum, in mb memory bank built into the CPU
-    - `host_tot_memory` : The amount of ram
-    - `host_timestamp` : UTC timestamp (epoch)
+    - `host_L2_cache` : The sum, in kB, memory bank built into the CPU
+    - `host_tot_memory` : The sum of ram, in kB
+    - `host_timestamp` : Current time in UTC time zone
 - `host_usage`
-    - `host_id` : unique identifier
-    - `host_timestamp` : UTC timestamp (epoch)
-    - `host_available_memo` : The amount of memory not being used
-    - `host_cpu_idel` :
-    - `host_cpu_kernel` :
+    - `host_id` : unique identifier psql db auto-increment
+    - `host_timestamp` : Current time in UTC time zone
+    - `host_free_memo` : The amount of memory not being used, in MB
+    - `host_cpu_idel` : in percentage
+    - `host_cpu_kernel` : in percentage
     - `host_disk_io` : The amount of disk space used
-    - `host_disk_available` : The amount of disk space available
+    - `host_disk_available` : The amount of root directory avaiable disk space available in MB
 
 # Test
 
