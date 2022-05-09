@@ -37,57 +37,54 @@ else
 fi
 
 # Check if the container is already created
-container_status=$(docker ps -a | grep -c "jrvs-psql")
+container_status=$(docker ps -a | grep -c "$db_username")
 if [ $container_status -eq 1 ]; then
-	echo "Container jrvs-psql already exists"
-	id=$(docker ps -a -qf "name=jrvs-psql")
-	echo "Container jrvs-psql id is $id"
-	if [ "$cmd" = "start" ]; then
+	echo "Container $db_username already exists"
+	id=$(docker ps -a -qf "name=$db_username")
+	echo "Container "$db_username" id is $id"
+	if [ $cmd = "start" ]; then
 		docker container start "$id"
 		exit 2
 	fi
 
-	if [ "$cmd" = "stop" ]; then
+	if [ $cmd = "stop" ]; then
 		docker container stop "$id"
-		echo 'container jrvs-psql was stopped'
+		echo "container $db_username was stopped"
 		exit 3
 	fi
 
-	if [ "$cmd" = "delete" ]; then
+	if [ $cmd = "delete" ]; then
 		docker container stop "$id"
 		sleep 3
 		docker container rm "$id"
-		echo 'container jrvs-psql was removed'
+		echo "container $db_username was removed"
 		exit 4
 	fi
 else 
-	echo "Container jrvs-psql does NOT exists. Let's create it..."
+
 	#check # of CLI arguments
 	if (( $cmd == "create" )); then
 		if [[ $# -ne 3 ]]; then
-			echo "Create requires username and password"
+			echo "$cmd requires username and password"
 			exit 5;
 		else
 			#Create container
+			echo "Container $db_username does NOT exists. Let's create it..."
 			echo "Creating container..."
 			docker pull postgres
 			docker volume create pgdata
-			export PGPASSWORD=$db_password
-			docker run --name jrvs-psql -e POSTGRES_PASSWORD=$PGPASSWORD -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:9.6-alpine
+			docker run --name $db_username -e POSTGRES_USERNAME -e POSTGRES_PASSWORD --env POSTGRES_USERNAME=$db_username --env POSTGRES_PASSWORD=$db_password -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:9.6-alpine
 			sleep 5
-			container_status=$(docker ps -a | grep -c "jrvs-psql")
+			container_status=$(docker ps -a | grep -c "$db_username")
 			if [ $container_status -eq 1 ]; then
-				echo "Container jrvs-psql created"
-				docker container start jrvs-psql
-
+				echo "Container $db_username created"
+				docker container start "$db_username"
 			fi 
 		fi
 	else 
 		echo 'Illegal command'
-		echo 'Commands: start|stop|create|delete'
+		echo 'Allowed Commands: create|start|stop|delete [user] [password]'
 		exit 6
 	fi
 fi
 exit 0
-
-
