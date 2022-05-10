@@ -1,4 +1,4 @@
-#setup arguments
+etup arguments
 cmd=$1
 db_username=$2
 db_password=$3
@@ -19,11 +19,6 @@ else
 	fi 
 fi
 
-#parse hardware specification
-hostname=$(hostname -f)
-lscpu_out=`lscpu`
-cpu_number=$(echo "$lscpu_out"  | egrep "^CPU\(s\):" | awk '{print $2}' | xargs)
-
 #start docker
 status=$(systemctl show --property ActiveState docker | xargs  | awk -F'=' '{print $2}')
 if (( $status == "active" )); then
@@ -39,9 +34,7 @@ fi
 # Check if the container is already created
 container_status=$(docker ps -a | grep -c "$db_username")
 if [ $container_status -eq 1 ]; then
-	echo "Container $db_username already exists"
 	id=$(docker ps -a -qf "name=$db_username")
-	echo "Container "$db_username" id is $id"
 	if [ $cmd = "start" ]; then
 		docker container start "$id"
 		exit 2
@@ -61,20 +54,31 @@ if [ $container_status -eq 1 ]; then
 		exit 4
 	fi
 else 
-
-	#check # of CLI arguments
+	if [ $container_status -eq 1 ]; then
+		echo "container already exist"
+		exit 5
+	fi
 	if (( $cmd == "create" )); then
+		#check # of CLI arguments
 		if [[ $# -ne 3 ]]; then
 			echo "$cmd requires username and password"
 			exit 5;
 		else
-			#Create container
+			#create container
 			echo "Container $db_username does NOT exists. Let's create it..."
 			echo "Creating container..."
+			
+			#get latest postgres image
 			docker pull postgres
+			
+			#create a new volume if not exist
 			docker volume create pgdata
-			docker run --name $db_username -e POSTGRES_USERNAME -e POSTGRES_PASSWORD --env POSTGRES_USERNAME=$db_username --env POSTGRES_PASSWORD=$db_password -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:9.6-alpine
-			sleep 5
+
+			#set password for default user `postgres`
+			docker run --name $db_username -e POSTGRES_USER=$db_username -e POSTGRES_PASSWORD=$db_password -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:9.6-alpine
+			sleep 2
+
+			#start/stop a container
 			container_status=$(docker ps -a | grep -c "$db_username")
 			if [ $container_status -eq 1 ]; then
 				echo "Container $db_username created"
