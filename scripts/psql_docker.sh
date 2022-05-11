@@ -14,6 +14,9 @@ else
 	fi
 fi
 
+#start docker if docker server is not running
+sudo systemctl status docker || sudo systemctl start docker #centos7
+
 #start docker
 status=$(systemctl show --property ActiveState docker | xargs  | awk -F'=' '{print $2}')
 if (( $status == "active" )); then
@@ -69,6 +72,10 @@ else
 			
 			#create a new volume if not exist
 			docker volume create pgdata
+
+			#psql docker docs https://hub.docker.com/_/postgres
+			#set password for default user `postgres`
+			export PGPASSWORD='password'
 
 			#set password for default user `postgres`
 			docker run --name $db_username -e POSTGRES_USER=$db_username -e POSTGRES_PASSWORD=$db_password -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:9.6-alpine
