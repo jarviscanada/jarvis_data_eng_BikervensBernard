@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #Setup arguments
 cmd=$1
 db_username=$2
