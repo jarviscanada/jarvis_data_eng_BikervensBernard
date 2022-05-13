@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #Setup arguments
 cmd=$1
 db_username=$2
@@ -56,8 +58,8 @@ if [ $container_status -eq 1 ]; then
 	fi
 else 
 	if [ $container_status -eq 1 ]; then
-		echo "container already exist"
-		exit 0
+	    echo "container already exist"
+	    exit 0
 	fi
 	if (( $cmd == "create" )); then
 		#check # of CLI arguments
