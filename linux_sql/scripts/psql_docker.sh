@@ -56,11 +56,24 @@ if [ $container_status -eq 1 ]; then
 		echo "container $db_username was removed"
 		exit 0
 	fi
-else 
-	if [ $container_status -eq 1 ]; then
-	    echo "container already exist"
-	    exit 0
+
+	#if container exist and cmd create was passed we just need to start it + ddl script
+	if [ $cmd = "create" ]; then
+		#check # of CLI arguments
+		if [[ $# -ne 3 ]]; then
+			echo "$cmd requires username and password"
+			exit 1;
+		else
+		    docker container start "$id"
+		    psql -h localhost -U postgres -p 5432 -f ../sql/ddl.sql
+		fi
+	else 
+		echo 'Illegal command'
+		echo 'Allowed Commands: create|start|stop|delete [user] [password]'
+		exit 1
 	fi
+else
+    #docker container does not exist yet
 	if (( $cmd == "create" )); then
 		#check # of CLI arguments
 		if [[ $# -ne 3 ]]; then
@@ -83,13 +96,7 @@ else
 			#set password for default user `postgres`
 			docker run --name $db_username -e POSTGRES_USER=$db_username -e POSTGRES_PASSWORD=$db_password -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:9.6-alpine
 			sleep 2
-
-			#start/stop a container
-			container_status=$(docker ps -a | grep -c "$db_username")
-			if [ $container_status -eq 1 ]; then
-				echo "Container $db_username created"
-				docker container start "$db_username"
-			fi
+			
 			# Execute ddl.sql script on the host_agent database againse the psql instance
 			psql -h localhost -U postgres -p 5432 -f sql/ddl.sql
 		fi
