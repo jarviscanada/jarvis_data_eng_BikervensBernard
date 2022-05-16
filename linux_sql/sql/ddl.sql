@@ -2,6 +2,8 @@
 --1. (optional) switch to `host_agent`
 \c host_agent;
 
+SET TIMEZONE='UTC';
+
 --2. create `host_info` table if not exist
 CREATE TABLE IF NOT EXISTS PUBLIC.host_info (
     id SERIAL NOT NULL PRIMARY KEY,
