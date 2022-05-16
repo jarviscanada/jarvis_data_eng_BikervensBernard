@@ -7,7 +7,8 @@ db_password=$3
 
 #validate argumnents
 if [[ "$#" -lt 1 ]]; then
-	echo "Illegal number of parameters"
+    echo "Illegal number of parameters"
+    echo "please provide: create|start|stop|delete [user] [password]"
 	exit 1
 else 
 	if [[ "$#" -gt 3 ]]; then
@@ -65,7 +66,9 @@ if [ $container_status -eq 1 ]; then
 			exit 1;
 		else
 		    docker container start "$id"
-		    psql -h localhost -U postgres -p 5432 -f ../sql/ddl.sql
+		    sleep 2
+		    cd ../
+		    psql -h localhost -U postgres -p 5432 -f sql/ddl.sql
 		fi
 	else 
 		echo 'Illegal command'
@@ -98,6 +101,7 @@ else
 			sleep 2
 			
 			# Execute ddl.sql script on the host_agent database againse the psql instance
+			cd ../
 			psql -h localhost -U postgres -p 5432 -f sql/ddl.sql
 		fi
 	else 
