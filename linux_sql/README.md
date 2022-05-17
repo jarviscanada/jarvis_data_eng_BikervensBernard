@@ -61,55 +61,73 @@ However, should work in a cluster environment, assuming connection and firewalls
 The agent program is scheduled using `crontab`. Source code is managed by GitHub. Database is provisioned with Docker.
 
 # Quick Start
-- Create a psql instance using psql_docker.sh: bash ./scripts/psql_docker.sh create [database's username] [database's password] 
+- Create a psql instance using `psql_docker.sh`: bash ./scripts/psql_docker.sh create [database's username] [database's password] 
 ```
 bash ./scripts/psql_docker.sh create postgres password
 ```
 
 <br/>
 
-- Start a psql instance using psql_docker.sh: By default the container's name is `postgres`
+- Start a psql instance using `psql_docker.sh`: By default the container's name is `postgres`
 ```
 bash ./scripts/psql_docker.sh start
 ```
 
 <br/>
 
-- Stop a psql instance using psql_docker.sh: The database will be persisted
+- Stop a psql instance using `psql_docker.sh` : The database will be persisted
 ```
 bash ./scripts/psql_docker.sh stop
 ```
 
 <br/>
 
-- Create tables using ddl.sql (this is ran during the container's creation. Therefore the create cmd on `psql_docker.sh` will have the same effect): <br/> psql -h [postgres host] -U [postgres username] -d [database] -f [path to ddl.sql]
+- Create tables using `ddl.sql` (this is ran during the container's creation. Therefore the create cmd on `psql_docker.sh` will have the same effect): <br/> psql -h [postgres host] -U [postgres username] -d [database] -f [path to ddl.sql]
 ```
 psql -h localhost -U postgres -d host_agent -f ./sql/ddl.sql
 ```
 
 <br/>
 
-- Insert hardware specs data into the DB using host_info.sh: <br/> ./scripts/host_usage.sh [postgres host] [postgres port] [database] [postgres username] [postgres password]
+- Using `host_info.sh` run ./scripts/host_usage.sh [postgres host] [postgres port] [database] [postgres username] [postgres password] once on the monitoring agent to insert hardware specs data into the DB
 ```
 ./scripts/host_usage.sh localhost 5432 host_agent posgress password
 ```
 
 <br/>
-<br/>
-<br/>
+
+- Insert each minute the hardware memory and cpu usage data into the DB using `host_usage.sh` <br/> ./scripts/host_usage.sh [host] [psql_port] [database] [database username] [database password]
+```
+./scripts/host_usage.sh localhost 5432 host_agent postgres password
+```
+
 <br/>
 
-- Insert hardware usage data into the DB using host_usage.sh
-- Crontab setup
+- Crontab setup to automate the host_usage.sh script's updates using Crontab. Here is how to set this up:
+```
+#edit crontab jobs
+bash> crontab -e
+
+#add this to crontab (always full path)
+## vi / vim always begins in command mode. You can press [Esc] key anytime to return to command mode. Press i to insert text. To save ## and exit from vi / vim, press [Esc] key and type ZZ
+* * * * * bash /home/centos/Desktop/jarvis_data_eng_BikervensBernard/linux_sql/scripts/host_usage.sh localhost 5432 host_agent postgres password > /tmp/host_usage.log
+
+#list crontab jobs
+crontab -l
+
+#validate your result from the psql instance
+psql -h ...
+> SELECT * FROM host_usage;
+```
 
 # Scripts
 ### **Description**
 Shell script description and usage (use markdown code block for script usage)
-- psql_docker.sh ...
-- host_info.sh ...
-- host_usage.sh ...
-- crontab ...
-- queries.sql (describe what business problem you are trying to resolve)
+- `psql_docker.sh` provision a psql instance using docker. Stop, start, create and delete said docker's container
+- `host_info.sh` collects hardware specification data and then insert the data to the psql instance. You can assume that hardware specifications are static, so the script will be executed only once. 
+- `host_usage.sh` collects node's usage data and then insert the data into the psql database. The script will be executed every minute using Linux crontab 
+- `crontab` insert a new entry to the host_usage table every minute when the server is healthy. We can assume that a server is failed when it inserts less than three data points within 5-min interval
+- `queries.sql` (describe what business problem you are trying to resolve)
 
 ### **Usage**
 
