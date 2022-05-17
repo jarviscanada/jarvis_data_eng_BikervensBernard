@@ -27,34 +27,35 @@ I will be in charge of designing and implementing a monitoring tool that will as
 
 ### **Postgres Database**
 
-host_usage table
-| Attribut | Description |
-| --- | --- |
-| `host_id`| The unique identifier psql db auto-increment| 
-| `host_name`| The full name of the node| 
-| `host_cpu_number`| The sum of cpu core| 
-| `host_cpu_architecture`| The generation| 
-| `host_cpu_model`| The manifacturer (e.g Intel(R) Xeon(R) CPU @ 2.30GHz)| 
-| `host_cpu_mhz`| The sum, in megahertz, of the actively used CPU| 
-| `host_L2_cache`| The sum, in kB, memory bank built into the CPU| 
-| `host_tot_memory`| The sum of ram, in kB| 
-| `host_timestamp`| Current time in UTC time zone| 
-
 host_info table
-| Attribut | Description |
-| --- | --- |
-| `host_id`| unique identifier psql db auto-increment| 
-| `host_timestamp`| Current time in UTC time zone| 
-| `host_free_memo`| The amount of memory not being used, in MB| 
-| `host_cpu_idel`| in percentage| 
-| `host_cpu_kernel`| in percentage| 
-| `host_disk_io`| The amount of disk space used| 
-| `host_disk_available`| The amount of root directory avaiable disk space available in MB| 
+| Attribut | Description | Type |
+| --- | --- | --- |
+| `host_id`| The unique identifier psql db auto-increment (PK)| SERIAL NOT NULL PRIMARY KEY SERIAL REFERENCES host_info(id)|
+| `host_name`| The full name of the node| VARCHAR NOT NULL UNIQUE|
+| `host_cpu_number`| The sum of cpu core| SMALLINT NOT NULL|
+| `host_cpu_architecture`| The generation/ asrchitecture| VARCHAR NOT NULL|
+| `host_cpu_model`| The manifacturer (e.g Intel(R) Xeon(R) CPU @ 2.30GHz)| VARCHAR NOT NULL UNIQUE|
+| `host_cpu_mhz`| The cpu's clock rate in MHz| REAL NOT NULL|
+| `host_L2_cache`| The sum, in kB, memory bank built into the CPU| REAL NOT NULL|
+| `host_tot_memory`| The sum of ram, in kB| REAL NOT NULL|
+| `host_timestamp`| Current time in UTC time zone| TIMESTAMP NOT NULL|
+
+host_usage table
+| Attribut | Description | Type |
+| --- | --- | --- |
+| `host_id`| unique identifier psql db auto-increment (FK) | SERIAL REFERENCES host_info(id)|
+| `host_timestamp`| Current time in UTC time zone| TIMESTAMP NOT NULL|
+| `host_free_memo`| The amount of memory not being used, in MB| REAL NOT NULL|
+| `host_cpu_idel`| The percentage uptime of the CPU in idle state| REAL NOT NULL|
+| `host_cpu_kernel`| The percentage uptime of the CPU in kernel mode| REAL NOT NULL|
+| `host_disk_io`| The number of disk I/O made  | REAL NOT NULL|
+| `host_disk_available`| The amount of disk space available from the root in MB| REAL NOT NULL|
 
 # Test
 
-tested on a single machine instead of a Linux cluster. 
-However, should work in a cluster environment, assuming connection and firewalls are set up correctly (done by other teams). For bash scripts, you should test/verify all functionalities manually. You will need to verify the query result against test data (created by developers) for SQL scripts.
+Tested on a single machine instead of a Linux cluster but simulated a cluster using docker containers. 
+However, should work in a cluster environment, assuming connection and firewalls are set up correctly (done by other teams). 
+For bash scripts, you should test/verify all functionalities manually. You will need to verify the query result against test data (created by developers) for SQL scripts.
 
 # Deployment/DevOps
 
@@ -82,7 +83,7 @@ bash ./scripts/psql_docker.sh stop
 
 <br/>
 
-- Create tables using `ddl.sql` (this is ran during the container's creation. Therefore the create cmd on `psql_docker.sh` will have the same effect): <br/> psql -h [postgres host] -U [postgres username] -d [database] -f [path to ddl.sql]
+- Create tables using `ddl.sql` (this is ran during the container's creation. Therefore the create cmd on `psql_docker.sh` will have the same effect) : psql -h [postgres host] -U [postgres username] -d [database] -f [path to ddl.sql]
 ```
 psql -h localhost -U postgres -d host_agent -f ./sql/ddl.sql
 ```
@@ -109,7 +110,8 @@ psql -h localhost -U postgres -d host_agent -f ./sql/ddl.sql
 bash> crontab -e
 
 #add this to crontab (always full path)
-## vi / vim always begins in command mode. You can press [Esc] key anytime to return to command mode. Press i to insert text. To save ## and exit from vi / vim, press [Esc] key and type ZZ
+# vi / vim always begins in command mode. You can press [Esc] key anytime to return to command mode. Press i to insert text. 
+# To save and exit from vi / vim, press [Esc] key and type ZZ
 * * * * * bash /home/centos/Desktop/jarvis_data_eng_BikervensBernard/linux_sql/scripts/host_usage.sh localhost 5432 host_agent postgres password > /tmp/host_usage.log
 
 #list crontab jobs
@@ -122,61 +124,13 @@ psql -h ...
 
 # Scripts
 ### **Description**
-Shell script description and usage (use markdown code block for script usage)
 - `psql_docker.sh` provision a psql instance using docker. Stop, start, create and delete said docker's container
 - `host_info.sh` collects hardware specification data and then insert the data to the psql instance. You can assume that hardware specifications are static, so the script will be executed only once. 
 - `host_usage.sh` collects node's usage data and then insert the data into the psql database. The script will be executed every minute using Linux crontab 
 - `crontab` insert a new entry to the host_usage table every minute when the server is healthy. We can assume that a server is failed when it inserts less than three data points within 5-min interval
 - `queries.sql` (describe what business problem you are trying to resolve)
 
-### **Usage**
-
-- [psql_docker.sh](./README.md) :
- ```
- git status
- git add
- git commit
-```
- 
-- [host_info.sh](./README.md) :
- ```
- git status
- git add
- git commit
-```
- 
-- [host_usage.sh](./README.md) :
- ```
- git status
- git add
- git commit
-```
-
-- [dummy_data.sh](./README.md) :
- ```
- git status
- git add
- git commit
-```
-
-- [queries.sql](./README.md) :
- ```
- git status
- git add
- git commit
-```
-
-- [ddl.sql](./README.md) :
- ```
- git status
- git add
- git commit
-```
- 
-# Deployment
-How did you deploy your app? (e.g. Github, crontab, docker)
-
 # Improvements
-1. handle hardware update 
-2. ...
-3. ...
+1. Create more table to store more result e.g. a table called 'grouped cpu' where each row represent the average cpu usage for a node with X amount of core. We could then compare and detect lack of efficiency 
+2. Collect gpu data and statistics
+3. Automation and modification of ressources allocation e.g. if a node is mostly idle we should utilize that node for more heavy work
