@@ -6,7 +6,6 @@ This tool's goal is to keep track of each node's hardware characteristics and re
 The data will be saved in a PostgreSQL relational database management system (RDBMS). 
 The SQL queries will answer business questions such as 'show average memory usage in percentage over 1 minute intervals for each node'.
 
-
 # Implementation
 
 I will be in charge of designing and implementing a monitoring tool that will assist a potential business need using 
@@ -20,39 +19,37 @@ I will be in charge of designing and implementing a monitoring tool that will as
 ![architecture](./assets/architecture.png)
 
 - A `psql` instance is used to persist all the data
-- The `bash agent` gathers server usage data, and then insert into the psql instance. The `agent` will be installed on every 
+- The `nodes` are docker containers sharing the same volume (the data parsist using psql volume)
+- The `switch` will do the cluster networking. Each nodes are on a same network connected. In this implementation we use localhost and appropriate ports for testing
+- The `host_info.sh` will be installed on 1 host/server/node and collects the host hardware info and insert it into the database. It will be run only once at the installation time.
+- The `host_usage.sh` will be installed on every host/server/node and will gather memory/cpu usage. It will be triggered by the `crontab` job every minute.
+- The `psql_docker.sh` will be installed on the main host and will start the docker demaon and make sure the containers are running
 
-host/server/node. The `agent` consists of two bash scripts
-    - `host_info.sh` collects the host hardware info and insert it into the database. It will be run only once at the installation time.
-    - `host_usage.sh` collects the current host usage (CPU and Memory) and then insert into the database. It will be triggered by the `crontab` job every minute.
+### **Postgres Database**
 
-Each nodes are on a same network connected.
-- A `psql` data base is used to save the data
-- The `node's` agent gathers server usage data, and then insert into the psql instance. The `agent` is on every node. 
+host_usage table
+| Attribut | Description |
+| --- | --- |
+| `host_id`| The unique identifier psql db auto-increment| 
+| `host_name`| The full name of the node| 
+| `host_cpu_number`| The sum of cpu core| 
+| `host_cpu_architecture`| The generation| 
+| `host_cpu_model`| The manifacturer (e.g Intel(R) Xeon(R) CPU @ 2.30GHz)| 
+| `host_cpu_mhz`| The sum, in megahertz, of the actively used CPU| 
+| `host_L2_cache`| The sum, in kB, memory bank built into the CPU| 
+| `host_tot_memory`| The sum of ram, in kB| 
+| `host_timestamp`| Current time in UTC time zone| 
 
-The `agent` consists of two bash scripts
-- `host_info.sh` collects the host hardware info and insert it into the database. It will be run only once at the installation time.
-- `host_usage.sh` collects the current host usage (CPU and Memory) and then insert into the database. It will be triggered by the `crontab` job every minute.
-
-### **Database**
-- `host_info`
-    - `host_id` : The unique identifier psql db auto-increment
-    - `host_name` : The full name of the node
-    - `host_cpu_number` : The sum of cpu core
-    - `host_cpu_architecture` : The generation 
-    - `host_cpu_model` : The manifacturer (e.g Intel(R) Xeon(R) CPU @ 2.30GHz)
-    - `host_cpu_mhz` : The sum, in megahertz, of the actively used CPU
-    - `host_L2_cache` : The sum, in kB, memory bank built into the CPU
-    - `host_tot_memory` : The sum of ram, in kB
-    - `host_timestamp` : Current time in UTC time zone
-- `host_usage`
-    - `host_id` : unique identifier psql db auto-increment
-    - `host_timestamp` : Current time in UTC time zone
-    - `host_free_memo` : The amount of memory not being used, in MB
-    - `host_cpu_idel` : in percentage
-    - `host_cpu_kernel` : in percentage
-    - `host_disk_io` : The amount of disk space used
-    - `host_disk_available` : The amount of root directory avaiable disk space available in MB
+host_info table
+| Attribut | Description |
+| --- | --- |
+| `host_id`| unique identifier psql db auto-increment| 
+| `host_timestamp`| Current time in UTC time zone| 
+| `host_free_memo`| The amount of memory not being used, in MB| 
+| `host_cpu_idel`| in percentage| 
+| `host_cpu_kernel`| in percentage| 
+| `host_disk_io`| The amount of disk space used| 
+| `host_disk_available`| The amount of root directory avaiable disk space available in MB| 
 
 # Test
 
