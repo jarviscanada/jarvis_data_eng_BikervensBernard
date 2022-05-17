@@ -1,4 +1,3 @@
-
 # Introduction
 
 A CentOS 7 based Linux node cluster agent
@@ -14,7 +13,7 @@ I will be in charge of designing and implementing a monitoring tool that will as
  - PostgreSQL
  - Docker
 
-### **Architecture**
+## **Architecture**
 
 ![architecture](./assets/architecture.png)
 
@@ -25,7 +24,7 @@ I will be in charge of designing and implementing a monitoring tool that will as
 - The `host_usage.sh` will be installed on every host/server/node and will gather memory/cpu usage. It will be triggered by the `crontab` job every minute.
 - The `psql_docker.sh` will be installed on the main host and will start the docker demaon and make sure the containers are running
 
-### **Postgres Database**
+## **Postgres Database**
 
 host_info table
 | Attribut | Description | Type |
@@ -122,8 +121,7 @@ psql -h ...
 > SELECT * FROM host_usage;
 ```
 
-# Scripts
-### **Description**
+# Scripts Description
 - `psql_docker.sh` provision a psql instance using docker. Stop, start, create and delete said docker's container
 - `host_info.sh` collects hardware specification data and then insert the data to the psql instance. You can assume that hardware specifications are static, so the script will be executed only once. 
 - `host_usage.sh` collects node's usage data and then insert the data into the psql database. The script will be executed every minute using Linux crontab 
