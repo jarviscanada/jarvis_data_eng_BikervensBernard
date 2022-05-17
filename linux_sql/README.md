@@ -61,10 +61,44 @@ However, should work in a cluster environment, assuming connection and firewalls
 The agent program is scheduled using `crontab`. Source code is managed by GitHub. Database is provisioned with Docker.
 
 # Quick Start
-Use markdown code block for your quick-start commands
-- Start a psql instance using psql_docker.sh
-- Create tables using ddl.sql
-- Insert hardware specs data into the DB using host_info.sh
+- Create a psql instance using psql_docker.sh: bash ./scripts/psql_docker.sh create [database's username] [database's password] 
+```
+bash ./scripts/psql_docker.sh create postgres password
+```
+
+<br/>
+
+- Start a psql instance using psql_docker.sh: By default the container's name is `postgres`
+```
+bash ./scripts/psql_docker.sh start
+```
+
+<br/>
+
+- Stop a psql instance using psql_docker.sh: The database will be persisted
+```
+bash ./scripts/psql_docker.sh stop
+```
+
+<br/>
+
+- Create tables using ddl.sql (this is ran during the container's creation. Therefore the create cmd on `psql_docker.sh` will have the same effect): <br/> psql -h [postgres host] -U [postgres username] -d [database] -f [path to ddl.sql]
+```
+psql -h localhost -U postgres -d host_agent -f ./sql/ddl.sql
+```
+
+<br/>
+
+- Insert hardware specs data into the DB using host_info.sh: <br/> ./scripts/host_usage.sh [postgres host] [postgres port] [database] [postgres username] [postgres password]
+```
+./scripts/host_usage.sh localhost 5432 host_agent posgress password
+```
+
+<br/>
+<br/>
+<br/>
+<br/>
+
 - Insert hardware usage data into the DB using host_usage.sh
 - Crontab setup
 
@@ -99,8 +133,22 @@ Shell script description and usage (use markdown code block for script usage)
  git add
  git commit
 ```
- 
+
+- [dummy_data.sh](./README.md) :
+ ```
+ git status
+ git add
+ git commit
+```
+
 - [queries.sql](./README.md) :
+ ```
+ git status
+ git add
+ git commit
+```
+
+- [ddl.sql](./README.md) :
  ```
  git status
  git add
