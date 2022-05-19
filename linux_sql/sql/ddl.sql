@@ -3,6 +3,8 @@
 \c host_agent;
 
 SET TIMEZONE='UTC';
+DROP TABLE IF EXISTS host_info CASCADE;
+DROP TABLE IF EXISTS host_usage CASCADE;
 
 --2. create `host_info` table if not exist
 CREATE TABLE IF NOT EXISTS PUBLIC.host_info (

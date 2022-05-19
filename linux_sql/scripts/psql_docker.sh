@@ -32,6 +32,9 @@ else
 	echo "docker deamon is now active"
 fi
 
+# Set password for default user `postgres`
+export PGPASSWORD="password"
+
 # Check if the container is already created
 container_status=$(docker ps -a | grep -c jrvs-psql)
 if [ $container_status -eq 1 ]; then
