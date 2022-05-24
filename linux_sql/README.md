@@ -1,9 +1,6 @@
 # Introduction
 
-A CentOS 7 based Linux node cluster agent
-This tool's goal is to keep track of each node's hardware characteristics and real-time resource utilisation (e.g. CPU/Memory) for future resource planning purposes (e.g. add/remove servers that might be too slow or under used). 
-The data will be saved in a PostgreSQL relational database management system (RDBMS). 
-The SQL queries will answer business questions such as 'show average memory usage in percentage over 1 minute intervals for each node'.
+A CentOS based Linux node cluster agent This tool's goal is to keep track of each node's hardware characteristics and real-time resource utilization (e.g. CPU/Memory) for future resource planning purposes (e.g. add/remove servers that might be too slow or underused). The data will be saved in a PostgreSQL relational database management system (RDBMS). The SQL queries will answer business questions such as 'show average memory usage in percentage over 1 minute intervals for each node'.
 
 # Implementation
 
