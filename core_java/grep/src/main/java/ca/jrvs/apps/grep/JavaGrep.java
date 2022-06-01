@@ -1,63 +1,141 @@
 package ca.jrvs.apps.grep;
 
-import java.io.File;
-import java.io.IOException;
+import org.apache.log4j.BasicConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
-public interface JavaGrep{
+public class JavaGrep implements IJavaGrep{
+    final Logger logger = LoggerFactory.getLogger (JavaGrep.class);
+    static String[] arr = {
+            ".*Romeo.*Juliet.*",
+            "./core_java/grep/src/main/resources/data" ,
+            "./core_java/grep/src/main/resources/out/out.txt"
+    };
 
-    /**
-     * Top level search workflow
-     *
-     * @throws IOException
-     */
-    void process() throws IOException;
+    private String regex;
+    private String rootPath;
+    private String outFile;
 
-    /**
-     * Traverse a given directory and return all files
-     *
-     * @param rootDir input directory
-     * @return files under the rootDir.
-     */
-    List<File> listFiles(String rootDir);
+    public String getRootPath() {
+        return this.rootPath;
+    }
 
-    /**
-     * Read a file and return all the lines
-     *
-     * Explore FileReader, BufferedReader, and character encoding
-     *
-     * @param inputFile file to be read
-     * @return lines
-     * @throws IllegalArgumentException if a given inputFile is not a file
-     */
-    List<String> readLines(File inputFile);
+    public void setRootPath(String rootPath) {
+        this.rootPath = rootPath;
+    }
 
-    /**
-     * check if a line contains the regex pattern (passed by user)
-     *
-     * @param line input string
-     * @return true if there is a match
-     */
-    boolean containsPattern(String line);
+    public String getRegex() {
+        return this.regex;
+    }
 
-    /**
-     * Write lines to a file
-     * Explore: FileOutputStream, OutputStreamWriter, and BufferedWriter
-     *
-     * @param lines matched line
-     * @throws IOException if write failed
-     */
-    void writeToFile(List<String> lines) throws IOException;
+    public void setRegex(String regex) {
+        this.regex = regex;
+    }
 
-    String getRootPath();
+    public String getOutFile() {
+        return this.outFile;
+    }
 
-    void setRootPath(String rootPath);
+    public void setOutFile(String outFile) {
+        this.outFile = outFile;
+    }
 
-    String getRegex();
+    public void process() throws IOException {
+        ArrayList<String> matchedLines = new ArrayList<String>();
+        this.listFiles(this.getRootPath()).forEach((file)-> {
+            Stream<String> lines = this.readLines(file);
+            lines.forEach(line -> {
+                if (this.containsPattern(line)) {
+                    matchedLines.add(String.valueOf(line));
+                }
+            });
+        });
+        this.writeToFile(matchedLines.stream());
+    }
 
-    void setRegex(String regex);
+    public Stream<File> listFiles(String rootDir) {
+        ArrayList<File> out = new ArrayList<File>();
+        File dir = new File(rootDir);
+        for (File file : dir.listFiles()) {
+            if (file.isDirectory()) {
+                //recursion to get all sub file (if any)
+                out.addAll((Collection<? extends File>) listFiles(file.getAbsolutePath()));
+            } else {
+                //add file to list
+                out.add(file);
+            }
+        }
+        return out.stream();
+    }
 
-    String getOutFile();
+    public Stream<String> readLines(File inputFile) {
+        ArrayList<String> out = new ArrayList<String>();
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(inputFile.getAbsolutePath()));
+            String line = reader.readLine();
+            while (line != null) {
+                out.add(line);
+                line = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            logger.error("Error: IOException", e);
+        }
+        return out.stream();
+    }
 
-    void setOutFile(String outFile);
+    public boolean containsPattern(String line) {
+        Pattern pattern = Pattern.compile(this.getRegex(), Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(line);
+        return matcher.find();
+    }
+
+    public void writeToFile(Stream<String> lines) throws IOException {
+        FileWriter writer = new FileWriter(getOutFile());
+        lines.forEach(line-> {
+            try {
+                writer.write(line+"\n");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        writer.flush();
+        writer.close();
+    }
+
+    public static void main(String[] args) {
+        if (args.length != 3) {
+            throw new IllegalArgumentException(
+                    "USAGE: JavaGrep regex rootpath outFile " +
+                    "e.g. " +
+                    "java -cp target/grep-1.0-SNAPSHOT-UBER.jar " +
+                    "ca.jrvs.apps.grep.JavaGrep " +
+                    ".*Romeo.*Juliet.* " +
+                    "./src/main/resources/data " +
+                    "./src/main/resources/out/out.txt"
+            );
+        }
+
+        BasicConfigurator.configure();
+        JavaGrep javaGrep = new JavaGrep();
+
+        javaGrep.setRegex(args[0]);
+        javaGrep.setRootPath(args[1]);
+        javaGrep.setOutFile(args[2]);
+        try {
+            javaGrep.process();
+        } catch (Exception ex) {
+            javaGrep.logger.error("Error: Unable to process", ex);
+        }
+    }
 }
