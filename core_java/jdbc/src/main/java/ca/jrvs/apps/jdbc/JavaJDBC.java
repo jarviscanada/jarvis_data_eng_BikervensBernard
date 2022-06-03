@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class JavaJDBC{
     final Logger logger = LoggerFactory.getLogger (JavaJDBC.class);
@@ -24,15 +25,25 @@ public class JavaJDBC{
         );
 
         // connection instanciation try/catch block
+        // SQLException are catched withing the method
+        // Runtime Execptions are bubbled up here
         try {
             Connection connection = dbConnectionManager.getConnection();
             CustomerDAO customerDAO = new CustomerDAO(connection);
             Customer customer = customerDAO.findById(1000);
-            System.out.println("Hello "+customer.getFirstName());
-        } catch (SQLException e) {
-            dbConnectionManager.logger.error("SQLException:", e.toString());
-        } catch (Exception ex) {
-            dbConnectionManager.logger.error("Error: Unable to process:", ex.toString());
+            System.out.println("Hello "+ customer);
+
+            OrderDAO orderDAO = new OrderDAO(connection);
+            Order order = orderDAO.findById(1000);
+            System.out.println(order);
+
+            List<Order> orders = orderDAO.getOrdersForCustomer(789);
+            orders.forEach(System.out::println);
+
+        } catch (RuntimeException e) {
+            dbConnectionManager.logger.error("RuntimeException:", e);
+        } catch (Exception e) {
+            dbConnectionManager.logger.error("Error: Unable to process:", e);
         }
     }
 }
