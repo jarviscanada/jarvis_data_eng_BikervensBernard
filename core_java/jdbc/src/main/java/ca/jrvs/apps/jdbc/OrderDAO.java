@@ -68,7 +68,8 @@ public class OrderDAO extends DataAccessObject<Order> {
             }
             order.setOrderLines(orderLines);
         } catch (SQLException e) {
-            logger.error("Error: SQLException", e.getStackTrace());
+            logger.error("Error: SQLException",e.getSQLState());
+            logger.error("Error: SQLException",e.getErrorCode());
             throw new RuntimeException(e);
         }
 
@@ -111,7 +112,8 @@ public class OrderDAO extends DataAccessObject<Order> {
                 order.getOrderLines().add(orderLine);
             }
         }catch(SQLException e){
-            logger.error("Error: SQLException", e.getStackTrace());
+            logger.error("Error: SQLException",e.getSQLState());
+            logger.error("Error: SQLException",e.getErrorCode());
         }
         return orders;
     }
