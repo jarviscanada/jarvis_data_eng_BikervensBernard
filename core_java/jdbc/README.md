@@ -24,34 +24,32 @@ psql client is installed
 
 # Introduction to the project
 
-The Jarvis Securities Team wants to develop a trading platform REST API (which is your next project [](https://www.notion.so/12c2e58517d543889d35ca337752aeff) ). As a junior developer, you will be involved in the entire [SDLC](https://www.notion.so/SDLC-d104522f8afb4edc9224fdd25348bf6a) . However, your team lead wants you to master core java before joining the trading app project. Core Java is the foundation of data engineering since most backend services and big data frameworks (e.g. Hadoop, Spark) are developed in Java or JVM-based languages.
+(50-100 words)
+What does this app do? What technoglies your have used? (JDBC, PSQL, MVN, etc..)
 
-# Design
-
-As a junior developer, you will develop two Java applications:
-
-- ...
 
 # Implementation
-
+## ER Diagram
 - Java Libraries and Tools
     - Maven
     - JDBC
-    - JSON libraries
-    - HTTP clients
-    - JUnit & Mockito
+    - JUnit 
 - Design Principles
     - DRY
     - KISS
+    - ...
+
+
+## Design Patterns
+Discuss DAO and Repository design patterns (150-200 words)
 
 # Test
-
+How you test your app against the database? (e.g. database setup, test data set up, query result)
 - Manual testing
 - IDE debugger
 - JUnit
 
 # Deployment/Delivery
-
 - JVM for Java program
 - Github for SCM
 - Distribute app using Docker images
