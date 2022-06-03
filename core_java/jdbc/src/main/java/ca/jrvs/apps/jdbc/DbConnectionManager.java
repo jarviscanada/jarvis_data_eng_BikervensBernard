@@ -14,8 +14,8 @@ public class DbConnectionManager{
     final Logger logger = LoggerFactory.getLogger (DbConnectionManager.class);
 
     public DbConnectionManager(String host, String databaseName, String username,
-                                     String password) {
-        this.url = "jdbc:postgresql://" + host + "/" + databaseName;
+                                     String password, String port) {
+        this.url = "jdbc:postgresql://" + host + ":"+port +"/"+ databaseName;
         this.properties = new Properties();
         this.properties.setProperty("user", username);
         this.properties.setProperty("password", password);
