@@ -1,10 +1,8 @@
 # Introduction
 
 This project implement one of the most fundamental and frequent used Java libraries the "Java Database Connectivity (JDBC)" for the programming language Java, which defines how a client may access a database. It is a Java-based data access technology used for Java database connectivity.
-The project use the DAO design pattern with a CRUD implementation, so it can be applied to other data sources, such as file systems, NoSQL, REST APIs, etc...
-The application will be used to read and manage data from relational databases(Postgres).
-In addition, this project explore some advanced JDBC concepts such as SQLException management, using stored procedures, order and limiting, sharding and partition database. 
-
+The project use the DAO design pattern with a CRUD implementation, so it can be applied to other data sources, such as file systems, NoSQL, REST APIs, etc... 
+The app was built using Docker for hosting the relational PostgreSQL database, IntelliJ as the IDE, DBeaver client for database visualization and ER diagram generation. In addition, this project explore some advanced JDBC concepts such as SQLException management, using stored procedures, order and limiting, sharding and partition database.
 
 # Implementation
 ![design er](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/blob/jdbc/core_java/assets/ER.png?raw=true)
@@ -68,13 +66,13 @@ product table
  
 # Design Patterns
 ### The Data Access Object (DAO) Pattern
-DAO is a class or interfaces that CRUD an object in your project. In general, an object could be one table in the database table (e.g., a Customer). An object can also represent the result of your more complex query (e.g., Customer table join Order table) in are case this would be `orderline`.
-- DTO is the model of the object in DAO (e.g., Customer Pojo).
+DAO is a class or interfaces that CRUD an object. In general, an object could be one table in the database table (e.g., a Customer). An object can also represent the result of your more complex query (e.g., Customer table join Order table) in are case this would be `orderline`.
+- DTO is simply the model of the object in DAO (e.g., Customer Pojo).
 - In summary
     - You create a DTO (e.g., new customer), and save it to a database via DAO
     - You read a DTO (e.g., a customer with id =1) from a database via DAO
     - You can delete a customer
-    - In the code, all you care about is what to do with DTO, but not how is DTO is CRUD since DAO hides all the low-level implementation. So your business logic and database (or other storage like a filesystem) are decoupled. It gives you great flexibility.
+    - In the code, all you care about is what to do with DTO, but not the CRUD operation since DAO hides all the low-level implementation. So your business logic and database (or other storage like a filesystem) are decoupled. It gives you great flexibility.
 
 
 # Order of operations
@@ -115,6 +113,6 @@ psql client is installed
 
 
 # Test
-Tested via junit test case for crud opereation on each DAO classes. 
-You will need to verify the query result against test data for further testing (created by developers) for SQL scripts.
+Tested via junit test case for crud operation on each DAO classes. 
+You will need to verify the query result against test data for further testing (created by developers) for SQL scripts using pslq commands and comparing the querie result to the actual database data.
 
