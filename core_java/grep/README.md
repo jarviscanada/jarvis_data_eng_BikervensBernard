@@ -1,10 +1,18 @@
 # **Introduction**
 
-The Jarvis Securities Team wants to develop a trading platform REST API (which is your next project [](https://www.notion.so/12c2e58517d543889d35ca337752aeff) ). As a junior developer, you will be involved in the entire [SDLC](https://www.notion.so/SDLC-d104522f8afb4edc9224fdd25348bf6a) . However, your team lead wants you to master core java before joining the trading app project. Core Java is the foundation of data engineering since most backend services and big data frameworks (e.g. Hadoop, Spark) are developed in Java or JVM-based languages.
+This project implements a Java version of the Linux grep command, which allows users to search for matching strings from files. This app recursively traverses a given file path and will output all matching strings of a given regex into a given output file. The user can the cat the output file to see the matching strings. The project utilizes the java Stream API for efficientcy, Maven compiler for denpendencies management, and Docker for the distribution.
 
 
-# **Quick Start**
+# Quick Start
+```
+# in shell
+bash cd core_java/grep
+bash mvn clean compile package 
+java -cp target/grep-1.0-SNAPSHOT.jar ca.jrvs.apps.grep.JavaGrepLambdaImp [REGEX] [ROOT_PATH] [OUTPUT_FILE]
 
+#for large file large:
+java -Xms[MIN_HEAP_SIZE] -Xmx[MAX_HEAP_SIZE] -cp target/grep-1.0-SNAPSHOT.jar ca.jrvs.apps.grep.JavaGrepLambdaImp [REGEX] [ROOT_PATH] [OUTPUT_FILE]
+```
 
 # **Design**
 
