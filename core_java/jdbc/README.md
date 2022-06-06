@@ -6,10 +6,10 @@ The application will be used to read and manage data from relational databases(P
 In addition, this project explore some advanced JDBC concepts such as SQLException management, using stored procedures, order and limiting, sharding and partition database. 
 
 
-# Design
+# Implementation
 ![design er](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/blob/jdbc/core_java/assets/ER.png?raw=true)
 
-## **Postgres Database**
+# Postgres Database Design
 
 customer table
 | Attribut | Description | Type |
@@ -65,7 +65,18 @@ product table
 | `variety`| family group i.e. juice | DEFAULT NULL|
 | `price`| product price | DEFAULT NULL|
 | `status`| ACTIVE/ DISCONTINUED | DEFAULT NULL|
-  
+ 
+# Design Patterns
+### The Data Access Object (DAO) Pattern
+DAO is a class or interfaces that CRUD an object in your project. In general, an object could be one table in the database table (e.g., a Customer). An object can also represent the result of your more complex query (e.g., Customer table join Order table) in are case this would be `orderline`.
+- DTO is the model of the object in DAO (e.g., Customer Pojo).
+- In summary
+    - You create a DTO (e.g., new customer), and save it to a database via DAO
+    - You read a DTO (e.g., a customer with id =1) from a database via DAO
+    - You can delete a customer
+    - In the code, all you care about is what to do with DTO, but not how is DTO is CRUD since DAO hides all the low-level implementation. So your business logic and database (or other storage like a filesystem) are decoupled. It gives you great flexibility.
+
+
 # Order of operations
 These commands are for linux/Mac, changes will need to made if you are running this in Microsoft Windows.
 
@@ -73,7 +84,7 @@ These commands are for linux/Mac, changes will need to made if you are running t
 Docker is installed
 psql client is installed
 
-## Actions
+## Quick start
 
 ### Running PostgreSQL
 1. Pull Docker Image
@@ -101,4 +112,9 @@ psql client is installed
 
 ### Creating stored procedure
 1. `psql -h localhost -U postgres -f stored_proc.sql`
+
+
+# Test
+Tested via junit test case for crud opereation on each DAO classes. 
+You will need to verify the query result against test data for further testing (created by developers) for SQL scripts.
 
