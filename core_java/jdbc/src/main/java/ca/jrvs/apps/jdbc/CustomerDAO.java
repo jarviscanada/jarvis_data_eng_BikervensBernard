@@ -60,7 +60,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
             }
         } catch (SQLException e) {
             logger.error("Error: SQLException",e.getSQLState());
-            logger.error("Error: SQLException",e.getErrorCode());        }
+            logger.error("ErrorCode:",e.getErrorCode());
+        }
         return customer;
     }
 
@@ -91,8 +92,9 @@ public class CustomerDAO extends DataAccessObject<Customer> {
                 customers.add(customer);
             }
         }catch(SQLException e){
-            logger.error("Error: SQLException",e.getSQLState());
-            logger.error("Error: SQLException",e.getErrorCode());        }
+            logger.error("Error: SQLException ",e.getSQLState());
+            logger.error("ErrorCode: ",e.getErrorCode());
+        }
         return customers;
     }
 
@@ -120,8 +122,9 @@ public class CustomerDAO extends DataAccessObject<Customer> {
                 customers.add(customer);
             }
         }catch(SQLException e){
-            logger.error("Error: SQLException",e.getSQLState());
-            logger.error("Error: SQLException",e.getErrorCode());        }
+            logger.error("Error: SQLException ",e.getSQLState());
+            logger.error("ErrorCode: ",e.getErrorCode());
+        }
         return customers;
     }
 
@@ -131,8 +134,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         try {
             this.connection.setAutoCommit(false);
         } catch (SQLException e) {
-            logger.error("Error: SQLException",e.getSQLState());
-            logger.error("Error: SQLException",e.getErrorCode());
+            logger.error("Error: SQLException ",e.getSQLState());
+            logger.error("ErrorCode: ",e.getErrorCode());
             throw new RuntimeException(e);
         }
         try (PreparedStatement statement = this.connection.prepareStatement(UPDATE)) {
@@ -149,10 +152,13 @@ public class CustomerDAO extends DataAccessObject<Customer> {
             this.connection.commit();
             customer = this.findById(dto.getId());
         } catch (SQLException e) {
+            logger.error("Error: SQLException ", e.getStackTrace());
+            logger.error("ErrorCode:",e.getErrorCode());
             try {
                 this.connection.rollback();
             } catch (SQLException sqle) {
-                logger.error("Error: rollback failed", e.getStackTrace());
+                logger.error("Error: rollback failed ", sqle.getStackTrace());
+                logger.error("ErrorCode: ",sqle.getErrorCode());
             }
             throw new RuntimeException(e);
         }
@@ -186,8 +192,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
-            logger.error("Error: SQLException",e.getSQLState());
-            logger.error("Error: SQLException",e.getErrorCode());            throw new RuntimeException(e);
+            logger.error("Error: SQLException ",e.getSQLState());
+             throw new RuntimeException(e);
         }
     }
 }
