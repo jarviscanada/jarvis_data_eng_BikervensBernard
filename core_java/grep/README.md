@@ -8,7 +8,7 @@ This project implements a Java version of the Linux grep command, which allows u
 # in shell
 bash cd core_java/grep
 bash mvn clean compile package 
-java -cp target/grep-1.0-SNAPSHOT.jar ca.jrvs.apps.grep.JavaGrepLambdaImp [REGEX] [ROOT_PATH] [OUTPUT_FILE]
+java -cp target/grep-1.0-SNAPSHOT.jar [MAIN_CLASS_PATH] [REGEX] [SEARCHING_PATH] [OUTPUT_FILE_PATH]
 
 #for large file large:
 java -Xms[MIN_HEAP_SIZE] -Xmx[MAX_HEAP_SIZE] -cp target/grep-1.0-SNAPSHOT.jar ca.jrvs.apps.grep.JavaGrepLambdaImp [REGEX] [ROOT_PATH] [OUTPUT_FILE]
