@@ -31,6 +31,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
     "SELECT customer_id, first_name, last_name, email, phone, address, city, state, zipcode " +
     "FROM customer ORDER BY last_name, first_name LIMIT ? OFFSET ?";
 
+    private static final String GET_ALL = "SELECT * FROM customer ORDER BY last_name, first_name";
+
     private static final String UPDATE =
     "UPDATE customer SET first_name = ?, last_name=?, email = ?, phone = ?, address = ?, city = ?, state = ?, zipcode = ? " +
     "WHERE customer_id = ?";
@@ -59,14 +61,35 @@ public class CustomerDAO extends DataAccessObject<Customer> {
                 customer.setZipCode(rs.getString("zipcode"));
             }
         } catch (SQLException e) {
-            logger.error("Error: SQLException", e.getStackTrace());
+            logger.error("Error: SQLException",e.getSQLState());
+            logger.error("ErrorCode:",e.getErrorCode());
         }
         return customer;
     }
 
     @Override
     public List<Customer> findAll() {
-        return null;
+        List<Customer> customers = new ArrayList<>();
+        try(PreparedStatement statement = this.connection.prepareStatement(GET_ALL);){
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                Customer customer = new Customer();
+                customer.setId(rs.getLong("customer_id"));
+                customer.setFirstName(rs.getString("first_name"));
+                customer.setLastName(rs.getString("last_name"));
+                customer.setEmail(rs.getString("email"));
+                customer.setPhone(rs.getString("phone"));
+                customer.setAddress(rs.getString("address"));
+                customer.setCity(rs.getString("city"));
+                customer.setState(rs.getString("state"));
+                customer.setZipCode(rs.getString("zipcode"));
+                customers.add(customer);
+            }
+        }catch(SQLException e){
+            logger.error("Error: SQLException ",e.getSQLState());
+            logger.error("ErrorCode: ",e.getErrorCode());
+        }
+        return customers;
     }
 
     public List<Customer> findAllSorted(int limit) throws RuntimeException{
@@ -91,7 +114,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
                 customers.add(customer);
             }
         }catch(SQLException e){
-            logger.error("Error: SQLException", e.getStackTrace());
+            logger.error("Error: SQLException ",e.getSQLState());
+            logger.error("ErrorCode: ",e.getErrorCode());
         }
         return customers;
     }
@@ -120,7 +144,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
                 customers.add(customer);
             }
         }catch(SQLException e){
-            logger.error("Error: SQLException", e.getStackTrace());
+            logger.error("Error: SQLException ",e.getSQLState());
+            logger.error("ErrorCode: ",e.getErrorCode());
         }
         return customers;
     }
@@ -131,7 +156,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         try {
             this.connection.setAutoCommit(false);
         } catch (SQLException e) {
-            logger.error("Error: SQLException", e.getStackTrace());
+            logger.error("Error: SQLException ",e.getSQLState());
+            logger.error("ErrorCode: ",e.getErrorCode());
             throw new RuntimeException(e);
         }
         try (PreparedStatement statement = this.connection.prepareStatement(UPDATE)) {
@@ -148,10 +174,13 @@ public class CustomerDAO extends DataAccessObject<Customer> {
             this.connection.commit();
             customer = this.findById(dto.getId());
         } catch (SQLException e) {
+            logger.error("Error: SQLException ", e.getStackTrace());
+            logger.error("ErrorCode:",e.getErrorCode());
             try {
                 this.connection.rollback();
             } catch (SQLException sqle) {
-                logger.error("Error: rollback failed", e.getStackTrace());
+                logger.error("Error: rollback failed ", sqle.getStackTrace());
+                logger.error("ErrorCode: ",sqle.getErrorCode());
             }
             throw new RuntimeException(e);
         }
@@ -173,7 +202,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
             int id = this.getLastVal(CUSTOMER_SEQUENCE);
             return this.findById(id);
         } catch (SQLException e) {
-            logger.error("Error: SQLException", e.getStackTrace());
+            logger.error("Error: SQLException",e.getSQLState());
+            logger.error("Error: SQLException",e.getErrorCode());
             throw new RuntimeException(e);
         }
     }
@@ -184,8 +214,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
-            logger.error("Error: SQLException", e.getStackTrace());
-            throw new RuntimeException(e);
+            logger.error("Error: SQLException ",e.getSQLState());
+             throw new RuntimeException(e);
         }
     }
 }
