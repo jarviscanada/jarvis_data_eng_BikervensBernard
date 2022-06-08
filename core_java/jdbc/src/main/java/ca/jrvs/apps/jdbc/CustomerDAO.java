@@ -31,6 +31,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
     "SELECT customer_id, first_name, last_name, email, phone, address, city, state, zipcode " +
     "FROM customer ORDER BY last_name, first_name LIMIT ? OFFSET ?";
 
+    private static final String GET_ALL = "SELECT * FROM customer ORDER BY last_name, first_name";
+
     private static final String UPDATE =
     "UPDATE customer SET first_name = ?, last_name=?, email = ?, phone = ?, address = ?, city = ?, state = ?, zipcode = ? " +
     "WHERE customer_id = ?";
@@ -67,7 +69,27 @@ public class CustomerDAO extends DataAccessObject<Customer> {
 
     @Override
     public List<Customer> findAll() {
-        return null;
+        List<Customer> customers = new ArrayList<>();
+        try(PreparedStatement statement = this.connection.prepareStatement(GET_ALL);){
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                Customer customer = new Customer();
+                customer.setId(rs.getLong("customer_id"));
+                customer.setFirstName(rs.getString("first_name"));
+                customer.setLastName(rs.getString("last_name"));
+                customer.setEmail(rs.getString("email"));
+                customer.setPhone(rs.getString("phone"));
+                customer.setAddress(rs.getString("address"));
+                customer.setCity(rs.getString("city"));
+                customer.setState(rs.getString("state"));
+                customer.setZipCode(rs.getString("zipcode"));
+                customers.add(customer);
+            }
+        }catch(SQLException e){
+            logger.error("Error: SQLException ",e.getSQLState());
+            logger.error("ErrorCode: ",e.getErrorCode());
+        }
+        return customers;
     }
 
     public List<Customer> findAllSorted(int limit) throws RuntimeException{

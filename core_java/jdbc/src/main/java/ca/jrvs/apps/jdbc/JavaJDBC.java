@@ -11,9 +11,9 @@ public class JavaJDBC{
         JavaJDBC jdbc = new JavaJDBC();
         DbConnectionManager dbConnectionManager = new DbConnectionManager(
                 "localhost",
+                "hplussport",
                 "postgres",
-                "postgres",
-                "docker",
+                "password",
                 "5432"
         );
 
