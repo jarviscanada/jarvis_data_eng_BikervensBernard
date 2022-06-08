@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -114,14 +116,22 @@ public class JavaGrep implements IJavaGrep{
     }
 
     public static void main(String[] args) {
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+        System.out.println("Current absolute path is: " + s);
+        try {
+            Process process = Runtime.getRuntime().exec("ls");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         if (args.length != 3) {
             throw new IllegalArgumentException(
-                    "USAGE: JavaGrep regex rootpath outFile " +
-                    "e.g. " +
+                    "USAGE: JavaGrep regex rootpath outFile e.g. " +
                     "java -cp target/grep-1.0-SNAPSHOT-UBER.jar " +
-                    "ca.jrvs.apps.grep.JavaGrep " +
-                    ".*Romeo.*Juliet.* " +
-                    "./src/main/resources/data " +
+                    "ca.jrvs.apps.grep.JavaGrep "+
+                    ".*Romeo.*Juliet.* "+
+                    "./src/main/resources/data "+
                     "./src/main/resources/out/out.txt"
             );
         }
@@ -132,6 +142,7 @@ public class JavaGrep implements IJavaGrep{
         javaGrep.setRegex(args[0]);
         javaGrep.setRootPath(args[1]);
         javaGrep.setOutFile(args[2]);
+
         try {
             javaGrep.process();
         } catch (Exception ex) {
