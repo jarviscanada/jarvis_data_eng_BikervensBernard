@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -116,14 +117,6 @@ public class JavaGrep implements IJavaGrep{
     }
 
     public static void main(String[] args) {
-        Path currentRelativePath = Paths.get("");
-        String s = currentRelativePath.toAbsolutePath().toString();
-        System.out.println("Current absolute path is: " + s);
-        try {
-            Process process = Runtime.getRuntime().exec("ls");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
         if (args.length != 3) {
             throw new IllegalArgumentException(
