@@ -11,8 +11,18 @@ bash mvn clean compile package
 java -cp target/grep-1.0-SNAPSHOT.jar [MAIN_CLASS_PATH] [REGEX] [SEARCHING_PATH] [OUTPUT_FILE_PATH]
 
 #for large file large:
-java -Xms[MIN_HEAP_SIZE] -Xmx[MAX_HEAP_SIZE] -cp target/grep-1.0-SNAPSHOT.jar ca.jrvs.apps.grep.JavaGrepLambdaImp [REGEX] [ROOT_PATH] [OUTPUT_FILE]
+java -Xms[MIN_HEAP_SIZE] -Xmx[MAX_HEAP_SIZE] -cp target/grep-1.0-SNAPSHOT.jar ca.jrvs.apps.grep.JavaGrep [REGEX] [ROOT_PATH] [OUTPUT_FILE]
 ```
+
+| Argument           | Description                              | Example                    |
+|--------------------|------------------------------------------|----------------------------|
+| `[MAIN_CLASS_PATH]`| path of main class                       | ca.jrvs.apps.grep.JavaGrep |
+| `[REGEX]`          | A Java Regex to match with.              | .*Romeo.*Juliet.* |
+| `[SEARCHING_PATH]` | The root file path to search.            | ./src/main/resources/data |
+| `[OUTPUT_FILE_PATH]`| The file to write the search results to.| ./src/main/resources/out/out.txt |
+| `[MIN_HEAP_SIZE]`   | The minimum heap size to use.           | -Xms5m |
+| `[MAX_HEAP_SIZE]`   | The maximum heap size to use.           | -Xmx5m |
+
 
 # **Design**
 
