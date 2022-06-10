@@ -66,7 +66,7 @@ product table
  
 # Design Patterns
 ### The Data Access Object (DAO) Pattern
-DAO is a class or interfaces that CRUD an object. In general, an object could be one table in the database table (e.g., a Customer). An object can also represent the result of your more complex query (e.g., Customer table join Order table) in are case this would be `orderline`.
+DAO is a class or interfaces that CRUD an object. In general, an object could be one table in the database table (e.g., a Customer). An object can also represent the result of your more complex query (e.g., Customer table join Order table) in our case this would be `orderline`.
 - DTO is simply the model of the object in DAO (e.g., Customer Pojo).
 - In summary
     - You create a DTO (e.g., new customer), and save it to a database via DAO
@@ -98,41 +98,13 @@ psql client is installed
 1. `psql -h localhost -U postgres -f stored_proc.sql`
 
 
-
-# Introduction to the project
-
-(50-100 words)
-What does this app do? What technoglies your have used? (JDBC, PSQL, MVN, etc..)
-
-
-# Implementation
-## ER Diagram
-- Java Libraries and Tools
-    - Maven
-    - JDBC
-    - JUnit 
-- Design Principles
-    - DRY
-    - KISS
-    - ...
-
-
-## Design Patterns
-Discuss DAO and Repository design patterns (150-200 words)
-
-# Test
-How you test your app against the database? (e.g. database setup, test data set up, query result)
-- Manual testing
-- IDE debugger
-- JUnit
-
 # Deployment/Delivery
 - JVM for Java program
-- Github for SCM
-- Distribute app using Docker images
+- Github for versioning
+- Not dockerized since this is essentially a learning experience
 
 
 # Test
-Tested via junit test case for crud operation on each DAO classes. 
+Run the scripts in the `/sql` directory to set up the database, create the tables, and fill them with data.
+Tested via junit test case for crud operation on the customer's DAO classe. (this test the connection and the basic operation via assert)
 You will need to verify the query result against test data for further testing (created by developers) for SQL scripts using pslq commands and comparing the querie result to the actual database data.
-
