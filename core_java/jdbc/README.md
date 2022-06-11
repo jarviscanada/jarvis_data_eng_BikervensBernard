@@ -5,7 +5,7 @@ The project use the DAO design pattern with a CRUD implementation, so it can be 
 The app was built using Docker for hosting the relational PostgreSQL database, IntelliJ as the IDE, DBeaver client for database visualization and ER diagram generation. In addition, this project explore some advanced JDBC concepts such as SQLException management, using stored procedures, order and limiting, sharding and partition database.
 
 # Implementation
-![design er](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/blob/jdbc/core_java/assets/ER.png?raw=true)
+![image](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/blob/4ae9682f98d5db6d8fee268d24be1c2a9cdaba64/core_java/assets/ER.png)
 
 # Postgres Database Design
 
