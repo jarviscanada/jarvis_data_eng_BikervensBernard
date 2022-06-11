@@ -8,10 +8,10 @@ This project implements a Java version of the Linux grep command, which allows u
 # in shell
 bash cd core_java/grep
 bash mvn clean compile package 
-java -cp target/grep-1.0-SNAPSHOT.jar [MAIN_CLASS_PATH] [REGEX] [SEARCHING_PATH] [OUTPUT_FILE_PATH]
+java -cp target/grep-1.0-SNAPSHOT-UBER.jar [MAIN_CLASS_PATH] [REGEX] [SEARCHING_PATH] [OUTPUT_FILE_PATH]
 
 #for large file large:
-java -Xms[MIN_HEAP_SIZE] -Xmx[MAX_HEAP_SIZE] -cp target/grep-1.0-SNAPSHOT.jar ca.jrvs.apps.grep.JavaGrep [REGEX] [ROOT_PATH] [OUTPUT_FILE]
+java -Xms[MIN_HEAP_SIZE] -Xmx[MAX_HEAP_SIZE] -cp target/grep-1.0-SNAPSHOT-UBER.jar ca.jrvs.apps.grep.JavaGrep [REGEX] [SEARCHING_PATH] [OUTPUT_FILE_PATH]
 ```
 
 | Argument           | Description                              | Example                    |
@@ -23,47 +23,71 @@ java -Xms[MIN_HEAP_SIZE] -Xmx[MAX_HEAP_SIZE] -cp target/grep-1.0-SNAPSHOT.jar ca
 | `[MIN_HEAP_SIZE]`   | The minimum heap size to use.           | -Xms5m |
 | `[MAX_HEAP_SIZE]`   | The maximum heap size to use.           | -Xmx5m |
 
-
-# **Design**
-
-As a junior developer, you will develop two Java applications:
-
-- A Java app that mimics Linux `grep` command which allows users to search matching strings from files.
-- A Java application that read, write, update, and deletes (CURD) data against an RDBMS database using JDBC
-
 # Implementation
-## Pseudocode
-write `process` method pseudocode.
-
-You will need to implements three Java applications using the following technologies:
-
-- Core Java Features
-
-  ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2e024854-6721-41e2-8a76-10824ecd36a0/Java-Topics.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2e024854-6721-41e2-8a76-10824ecd36a0/Java-Topics.png)
-
-- Java Libraries and Tools
-    - Maven
-    - JDBC
-    - JSON libraries
-    - HTTP clients
-    - JUnit & Mockito
-- Design Principles
-    - DRY
-    - KISS
+## Pseudocode for process():
+```
+matchedLines = []
+for file in listFiles(rootDir)
+  for line in readLines(file)
+      if containsPattern(line)
+        matchedLines.add(line)
+writeToOutFile(matchedLines)
+```
 
 ## Performance Issue
-(30-60 words)
-Discuss the memory issue and how would you fix it
+There is a notable issue when the data to be read is larger than the allocated memory size. In that scenario, the app will crash with an OutOfMemoryError. To fix this issue, we use java's "Stream APIs". Simply put, streams are wrappers over a data source that allow us to interact with it while also making bulk processing simple and quick. We can change the grep interface to return streams instead of lists. The java stream allows me to keep a small heap memory while being able to process large files. With this change, we can support larger file sizes without the threat of memory errors.
 
 # Test
+Testing was done manuallay. I simply implemented the grep function using lists and then replaced the lists by streams. I manually verified the output file to see the result.
+Here is an example of manual testing using linux grep command against my java grep implementation
 
-- Manual testing
-- IDE debugger
-- JUnit (if required)
+Expected:
+```bash
+$ grep .*Romeo.*Juliet.* ./data/txt/shakespeare.txt 
+    Is father, mother, Tybalt, Romeo, Juliet,
+Enter Romeo and Juliet aloft, at the Window.
+    And Romeo dead; and Juliet, dead before,
+    Romeo, there dead, was husband to that Juliet;
+```
+
+Result:
+```bash
+$ java -cp target/grep-1.0-SNAPSHOT-UBER.jar ca.jrvs.apps.grep.JavaGrepImp .*Romeo.*Juliet.* ./data ./out/grep.out
+```
+Same output should occur.
+
 
 # Deployment/Delivery
-- Distribute app using Docker images
-How you dockerize your app for easier distribution?
+- Distribute app using Docker images which can be pulled from my repository. Here are the step of the docker image creation:
+```bash
+docker_user=your_docker_id
+docker login -u ${docker_user}
+
+#Create the dockerfile 
+cat > Dockerfile << EOF
+FROM openjdk:8-alpine
+COPY target/grep*.jar /usr/local/app/grep/lib/grep.jar
+ENTRYPOINT ["java","-jar","/usr/local/app/grep/lib/grep.jar"]
+EOF
+
+#Package the java app
+mvn clean package
+
+#build the new docker image locally
+docker build -t ${docker_user}/grep .
+
+#run the docker container 
+docker run --rm \
+-v `pwd`/data:/data -v `pwd`/log:/log \
+${docker_user}/grep .*Romeo.*Juliet.* /data /log/grep.out
+
+#push the image to Docker Hub
+docker push ${docker_user}/grep
+```
+You can manually create a new docker image by following the step of you could use the already existing docker image: `docker push bernard76/grep`
 
 # Improvement
-List three things you can improve in this project.
+1. Additional memory optimization to improve memory consumption
+2. Additional testing - as of now the application was tested using manually given a file and expected output. it would be preferred to use junit or something similar to fully test the application.
+3. Add extra error handling to ensure that the app continues to work even if the arguments are incorrect.
+4. Add extra error handling to ensure that the app continues to work even if the directory is empty or if the files are not readable
