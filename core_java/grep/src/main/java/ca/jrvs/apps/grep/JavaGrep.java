@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.lang.reflect.Array;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -66,29 +67,13 @@ public class JavaGrep implements IJavaGrep{
     }
 
     public Stream<File> listFiles(String rootDir) {
-        System.out.println("listing all in current dir");
-
-        File dir = new File(".");
-        File[] filesList = dir.listFiles();
-        for (File file : filesList) {
-            if (file.isFile())
-                System.out.println(file.getName());
+        try {
+            return Files.walk(Paths.get(rootDir))
+                    .filter(Files::isRegularFile)
+                    .map(path -> path.toFile());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        System.out.println("listing all in path");
-
-        ArrayList<File> out = new ArrayList<File>();
-        //add if is empty breakpoint
-        dir = new File(rootDir);
-        for (File file : dir.listFiles()) {
-            if (file.isDirectory()) {
-                //recursion to get all sub file (if any)
-                out.addAll((Collection<? extends File>) listFiles(file.getAbsolutePath()));
-            } else {
-                //add file to list
-                out.add(file);
-            }
-        }
-        return out.stream();
     }
 
     public Stream<String> readLines(File inputFile) {

@@ -20,7 +20,7 @@ public class TwitterApiTest {
         //http get request
         String status = "today is a good day";
         PercentEscaper percentEscaper = new PercentEscaper("",false);
-        String str = "https://api.twitter.com/2/tweets=";
+        String str = "https://api.twitter.com/1.1/statuses/update.json=";
         HttpPost request = new HttpPost(str+percentEscaper.escape(status));
 
         //sign the request (add header)
