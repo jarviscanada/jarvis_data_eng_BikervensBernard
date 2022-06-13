@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 
 function init() {
   echo "---- Downloading sample profile.yaml file ----"
-  chmod +rwx $0
+  chmod +x $0
   wget https://raw.githubusercontent.com/jarviscanada/jarvis_profile_builder/develop/profile.yaml -O profile.yaml
   exit 0
 }

@@ -12,14 +12,16 @@ import java.util.Arrays;
 public class TwitterApiTest {
     public static void main(String[] args) throws Exception {
         OAuthConsumer consumer = new CommonsHttpOAuthConsumer(
-                IConnectToTwitterApi.CONSUMER_KEY,
-                IConnectToTwitterApi.CONSUMER_SECRET
+                "jYBPOSPwnqnxfmBY5Drpon8p9",
+                "N2lLhDzjQE9Hz1SLvnthRlOQPF8Ctmvy9S0BezJoLhG9B4ShWI"
         );
+        consumer.setTokenWithSecret("1486392172647788546-clwXBjX3ilPZy7Xn5xmzKZVcbfKmnZ","vv5Bt849i9HHheBZNboIJ6s3FgP4VhMIpojEb28muDe7r");
 
         //http get request
         String status = "today is a good day";
         PercentEscaper percentEscaper = new PercentEscaper("",false);
-        HttpPost request = new HttpPost(""+percentEscaper.escape(status));
+        String str = "https://api.twitter.com/2/tweets=";
+        HttpPost request = new HttpPost(str+percentEscaper.escape(status));
 
         //sign the request (add header)
         consumer.sign(request);

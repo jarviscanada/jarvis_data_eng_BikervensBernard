@@ -66,8 +66,19 @@ public class JavaGrep implements IJavaGrep{
     }
 
     public Stream<File> listFiles(String rootDir) {
+        System.out.println("listing all in current dir");
+
+        File dir = new File(".");
+        File[] filesList = dir.listFiles();
+        for (File file : filesList) {
+            if (file.isFile())
+                System.out.println(file.getName());
+        }
+        System.out.println("listing all in path");
+
         ArrayList<File> out = new ArrayList<File>();
-        File dir = new File(rootDir);
+        //add if is empty breakpoint
+        dir = new File(rootDir);
         for (File file : dir.listFiles()) {
             if (file.isDirectory()) {
                 //recursion to get all sub file (if any)
@@ -117,18 +128,12 @@ public class JavaGrep implements IJavaGrep{
     }
 
     public static void main(String[] args) {
-
-        if (args.length != 3) {
-            throw new IllegalArgumentException(
-                    "USAGE: JavaGrep regex rootpath outFile e.g. " +
-                    "java -cp target/grep-1.0-SNAPSHOT-UBER.jar " +
-                    "ca.jrvs.apps.grep.JavaGrep "+
-                    ".*Romeo.*Juliet.* "+
-                    "./src/main/resources/data "+
-                    "./src/main/resources/out/out.txt"
-            );
+        if (args.length==0) {
+            System.out.println("no args");
         }
-
+        for (String s : args) {
+            System.out.println("args: "+s);
+        }
         BasicConfigurator.configure();
         JavaGrep javaGrep = new JavaGrep();
 
