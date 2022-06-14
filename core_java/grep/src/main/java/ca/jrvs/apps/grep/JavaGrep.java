@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.lang.reflect.Array;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -66,18 +67,13 @@ public class JavaGrep implements IJavaGrep{
     }
 
     public Stream<File> listFiles(String rootDir) {
-        ArrayList<File> out = new ArrayList<File>();
-        File dir = new File(rootDir);
-        for (File file : dir.listFiles()) {
-            if (file.isDirectory()) {
-                //recursion to get all sub file (if any)
-                out.addAll((Collection<? extends File>) listFiles(file.getAbsolutePath()));
-            } else {
-                //add file to list
-                out.add(file);
-            }
+        try {
+            return Files.walk(Paths.get(rootDir))
+                    .filter(Files::isRegularFile)
+                    .map(path -> path.toFile());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return out.stream();
     }
 
     public Stream<String> readLines(File inputFile) {
@@ -117,18 +113,12 @@ public class JavaGrep implements IJavaGrep{
     }
 
     public static void main(String[] args) {
-
-        if (args.length != 3) {
-            throw new IllegalArgumentException(
-                    "USAGE: JavaGrep regex rootpath outFile e.g. " +
-                    "java -cp target/grep-1.0-SNAPSHOT-UBER.jar " +
-                    "ca.jrvs.apps.grep.JavaGrep "+
-                    ".*Romeo.*Juliet.* "+
-                    "./src/main/resources/data "+
-                    "./src/main/resources/out/out.txt"
-            );
+        if (args.length==0) {
+            System.out.println("no args");
         }
-
+        for (String s : args) {
+            System.out.println("args: "+s);
+        }
         BasicConfigurator.configure();
         JavaGrep javaGrep = new JavaGrep();
 

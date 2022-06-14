@@ -1,0 +1,9 @@
+FROM openjdk:8-alpine
+
+COPY target/grep*.jar /target/grep-1.0-SNAPSHOT-UBER.jar
+
+WORKDIR /target
+
+ENV JAVA_XMS=10 JAVA_XMX=30
+
+ENTRYPOINT java -Xms${JAVA_XMS}m -Xmx${JAVA_XMX}m -cp ./grep-1.0-SNAPSHOT-UBER.jar ca.jrvs.apps.grep.JavaGrep ${REGEX} ${DATA} ${OUT}
