@@ -1,28 +1,27 @@
-package ca.jrvs.apps.twitter.example;
+package ca.jrvs.apps.example;
 
+import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
+import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
 import com.google.gdata.util.common.base.PercentEscaper;
 import oauth.signpost.OAuthConsumer;
-import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 import java.util.Arrays;
 
 public class TwitterApiTest {
     public static void main(String[] args) throws Exception {
-        OAuthConsumer consumer = new CommonsHttpOAuthConsumer(
-                "jYBPOSPwnqnxfmBY5Drpon8p9",
-                "N2lLhDzjQE9Hz1SLvnthRlOQPF8Ctmvy9S0BezJoLhG9B4ShWI"
+        TwitterHttpHelper helper = new TwitterHttpHelper(
+                HttpHelper.CONSUMER_KEY, HttpHelper.CONSUMER_SECRET,
+                HttpHelper.ACCESS_TOKEN, HttpHelper.TOKEN_SECRET
         );
-        consumer.setTokenWithSecret("1486392172647788546-clwXBjX3ilPZy7Xn5xmzKZVcbfKmnZ","vv5Bt849i9HHheBZNboIJ6s3FgP4VhMIpojEb28muDe7r");
 
+        OAuthConsumer consumer = helper.getConsumer();
         //http get request
         String status = "today is a good day";
         PercentEscaper percentEscaper = new PercentEscaper("",false);
-        String str = "https://api.twitter.com/1.1/statuses/update.json=";
+        String str = HttpHelper.API_V1_ENDPOINT+"statuses/update.json=";
         HttpPost request = new HttpPost(str+percentEscaper.escape(status));
 
         //sign the request (add header)
@@ -31,8 +30,7 @@ public class TwitterApiTest {
         Arrays.stream(request.getAllHeaders()).forEach(System.out::println);
 
         //send request
-        HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpResponse response = httpClient.execute(request);
+        HttpResponse response = helper.getHttpClient().execute(request);
         System.out.println(EntityUtils.toString(response.getEntity()));
     }
 }
