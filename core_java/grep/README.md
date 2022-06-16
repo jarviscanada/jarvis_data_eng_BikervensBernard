@@ -38,7 +38,7 @@ writeToOutFile(matchedLines)
 There is a notable issue when the data to be read is larger than the allocated memory size. In that scenario, the app will crash with an OutOfMemoryError. To fix this issue, we use java's "Stream APIs". Simply put, streams are wrappers over a data source that allow us to interact with it while also making bulk processing simple and quick. We can change the grep interface to return streams instead of lists. The java stream allows me to keep a small heap memory while being able to process large files. With this change, we can support larger file sizes without the threat of memory errors.
 
 # Test
-Testing was done manuallay. I simply implemented the grep function using lists and then replaced the lists by streams. I manually verified the output file to see the result.
+Testing was done manuallay. 
 Here is an example of manual testing using linux grep command against my java grep implementation
 
 Expected:
@@ -48,10 +48,8 @@ $ grep .*Romeo.*Juliet.* ./data/txt/shakespeare.txt
 Enter Romeo and Juliet aloft, at the Window.
     And Romeo dead; and Juliet, dead before,
     Romeo, there dead, was husband to that Juliet;
-```
 
-Result:
-```bash
+# My implementation 
 $ java -cp target/grep-1.0-SNAPSHOT-UBER.jar ca.jrvs.apps.grep.JavaGrepImp .*Romeo.*Juliet.* ./data ./out/grep.out
 ```
 Same output should occur.
@@ -87,7 +85,7 @@ docker push ${docker_user}/grep
 You can manually create a new docker image by following the step of you could use the already existing docker image: `docker push bernard76/grep`
 ```bash
  # container run result will be available at: 
- cat [PARENT_DIRECTORY]/target/classes/out/
+ cat '[PATH_TO_DESKTOP]/jarvis_data_eng_BikervensBernard/core_java/grep/target/classes/out/out.txt'
 ```
 # Improvement
 1. Additional memory optimization to improve memory consumption
