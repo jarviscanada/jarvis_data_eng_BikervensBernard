@@ -1,6 +1,7 @@
 package ca.jrvs.apps.twitter.dao.helper;
 
-import com.google.gdata.util.common.base.PercentEscaper;
+import java.io.IOException;
+import java.net.URI;
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
@@ -10,85 +11,89 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
-
-import java.io.IOException;
-import java.net.URI;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.springframework.http.HttpMethod;
 
 public class TwitterHttpHelper implements HttpHelper {
-    private OAuthConsumer consumer;
-    private HttpClient httpClient;
 
-    public OAuthConsumer getConsumer() {
-        return consumer;
+  /**
+   * Dependencies
+   */
+  private final OAuthConsumer consumer;
+  private final HttpClient httpClient;
+
+  private final String CONSUMER_KEY= System.getenv("consumerKey");
+  private final String CONSUMER_Secret= System.getenv("consumerSecret");
+  private final String ACCESS_TOKEN = System.getenv("accessToken");
+  private final String TOKEN_SECRET= System.getenv("tokenSecret");
+
+  public TwitterHttpHelper(String consumerKey, String consumerSecret, String accessToken,
+                           String tokenSecret) {
+    consumer = new CommonsHttpOAuthConsumer(consumerKey, consumerSecret);
+    consumer.setTokenWithSecret(accessToken, tokenSecret);
+    /**
+     * Default = single connection
+     */
+    httpClient = new DefaultHttpClient();
+  }
+
+  /**
+   * Execute a HTTP Post call
+   *
+   * @param uri
+   * @return
+   */
+  @Override
+  public HttpResponse httpPost(URI uri) {
+    try {
+      return postRequest(uri, HttpMethod.POST, null);
+    } catch (RuntimeException e) {
+      throw new RuntimeException("Failed to execute", e);
     }
+  }
 
-    public void setConsumer(OAuthConsumer consumer) {
-        this.consumer = consumer;
+  /**
+   * Execute a HTTP Get call
+   *
+   * @param uri
+   * @return
+   */
+  @Override
+  public HttpResponse httpGet(URI uri) {
+    try {
+      return postRequest(uri, HttpMethod.GET, null);
+    } catch (RuntimeException e) {
+      throw new RuntimeException("Failed to execute", e);
     }
+  }
 
-    public HttpClient getHttpClient() {
-        return httpClient;
+  private HttpResponse postRequest(URI uri, HttpMethod method, StringEntity stringEntity) {
+    if (method == HttpMethod.GET) {
+      HttpGet request = new HttpGet(uri);
+      return signRequest(request);
+    } else if (method == HttpMethod.POST) {
+      HttpPost request = new HttpPost(uri);
+      if (stringEntity != null) {
+        request.setEntity(stringEntity);
+      }
+      return signRequest(request);
     }
+    throw new IllegalArgumentException("Unknown HTTP method: " + method.name());
+  }
 
-    public void setHttpClient(HttpClient httpClient) {
-        this.httpClient = httpClient;
+  private HttpResponse signRequest(HttpRequestBase request) {
+    try {
+      consumer.sign(request);
+    } catch (OAuthMessageSignerException | OAuthCommunicationException |
+             OAuthExpectationFailedException e) {
+      throw new RuntimeException(e);
     }
-
-
-    public TwitterHttpHelper(String consumerKey, String consumerSecret, String aToken, String aSecret) {
-        this.consumer = new CommonsHttpOAuthConsumer(consumerKey,consumerSecret);
-        consumer.setTokenWithSecret(aToken,aSecret);
-        httpClient = HttpClientBuilder.create().build();
+    try {
+      return httpClient.execute(request);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-
-    @Override
-    public HttpResponse httpPost(URI uri) {
-
-        //http get request
-        HttpPost request = new HttpPost(uri);
-
-        //sign the request (add header)
-        try {
-            consumer.sign(request);
-        } catch (OAuthMessageSignerException e) {
-            throw new RuntimeException(e);
-        } catch (OAuthExpectationFailedException e) {
-            throw new RuntimeException(e);
-        } catch (OAuthCommunicationException e) {
-            throw new RuntimeException(e);
-        }
-        //send request
-        HttpResponse response = null;
-        try {
-            response = httpClient.execute(request);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return response;
-    }
-
-    @Override
-    public HttpResponse httpGet(URI uri) {
-        HttpGet request = new HttpGet(uri);
-
-        //sign the request (add header)
-        try {
-            consumer.sign(request);
-        } catch (OAuthMessageSignerException e) {
-            throw new RuntimeException(e);
-        } catch (OAuthExpectationFailedException e) {
-            throw new RuntimeException(e);
-        } catch (OAuthCommunicationException e) {
-            throw new RuntimeException(e);
-        }
-        //send request
-        HttpResponse response = null;
-        try {
-            response = httpClient.execute(request);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return response;
-    }
+  }
 }
