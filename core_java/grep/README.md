@@ -85,7 +85,10 @@ ${docker_user}/grep .*Romeo.*Juliet.* /data /log/grep.out
 docker push ${docker_user}/grep
 ```
 You can manually create a new docker image by following the step of you could use the already existing docker image: `docker push bernard76/grep`
-
+```bash
+ # container run result will be available at: 
+ cat [PARENT_DIRECTORY]/target/classes/out/
+```
 # Improvement
 1. Additional memory optimization to improve memory consumption
 2. Additional testing - as of now the application was tested using manually given a file and expected output. it would be preferred to use junit or something similar to fully test the application.
