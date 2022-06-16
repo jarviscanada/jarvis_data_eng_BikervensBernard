@@ -102,3 +102,18 @@ education:
     duration: "2017-2019"
     degree: "DEC in Computer Science Technology"
     department: "Social Science & Business Technologies"
+    awards_achievements:
+
+others:
+    #category
+  - title: "Certificates"
+    #list of items
+    bullets:
+      - "French High school Diploma, (Montreal)"
+  - title: "Personal Skills"
+    bullets:
+      - "fluent in French/English"
+  - title: "Activities/Hobbies"
+    bullets:
+      - "Basketball player"
+      - "Competitive gaming"
