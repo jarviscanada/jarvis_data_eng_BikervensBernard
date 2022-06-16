@@ -12,22 +12,17 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class TwitterDAOIntTest{
-    private TwitterDAO dao;
     private static String id;
     private static long time = System.currentTimeMillis();
-
-    @Before
-    public void setup(){
-        String CONSUMER_KEY = System.getenv("consumerKey");
-        String CONSUMER_SECRET = System.getenv("consumerSecret");
-        String ACCESS_TOKEN = System.getenv("accessToken");
-        String TOKEN_SECRET = System.getenv("tokenSecret");
-        HttpHelper helper = new TwitterHttpHelper(
-                CONSUMER_KEY,CONSUMER_SECRET,
-                ACCESS_TOKEN,TOKEN_SECRET
-        );
-        this.dao = new TwitterDAO(helper);
-    }
+    String CONSUMER_KEY = System.getenv("consumerKey");
+    String CONSUMER_SECRET = System.getenv("consumerSecret");
+    String ACCESS_TOKEN = System.getenv("accessToken");
+    String TOKEN_SECRET = System.getenv("tokenSecret");
+    HttpHelper helper = new TwitterHttpHelper(
+            CONSUMER_KEY,CONSUMER_SECRET,
+            ACCESS_TOKEN,TOKEN_SECRET
+    );
+    private TwitterDAO dao = new TwitterDAO(helper);
 
     @Test
     public void create() {
@@ -43,10 +38,6 @@ public class TwitterDAOIntTest{
         x.setCoordinates(l);
         post.setCoordinates(x);
 
-        String CONSUMER_KEY = "jYBPOSPwnqnxfmBY5Drpon8p9";
-        String CONSUMER_SECRET = "N2lLhDzjQE9Hz1SLvnthRlOQPF8Ctmvy9S0BezJoLhG9B4ShWI";
-        String ACCESS_TOKEN = "1486392172647788546-clwXBjX3ilPZy7Xn5xmzKZVcbfKmnZ";
-        String TOKEN_SECRET = "vv5Bt849i9HHheBZNboIJ6s3FgP4VhMIpojEb28muDe7r";
         HttpHelper helper = new TwitterHttpHelper(
                 CONSUMER_KEY,CONSUMER_SECRET,
                 ACCESS_TOKEN,TOKEN_SECRET
