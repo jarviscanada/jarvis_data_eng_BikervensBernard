@@ -33,22 +33,19 @@ public class TwitterDAOUnitTest {
     HttpHelper mockHelper;
     @InjectMocks
     TwitterDAO dao;
-
-    TwitterDAO newDao = null;
-    Tweet post = null;
+    TwitterDAO newDao;
+    Tweet createdTweet = new Tweet();
     long time = System.currentTimeMillis();
-
+    String CONSUMER_KEY = System.getenv("consumerKey");
+    String CONSUMER_SECRET = System.getenv("consumerSecret");
+    String ACCESS_TOKEN = System.getenv("accessToken");
+    String TOKEN_SECRET = System.getenv("tokenSecret");
+    HttpHelper httpHelper = new TwitterHttpHelper(
+            CONSUMER_KEY,CONSUMER_SECRET,
+            ACCESS_TOKEN,TOKEN_SECRET
+    );
     @Before
     public void buildTweet() {
-        post = new Tweet();
-        String consumerKey = System.getenv("consumerKey");
-        String consumerSecret = System.getenv("consumerSecret");
-        String accessToken = System.getenv("accessToken");
-        String tokenSecret = System.getenv("tokenSecret");
-        HttpHelper httpHelper = new TwitterHttpHelper(
-                consumerKey, consumerSecret,
-                accessToken, tokenSecret
-        );
         newDao = new TwitterDAO(httpHelper);
         String hashtag = "#testing #twitterapi";
         String text = "@Avril_laqueer get better soon " + hashtag + " created at: " + time + "ms";
@@ -60,8 +57,8 @@ public class TwitterDAOUnitTest {
         doubleList.add(lat);
         doubleList.add(lon);
         coordinates.setCoordinates(doubleList);
-        post.setText(text);
-        post.setCoordinates(coordinates);
+        createdTweet.setText(text);
+        createdTweet.setCoordinates(coordinates);
     }
 
     @Test
@@ -70,7 +67,7 @@ public class TwitterDAOUnitTest {
         //should get exception here
         when(mockHelper.httpPost(isNotNull())).thenThrow(new RuntimeException("mock"));
         try {
-            dao.create(post);
+            dao.create(createdTweet);
             fail();
         } catch (RuntimeException e) {
             assertTrue(true);
@@ -100,7 +97,7 @@ public class TwitterDAOUnitTest {
 
         //mock parseResponse by return the expected tweet
         doReturn(expectedTweet).when(spyDao).parseResponse(any(), anyInt());
-        Tweet tweet = spyDao.create(post);
+        Tweet tweet = spyDao.create(createdTweet);
         assertNotNull(tweet);
         assertNotNull(tweet.getText());
     }
@@ -108,7 +105,7 @@ public class TwitterDAOUnitTest {
     @Test
     public void createTest() throws Exception {
 
-        String tweetJsonStr = "{\n"
+        String expectedMockTweet = "{\n"
                 + "   \"created_at\":\"Wed Jun 15 16:00:51 +0000 2022\",\n"
                 + "   \"id\":1537102846759419906,\n"
                 + "   \"id_str\":\"1537102846759419906\",\n"
@@ -127,17 +124,14 @@ public class TwitterDAOUnitTest {
         //return and do nothing when httpPost is called on the mmock
         when(mockHelper.httpPost(isNotNull())).thenReturn(null);
         TwitterDAO spyDao = Mockito.spy(dao);
-        Tweet expectedTweet = JsonParser.toObjectFromJson(tweetJsonStr, Tweet.class);
+        Tweet expectedTweet = JsonParser.toObjectFromJson(expectedMockTweet, Tweet.class);
 
         //mock parseResponse by return the expected tweet
         doReturn(expectedTweet).when(spyDao).parseResponse(any(), anyInt());
-        Tweet tweet = spyDao.create(post);
+        Tweet tweet = spyDao.create(createdTweet);
+        assertNotNull(tweet);
         assertNotNull(tweet.getText());
-        assertEquals(post.getText(), tweet.getText());
-        assertEquals(post.getCoordinates().getCoordinates().get(0), tweet.getCoordinates().getCoordinates().get(1));
-        assertEquals(post.getCoordinates().getCoordinates().get(1), tweet.getCoordinates().getCoordinates().get(0));
-
-        assertTrue(tweet.getEntities().getHashtags().contains(post.getEntities().getHashtags().get(0)));
-        assertTrue(tweet.getEntities().getHashtags().contains(post.getEntities().getHashtags().get(1)));
+        assertEquals(tweet.getText(),expectedTweet.getText());
+        assertEquals(tweet.getIdStr(),expectedTweet.getIdStr());
     }
 }
