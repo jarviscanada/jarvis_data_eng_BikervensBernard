@@ -12,6 +12,7 @@ import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.example.JsonParser;
 import ca.jrvs.apps.twitter.model.*;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +75,7 @@ public class TwitterDAOUnitTest {
     }
 
     @Test
-    public void showTweet() throws Exception {
+    public void showTweet() throws IOException {
 
         //should get exception here
         when(mockHelper.httpPost(isNotNull())).thenThrow(new RuntimeException("mock"));
@@ -124,7 +125,7 @@ public class TwitterDAOUnitTest {
     }
 
     @Test
-    public void createTest() throws Exception {
+    public void createTest() throws IOException {
 
         String tweetJsonStr = "{\n"
                 + "   \"created_at\":\"Wed Jun 15 16:00:51 +0000 2022\",\n"
@@ -133,9 +134,15 @@ public class TwitterDAOUnitTest {
                 + "   \"text\":\"@jack get better soon #testing #twitterapi created at: "+time+"ms\",\n"
                 + "   \"entities\":{\n"
                 + "      \"hashtags\":[{\"text\":\"testing\",\"indices\":[28,36]},{\"text\":\"twitterapi\",\"indices\":[37,48]}],"
-                + "      \"user_mentions\":[{\"screen_name\":\"Avril_laqueer\",\"name\":\"X \\u00c6 A-12 stan\",\"id\":2391628200,\"id_str\":\"2391628200\",\"indices\":[0,14]}]"
+                + "      \"user_mentions\":[{\"screen_name\":\"jack\",\"name\":\"X \\u00c6 A-12 stan\",\"id\":2391628200,\"id_str\":\"2391628200\",\"indices\":[0,14]}]"
                 + "   },\n"
-                + "   \"coordinates\":null,"
+                + "   \"geo\":{" +
+                        "\"type\":\"Point\",\"coordinates\":[37.76893497,-122.42284884]"
+                +    "}," +
+                     "\"coordinates\":{" +
+                        "\"type\":\"Point\"," +
+                        "\"coordinates\":[-122.42284884,37.76893497]" +
+                     "},"
                 + "   \"retweet_count\":0,\n"
                 + "   \"favorite_count\":0,\n"
                 + "   \"favorited\":false,\n"
@@ -157,5 +164,50 @@ public class TwitterDAOUnitTest {
         Tweet output = spyDao.create(createdTweet);
         //code 200 is enough to assert "tweet creation"
         assertNotNull(output);
+    }
+
+    @Test
+    public void deleteById() throws IOException {
+
+        String tweetJsonStr = "{\n"
+                + "   \"created_at\":\"Wed Jun 15 16:00:51 +0000 2022\",\n"
+                + "   \"id\":1537102846759419906,\n"
+                + "   \"id_str\":\"1537102846759419906\",\n"
+                + "   \"text\":\"@jack get better soon #testing #twitterapi created at: "+time+"ms\",\n"
+                + "   \"entities\":{\n"
+                + "      \"hashtags\":[{\"text\":\"testing\",\"indices\":[28,36]},{\"text\":\"twitterapi\",\"indices\":[37,48]}],"
+                + "      \"user_mentions\":[{\"screen_name\":\"jack\",\"name\":\"X \\u00c6 A-12 stan\",\"id\":2391628200,\"id_str\":\"2391628200\",\"indices\":[0,14]}]"
+                + "   },\n"
+                + "   \"geo\":{" +
+                "\"type\":\"Point\",\"coordinates\":[37.76893497,-122.42284884]"
+                +    "}," +
+                "\"coordinates\":{" +
+                "\"type\":\"Point\"," +
+                "\"coordinates\":[-122.42284884,37.76893497]" +
+                "},"
+                + "   \"retweet_count\":0,\n"
+                + "   \"favorite_count\":0,\n"
+                + "   \"favorited\":false,\n"
+                + "   \"retweeted\":false\n"
+                + "}";
+
+        //instantiate dao with mock
+        dao = new TwitterDAO(mockHelper);
+        //create a spy of instantiated dao (dao was instantiated with mockHelper)
+        TwitterDAO spyDao = Mockito.spy(dao);
+        //correct output as expectedTweet
+        Tweet expectedTweetFromJson = JsonParser.toObjectFromJson(tweetJsonStr, Tweet.class);
+
+        //mock returns null and do nothing when httpPost is called
+        when(mockHelper.httpPost(isNotNull())).thenReturn(null);
+        /* create() is called on spy -> httpPost() is called in create() and returns null ->
+           parseResponse() is called on spy and returns the correct output as expectedTweet */
+        doReturn(expectedTweetFromJson).when(spyDao).parseResponse(any(),eq(200));
+        Tweet output = spyDao.deleteById("1537102846759419906");
+
+        assertNotNull(output);
+        //equal data is enough to assert "found by id"
+        assertEquals(output.getText(),expectedTweetFromJson.getText());
+        assertEquals(output.getIdStr(),expectedTweetFromJson.getIdStr());
     }
 }
