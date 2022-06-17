@@ -24,11 +24,6 @@ public class TwitterHttpHelper implements HttpHelper {
   private final OAuthConsumer consumer;
   private final HttpClient httpClient;
 
-  private final String CONSUMER_KEY= System.getenv("consumerKey");
-  private final String CONSUMER_Secret= System.getenv("consumerSecret");
-  private final String ACCESS_TOKEN = System.getenv("accessToken");
-  private final String TOKEN_SECRET= System.getenv("tokenSecret");
-
   public TwitterHttpHelper(String consumerKey, String consumerSecret, String accessToken,
                            String tokenSecret) {
     consumer = new CommonsHttpOAuthConsumer(consumerKey, consumerSecret);
@@ -83,6 +78,12 @@ public class TwitterHttpHelper implements HttpHelper {
     throw new IllegalArgumentException("Unknown HTTP method: " + method.name());
   }
 
+  /**
+   * Sign and execute http request given correct auth
+   *
+   * @param request HttpRequestBase i.e. HttpPost, HttpGet
+   * @return response body and header
+   */
   private HttpResponse signRequest(HttpRequestBase request) {
     try {
       consumer.sign(request);
