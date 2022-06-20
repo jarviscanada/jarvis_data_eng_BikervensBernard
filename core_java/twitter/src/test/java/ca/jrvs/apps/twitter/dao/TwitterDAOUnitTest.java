@@ -29,11 +29,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class TwitterDAOUnitTest {
 
     @Mock
-    HttpHelper mockHelper;
+    private HttpHelper mockHelper;
     @InjectMocks
-    TwitterDAO dao;
-    Tweet createdTweet;
-    long time = System.currentTimeMillis();
+    private TwitterDAO dao;
+    private Tweet createdTweet;
+    private long time = System.currentTimeMillis();
 
     @Before
     public void buildTweet() {

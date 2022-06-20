@@ -87,42 +87,27 @@ public class TwitterService implements Service{
 
     @Override
     public Tweet showTweet(String id, String[] fields) {
-        Tweet tweet = this.isValidId(id)? this.dao.findById(id): null;
-        if (this.fieldsAreValid(fields) && tweet != null) {
+        Tweet tweet = null;
+        try {
+            tweet = this.isValidId(id)? this.dao.findById(id): null;
+            if (this.fieldsAreValid(fields) && tweet != null) {
 
-            List<String> list = Arrays.asList(fields);
-            //if we do not wish to display this field set it to null on object
-            if (!list.contains("created_at")){
-                tweet.setCreated_at(null);
+                List<String> list = Arrays.asList(fields);
+                //if we do not wish to display this field set it to null on object
+                if (!list.contains("created_at")){tweet.setCreated_at(null);}
+                if (!list.contains("id")){tweet.setId(null);}
+                if (!list.contains("id_str")){tweet.setIdStr(null);}
+                if (!list.contains("text")){tweet.setText(null);}
+                if (!list.contains("entities")){tweet.setEntities(null);}
+                if (!list.contains("coordinates")){tweet.setCoordinates(null);}
+                if (!list.contains("retweet_count")){tweet.setRetweetCount(0);}
+                if (!list.contains("favorite_count")){tweet.setFavoriteCount(0);}
+                if (!list.contains("favorited")){tweet.setFavorited(null);}
+                if (!list.contains("retweeted")){tweet.setRetweeted(null);}
             }
-            if (!list.contains("id")){
-                tweet.setId(null);
-            }
-            if (!list.contains("id_str")){
-                tweet.setIdStr(null);
-            }
-            if (!list.contains("text")){
-                tweet.setText(null);
-            }
-            if (!list.contains("entities")){
-                tweet.setEntities(null);
-            }
-            if (!list.contains("coordinates")){
-                tweet.setCoordinates(null);
-            }
-            if (!list.contains("retweet_count")){
-                tweet.setRetweetCount(0);
-            }
-            if (!list.contains("favorite_count")){
-                tweet.setFavoriteCount(0);
-            }
-            if (!list.contains("favorited")){
-                tweet.setFavorited(null);
-            }
-            if (!list.contains("retweeted")){
-                tweet.setRetweeted(null);
-            }
-        }
+            else {return null;}
+        } catch (IllegalArgumentException e) {return null;}
+        catch (RuntimeException e) {return null;}
         return tweet;//serviced formatted tweet object
     }
 
@@ -131,9 +116,12 @@ public class TwitterService implements Service{
         List<Tweet> tweets = new ArrayList<>();
         for (String id: ids) {
             if (this.isValidId(id)) {
-                tweets.add(this.dao.deleteById(id));
+                Tweet tweet = this.dao.findById(id);
+                if (tweet != null) {
+                    this.dao.deleteById(tweet.getIdStr());
+                    tweets.add(tweet);
+                }
             }
-            else {return null;}
         }
         return tweets;
     }

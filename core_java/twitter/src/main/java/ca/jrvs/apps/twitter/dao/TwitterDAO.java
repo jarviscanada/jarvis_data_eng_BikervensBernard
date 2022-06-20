@@ -107,35 +107,36 @@ public class TwitterDAO implements CrdDao<Tweet, String> {
   public Tweet parseResponse(HttpResponse response, Integer expectedCode) {
     Tweet tweet = null;
 
-    int status = response.getStatusLine().getStatusCode();
-    if (status != expectedCode) {
+    if (response != null) {
+      int status = response.getStatusLine().getStatusCode();
+      if (status != expectedCode) {
+        try {
+          HttpEntity e = response.getEntity();
+          System.out.println(EntityUtils.toString(e));
+        } catch (IOException e) {
+          System.out.println("Response has no entity");
+        }
+        throw new RuntimeException("HTTP status error: " + status);
+      }
+
+      if (response.getEntity() == null) {
+        throw new RuntimeException("Empty response body");
+      }
+
+      String jsonStr;
       try {
         HttpEntity e = response.getEntity();
-        System.out.println(EntityUtils.toString(e));
+        jsonStr = EntityUtils.toString(response.getEntity());
       } catch (IOException e) {
-        System.out.println("Response has no entity");
+        throw new RuntimeException("Entity to String conversion failed", e);
       }
-      throw new RuntimeException("HTTP status error: " + status);
-    }
 
-    if (response.getEntity() == null) {
-      throw new RuntimeException("Empty response body");
+      try {
+        tweet = (Tweet) JsonParser.toObjectFromJson(jsonStr, Tweet.class);
+      } catch (IOException e) {
+        throw new RuntimeException("JSON String to Object conversion failed", e);
+      }
     }
-
-    String jsonStr;
-    try {
-      HttpEntity e = response.getEntity();
-      jsonStr = EntityUtils.toString(response.getEntity());
-    } catch (IOException e) {
-      throw new RuntimeException("Entity to String conversion failed", e);
-    }
-
-    try {
-      tweet = (Tweet) JsonParser.toObjectFromJson(jsonStr, Tweet.class);
-    } catch (IOException e) {
-      throw new RuntimeException("JSON String to Object conversion failed", e);
-    }
-
     return tweet;
   }
 
