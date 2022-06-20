@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 
 public class TwitterServiceIntTest{
 
-    private static String id = "1538711353594155008";
+    private static String id = "1538873580456497156";
     private Tweet post ;
     private static long time = System.currentTimeMillis();
     String CONSUMER_KEY = System.getenv("consumerKey");
