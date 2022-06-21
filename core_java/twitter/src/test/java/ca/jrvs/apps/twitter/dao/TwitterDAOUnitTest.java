@@ -17,8 +17,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -35,7 +35,7 @@ public class TwitterDAOUnitTest {
     private Tweet createdTweet;
     private long time = System.currentTimeMillis();
 
-    @Before
+    @BeforeEach
     public void buildTweet() {
         createdTweet = new Tweet();
 

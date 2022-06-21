@@ -89,7 +89,10 @@ public class TwitterService implements Service{
     public Tweet showTweet(String id, String[] fields) {
         Tweet tweet = null;
         try {
-            tweet = this.isValidId(id)? this.dao.findById(id): null;
+            if (this.isValidId(id)) {
+                tweet = this.dao.findById(id);
+            }
+            //tweet = this.isValidId(id)? this.dao.findById(id): null;
             if (this.fieldsAreValid(fields) && tweet != null) {
 
                 List<String> list = Arrays.asList(fields);
