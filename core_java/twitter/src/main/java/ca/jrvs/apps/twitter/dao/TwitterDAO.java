@@ -14,7 +14,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
+@org.springframework.stereotype.Repository
 public class TwitterDAO implements CrdDao<Tweet, String> {
 
   //URI Constants

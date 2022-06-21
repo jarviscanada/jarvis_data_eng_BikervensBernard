@@ -2,10 +2,11 @@ package ca.jrvs.apps.twitter.controller;
 
 import ca.jrvs.apps.twitter.model.*;
 import ca.jrvs.apps.twitter.service.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@org.springframework.stereotype.Controller
 public class TwitterController implements Controller {
 
     private static final String COORD_SEP = ":";
@@ -15,6 +16,7 @@ public class TwitterController implements Controller {
     private static final String USAGE_FOR_DELETING = "USAGE: TwitterApp delete \"id1,id2,...\"";
     private final Service service;
 
+    @Autowired
     public TwitterController(Service service) {this.service = service;}
 
     private Tweet buildTweet(String text, Double lat, Double lon) {
@@ -49,7 +51,7 @@ public class TwitterController implements Controller {
         String text = args[1];
         String coords = args[2];
         String[] coordArray = coords.split(COORD_SEP);
-        if (coordArray.length != 2 || text.isEmpty() || text.isBlank()) {
+        if (coordArray.length != 2 || text.isEmpty()) {
             throw new IllegalArgumentException(USAGE_FOR_POSTING +". Longitude/latitude is require, tweet can't be blank");
         }
         Double lat = null;
@@ -82,12 +84,12 @@ public class TwitterController implements Controller {
         String[] fields = {};
         if (args.length == 3) {
             field = args[2];
-            if (field.isEmpty() || field.isBlank()) {
+            if (field.isEmpty()) {
                 throw new IllegalArgumentException(USAGE_FOR_SHOWING);
             }
             fields = field.split(COMMA);
         }
-        if (id.isEmpty() || id.isBlank()) {throw new IllegalArgumentException(USAGE_FOR_SHOWING);}
+        if (id.isEmpty()) {throw new IllegalArgumentException(USAGE_FOR_SHOWING);}
         Tweet response = service.showTweet(id, fields);
         if (response == null) {
             throw new IllegalArgumentException(USAGE_FOR_SHOWING);
