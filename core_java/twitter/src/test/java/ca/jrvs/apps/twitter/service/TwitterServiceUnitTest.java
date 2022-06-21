@@ -5,8 +5,8 @@ import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
 import ca.jrvs.apps.twitter.example.JsonParser;
 import ca.jrvs.apps.twitter.model.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -21,7 +21,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.AdditionalMatchers.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TwitterServiceUnitTest {
@@ -47,7 +46,7 @@ public class TwitterServiceUnitTest {
     private Coordinates x = new Coordinates();
     private List<Double> l = new ArrayList<>();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         post = new Tweet();
         post.setText(text);
@@ -77,7 +76,7 @@ public class TwitterServiceUnitTest {
         post.setCreated_at(String.valueOf(time));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void post_tweet_valid() throws IOException {
         String tweetJsonStr = "{\n"
                 + "   \"created_at\":\"Wed Jun 15 16:00:51 +0000 2022\",\n"
@@ -118,7 +117,7 @@ public class TwitterServiceUnitTest {
         assertNotNull(output);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void post_tweet_invalidChar() {
         String s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
@@ -128,7 +127,7 @@ public class TwitterServiceUnitTest {
         assertEquals(t,null);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void post_tweet_invalidCoordinateRange() {
         x = new Coordinates();
         l = new ArrayList<>();
@@ -139,7 +138,7 @@ public class TwitterServiceUnitTest {
         assertEquals(t,null);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void show_tweet_valid() {
         String [] fields = new String[] {"created_at","id","id_str","text"};
         when(mockHelper.httpPost(isNotNull())).thenReturn(null);
@@ -196,7 +195,7 @@ public class TwitterServiceUnitTest {
         assertEquals(1,output.size());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void delete_tweets_valid() {
         String[]ids = new String[2];
         String newId = "1118877780456497156";

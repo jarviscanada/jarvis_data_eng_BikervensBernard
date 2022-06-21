@@ -7,28 +7,28 @@ public interface Controller {
     /**
      * Parse user argument and post a tweet by calling service classes
      *
-     * @param args
+     * @param args USAGE: [TwitterApp] post "text" "latitude:longitude"
      * @return a posted tweet
      * @throws IllegalArgumentException if args are invalid
      */
-    Tweet postTweet(String[] args);
+    Tweet postTweet(String[] args) throws IllegalArgumentException;
 
     /**
      * Parse user argument and search a tweet by calling service classes
      *
-     * @param args
+     * @param args USAGE: [TwitterApp] show tweet_id "field1,fields2,..."
      * @return a tweet
      * @throws IllegalArgumentException if args are invalid
      */
-    Tweet showTweet(String[] args);
+    Tweet showTweet(String[] args) throws IllegalArgumentException;
 
     /**
      * Parse user argument and delete tweets by calling service classes
      *
-     * @param args
+     * @param args USAGE: [TwitterApp] delete "id1,id2,..."
      * @return a list of deleted tweets
      * @throws IllegalArgumentException if args are invalid
      */
-    List<Tweet> deleteTweet(String[] args);
+    List<Tweet> deleteTweet(String[] args) throws IllegalArgumentException;
 
 }
