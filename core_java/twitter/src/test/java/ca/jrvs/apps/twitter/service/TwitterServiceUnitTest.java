@@ -136,7 +136,7 @@ public class TwitterServiceUnitTest {
         l = new ArrayList<>();
         l.add(Double.valueOf(9999));l.add(99999.0);
         x.setCoordinates(l);
-        post.setCoordinates(x);
+cd         post.setCoordinates(x);
 
         //instantiate dao with mock
         TwitterDAO dao = new TwitterDAO(mockHelper);
