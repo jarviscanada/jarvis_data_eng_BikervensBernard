@@ -1,19 +1,18 @@
 package ca.jrvs.apps.twitter.controller;
 
 import ca.jrvs.apps.twitter.dao.TwitterDAO;
-import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
-import ca.jrvs.apps.twitter.model.*;
+import ca.jrvs.apps.twitter.model.Coordinates;
+import ca.jrvs.apps.twitter.model.Tweet;
 import ca.jrvs.apps.twitter.service.TwitterService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.core.annotation.Order;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TwitterControllerIntTest{
 

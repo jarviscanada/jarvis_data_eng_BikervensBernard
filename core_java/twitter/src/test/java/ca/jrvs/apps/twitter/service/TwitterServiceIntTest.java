@@ -4,8 +4,8 @@ import ca.jrvs.apps.twitter.dao.TwitterDAO;
 import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
 import ca.jrvs.apps.twitter.model.*;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.core.annotation.Order;
 
 import java.math.BigInteger;
@@ -40,7 +40,7 @@ public class TwitterServiceIntTest{
     private Coordinates x = new Coordinates();
     private List<Double> l = new ArrayList<>();
 
-    @BeforeEach
+    @Before
     public void setUp() {
         post = new Tweet();
         post.setText(text);
@@ -78,7 +78,7 @@ public class TwitterServiceIntTest{
         this.id = responseTweet.getIdStr();
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @Order(2)
     public void showTweet() {
         String [] fields = new String[] {"created_at","id","id_str","text"};
@@ -102,7 +102,7 @@ public class TwitterServiceIntTest{
         assertTrue(tweet.getRetweeted() == null);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @Order(3)
     public void deleteTweets() {
         List<Tweet> tweets = service.deleteTweets(new String [] {id});

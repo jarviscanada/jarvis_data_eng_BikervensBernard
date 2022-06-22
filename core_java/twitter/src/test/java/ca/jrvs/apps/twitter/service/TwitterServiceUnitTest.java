@@ -5,9 +5,10 @@ import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
 import ca.jrvs.apps.twitter.example.JsonParser;
 import ca.jrvs.apps.twitter.model.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -27,15 +28,11 @@ public class TwitterServiceUnitTest {
     private static String id = "1538873580456497156";
     private Tweet post ;
     private static long time = System.currentTimeMillis();
-    String CONSUMER_KEY = System.getenv("consumerKey");
-    String CONSUMER_SECRET = System.getenv("consumerSecret");
-    String ACCESS_TOKEN = System.getenv("accessToken");
-    String TOKEN_SECRET = System.getenv("tokenSecret");
+
+    // Mock http and spy on dao
     @Mock
-    HttpHelper mockHelper = new TwitterHttpHelper(
-            CONSUMER_KEY,CONSUMER_SECRET,
-            ACCESS_TOKEN,TOKEN_SECRET
-    );
+    HttpHelper mockHelper = new TwitterHttpHelper(null,null,null,null);
+    @InjectMocks
     private TwitterService service = new TwitterService(new TwitterDAO(mockHelper));
     private String hashtag = "#testing #twitterapi";
     private String at = "jack";
@@ -46,7 +43,7 @@ public class TwitterServiceUnitTest {
     private Coordinates x = new Coordinates();
     private List<Double> l = new ArrayList<>();
 
-    @BeforeEach
+    @Before
     public void setUp() {
         post = new Tweet();
         post.setText(text);
@@ -76,7 +73,7 @@ public class TwitterServiceUnitTest {
         post.setCreated_at(String.valueOf(time));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void post_tweet_valid() throws IOException {
         String tweetJsonStr = "{\n"
                 + "   \"created_at\":\"Wed Jun 15 16:00:51 +0000 2022\",\n"
@@ -102,49 +99,61 @@ public class TwitterServiceUnitTest {
 
         //instantiate dao with mock
         TwitterDAO dao = new TwitterDAO(mockHelper);
-        //create a spy of instantiated dao (dao was instantiated with mockHelper)
+        //create a spy
         TwitterDAO spyDao = Mockito.spy(dao);
-        //correct output as expectedTweet
+        service = new TwitterService(spyDao);
+
         Tweet expectedTweetFromJson = JsonParser.toObjectFromJson(tweetJsonStr, Tweet.class);
 
-        //mock returns null and do nothing when httpPost is called
-        when(mockHelper.httpPost(isNotNull())).thenReturn(null);
         /* create() is called on spy -> httpPost() is called in create() and returns null ->
            parseResponse() is called on spy and returns the correct output as expectedTweet */
         doReturn(expectedTweetFromJson).when(spyDao).parseResponse(any(),eq(200));
         Tweet output = service.postTweet(post);
-        //code 200 is enough to assert "tweet creation"
         assertNotNull(output);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void post_tweet_invalidChar() {
         String s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         post.setText(s);
+
+        //instantiate dao with mock
+        TwitterDAO dao = new TwitterDAO(mockHelper);
+        //spy on actual dao methods
+        TwitterDAO spyDao = Mockito.spy(dao);
+        service = new TwitterService(spyDao);
+        lenient().doReturn(null).when(spyDao).create(notNull());
+
         Tweet t = service.postTweet(post);
         assertEquals(t,null);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void post_tweet_invalidCoordinateRange() {
         x = new Coordinates();
         l = new ArrayList<>();
         l.add(Double.valueOf(9999));l.add(99999.0);
         x.setCoordinates(l);
         post.setCoordinates(x);
+
+        //instantiate dao with mock
+        TwitterDAO dao = new TwitterDAO(mockHelper);
+        //spy on actual dao methods
+        TwitterDAO spyDao = Mockito.spy(dao);
+        service = new TwitterService(spyDao);
+        lenient().doReturn(null).when(spyDao).create(notNull());
+
         Tweet t = service.postTweet(post);
         assertEquals(t,null);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void show_tweet_valid() {
         String [] fields = new String[] {"created_at","id","id_str","text"};
-        when(mockHelper.httpPost(isNotNull())).thenReturn(null);
         TwitterDAO spyDao = Mockito.spy(new TwitterDAO(mockHelper));
 
-        doReturn(new Tweet()).when(spyDao).parseResponse(any(),any());
         doReturn(post).when(spyDao).findById(eq(id));
         service = new TwitterService(spyDao);
 
@@ -166,6 +175,14 @@ public class TwitterServiceUnitTest {
     public void show_tweet_invalidFields() {
         String invalidField = "password";
         String [] fields = new String[] {invalidField,"id","id_str","text"};
+
+        //instantiate dao with mock
+        TwitterDAO dao = new TwitterDAO(mockHelper);
+        //spy on actual dao methods
+        TwitterDAO spyDao = Mockito.spy(dao);
+        service = new TwitterService(spyDao);
+        doReturn(null).when(spyDao).findById(eq(id));
+
         Tweet tweet = service.showTweet(id, fields);
         assertEquals(tweet,null);
     }
@@ -173,6 +190,14 @@ public class TwitterServiceUnitTest {
     @Test
     public void show_tweet_invalidId() {
         String [] fields = new String[] {"id","id_str","text"};
+
+        //instantiate dao with mock
+        TwitterDAO dao = new TwitterDAO(mockHelper);
+        //spy on actual dao methods
+        TwitterDAO spyDao = Mockito.spy(dao);
+        service = new TwitterService(spyDao);
+        lenient().doReturn(null).when(spyDao).findById(eq(id));
+
         Tweet tweet = service.showTweet("1", fields);
         assertEquals(tweet,null);
     }
@@ -186,8 +211,6 @@ public class TwitterServiceUnitTest {
         newPost.setIdStr(newId);
 
         TwitterDAO spyDao = Mockito.spy(new TwitterDAO(mockHelper));
-        when(mockHelper.httpPost(isNotNull())).thenReturn(null);
-        doReturn(new Tweet()).when(spyDao).parseResponse(any(),any());
         doReturn(post).when(spyDao).findById(eq(id));
         doReturn(post).when(spyDao).deleteById(eq(id));
         service = new TwitterService(spyDao);
@@ -195,7 +218,7 @@ public class TwitterServiceUnitTest {
         assertEquals(1,output.size());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void delete_tweets_valid() {
         String[]ids = new String[2];
         String newId = "1118877780456497156";
@@ -209,8 +232,6 @@ public class TwitterServiceUnitTest {
         TwitterDAO spyDao = Mockito.spy(dao);
         service = new TwitterService(spyDao);
 
-        when(mockHelper.httpPost(isNotNull())).thenReturn(null);
-        doReturn(new Tweet()).when(spyDao).parseResponse(any(),any());
         doReturn(post).when(spyDao).findById(eq(id));
         doReturn(post).when(spyDao).deleteById(eq(id));
         doReturn(newPost).when(spyDao).findById(eq(newId));

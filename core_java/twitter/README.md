@@ -83,35 +83,35 @@ The TwitterCLIApp specifically creates instances of the classes `TwitterHelper`,
 
 ## Componenta(app/main, controller, service, DAO)
 
-- **[`TwitterDao`](./src/main/java/ca/jrvs/apps/twitter/dao/TwitterDAO.java)**: 
-DAO layer classes only handle data with external storage, such as REST APIs. 
-In this implementation TwitterDao contains methods to CR*D tweet. It communicates directly to twitter's api with the help of HttpHelper.
-It also parse the http response into a Tweet object (model)
+- **[`TwitterDao`](./src/main/java/ca/jrvs/apps/twitter/dao/TwitterDAO.java)**:
+  DAO layer classes only handle data with external storage, such as REST APIs.
+  In this implementation TwitterDao contains methods to CR*D tweet. It communicates directly to twitter's api with the help of HttpHelper.
+  It also parse the http response into a Tweet object (model)
 
-- **[`TwitterHttpHelper`](./src/main/java/ca/jrvs/apps/twitter/dao/helper/TwitterHttpHelper.java)**: 
-sends Http post and Http get request using oauth.signpost and org.apache.http.client library.
-- **[`TwitterService`](./src/main/java/ca/jrvs/apps/twitter/service/TwitterService.java)**: 
-The service layer classes handled the business logic of the application. In this app, although business logic is very simple, 
-it usually very completed (most codes are about business logic).
+- **[`TwitterHttpHelper`](./src/main/java/ca/jrvs/apps/twitter/dao/helper/TwitterHttpHelper.java)**:
+  sends Http post and Http get request using oauth.signpost and org.apache.http.client library.
+- **[`TwitterService`](./src/main/java/ca/jrvs/apps/twitter/service/TwitterService.java)**:
+  The service layer classes handled the business logic of the application. In this app, although business logic is very simple,
+  it usually very completed (most codes are about business logic).
 
   - **Business logic:**
 
     - When you post a tweet, the service layer is responsible to check if the tweet text exceeds 140 characters and if lon/lat is out of range.
     - When you search for a Tweet, you need to check if user input IDs are in the correct format.
 - **[`TwitterController`](./src/main/java/ca/jrvs/apps/twitter/controller/TwitterController.java)**:
-This layer consumes user input (args in this app) and calls the corresponding service layer method. 
-It does not handle any business logic.
+  This layer consumes user input (args in this app) and calls the corresponding service layer method.
+  It does not handle any business logic.
 - **[`TwitterCliApp`](./src/main/java/ca/jrvs/apps/twitter/spring/TwitterCLISpringBoot.java)**:
-TwitterCLIApp with SpringBoot. The app's entry point. Spring Boot is basically an extension of the Spring framework 
-which eliminated the boilerplate configurations required for setting up a Spring application. 
-In addition, Spring Boot also comes with a default web servlet. 
-@SpringBootApplication is a composition of multiple annotations which help you to configure Spring automatically. 
-This is out of scope for this project. For now, you need to know this defines a SpringBoot app
-    
+  TwitterCLIApp with SpringBoot. The app's entry point. Spring Boot is basically an extension of the Spring framework
+  which eliminated the boilerplate configurations required for setting up a Spring application.
+  In addition, Spring Boot also comes with a default web servlet.
+  @SpringBootApplication is a composition of multiple annotations which help you to configure Spring automatically.
+  This is out of scope for this project. For now, you need to know this defines a SpringBoot app
+
 ## Models
-Models are implemented with POJOs which is a class with private member variables and public getter and setters. 
-This class encapsulates **simplified** Tweet data ([Tweet Objects](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/intro-to-tweet-json)) 
-which often display in {} JSON format. 
+Models are implemented with POJOs which is a class with private member variables and public getter and setters.
+This class encapsulates **simplified** Tweet data ([Tweet Objects](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/intro-to-tweet-json))
+which often display in {} JSON format.
 In this application, we use the same Tweet model as Data Transfer Model (or DTO) and Data access model (or domain model).
 The simplified model goes at follow:
 
@@ -139,16 +139,16 @@ With Spring, you can define the relationship between dependencies (e.g., Twitter
 and the IoC container will automatically construct all components and dependencies in the appropriate sequence and set everything
 up for you. The TwitterCLIApp.run() method, for instance, can thus be easily executed.
 In the Spring framework, there are two most fundamental components, IoC container, and Beans.
-The components/dependencies are call Beans in the Spring world. 
+The components/dependencies are call Beans in the Spring world.
 In other words, if a component/class/object is created/managed by an IoC container, it's a bean.
-In TwitterCLIApp, `TwitterController`, `TwitterService`, `TwitterDao`, and `TwitterHttpHelper` are Beans 
-since they care created by the `main` method which is the IoC container. 
+In TwitterCLIApp, `TwitterController`, `TwitterService`, `TwitterDao`, and `TwitterHttpHelper` are Beans
+since they care created by the `main` method which is the IoC container.
 Models are not Beans since they are not managed by the `main` method.
-Spring Framework implementation of the Inversion of Control (IoC) principle is a process whereby objects define their dependencies only through constructor arguments. 
+Spring Framework implementation of the Inversion of Control (IoC) principle is a process whereby objects define their dependencies only through constructor arguments.
 The IoC container then injects those dependencies when it creates the bean.
 
 # Test
-The app was tested using JUnit and Mockito. 
+The app was tested using JUnit and Mockito.
 JUnit was used for integration testing and unit testing for `TwitterController`, `TwitterService`, `TwitterDao`.
 
 ## Deployment
