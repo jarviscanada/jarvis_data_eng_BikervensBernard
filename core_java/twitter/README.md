@@ -15,7 +15,8 @@ jar -tf target/java_apps-1.0-SNAPSHOT.jar
 
 ## How to build the app with Docker
 ```bash
-cd core_java/twitter
+git clone https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard.git
+cd ./jarviscanada/jarvis_data_eng_BikervensBernard/core_java/twitter
 docker_user=[docker_user]
 docker login -u ${docker_user}
 #Create dockerfile (make sure you understand all commands)
