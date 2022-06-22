@@ -4,7 +4,9 @@ Using Twitter's REST API v1, this project intends to provide a backend that can 
 # Quick Start
 ## How to package the app using Maven
 ```bash
-cd core_java/grep
+git clone https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard.git
+cd ./jarviscanada/jarvis_data_eng_BikervensBernard/core_java/twitter
+
 #compile and package your Java code
 mvn clean compile package #same as mvn clean package
 #inspect compiled bytecode/.class files
@@ -17,6 +19,7 @@ jar -tf target/java_apps-1.0-SNAPSHOT.jar
 ```bash
 git clone https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard.git
 cd ./jarviscanada/jarvis_data_eng_BikervensBernard/core_java/twitter
+
 docker_user=[docker_user]
 docker login -u ${docker_user}
 #Create dockerfile (make sure you understand all commands)
@@ -150,7 +153,9 @@ JUnit was used for integration testing and unit testing for `TwitterController`,
 
 ## Deployment
 ```bash
+#go to core_java/twitter given your curent directory
 cd core_java/twitter
+
 docker_user=[docker_user]
 docker login -u ${docker_user} 
 #Create dockerfile (make sure you understand all commands)
