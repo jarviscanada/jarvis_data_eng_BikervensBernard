@@ -2,11 +2,13 @@ package ca.jrvs.apps.twitter.service;
 
 import ca.jrvs.apps.twitter.dao.TwitterDAO;
 import ca.jrvs.apps.twitter.model.Tweet;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+@org.springframework.stereotype.Service
 public class TwitterService implements Service{
 
     private TwitterDAO dao;
@@ -15,7 +17,7 @@ public class TwitterService implements Service{
     private final static int LAT_INDEX = 0;
     private final static Double LAT_RANGE = 90.0;
     private final static Double LON_RANGE = 180.0;
-
+    @Autowired
     public TwitterService(TwitterDAO dao) {
         this.dao = dao;
     }
