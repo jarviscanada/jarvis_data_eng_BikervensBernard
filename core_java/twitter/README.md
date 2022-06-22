@@ -129,15 +129,15 @@ The simplified model goes at follow:
 | `retweeted`      | Boolean    | Indicates whether this Tweet has been Retweeted by the authenticating user.                  |
 
 ## Spring
-The app inject required dependencies via constructors. In this TwitterCLIApp, we used the main method to 
-instantiate all components and set up the dependency relationship manually. 
-Although it may work for a simple project, it will become extremely hard to manage when you have dozens of 
-components and each one requires more than one dependency. 
-(it's very normal for an application to have multiple controllers, services, and DAOs).
-Spring framework you manage all dependencies (it will replace your main method in your TwitterCLIApp).
-With spring you defining the dependency relationship (e.g. TwitterHttpHelper is a dependency of TwitterDAO), 
-and IoC container will automatically create all components/dependencies in the correct order and set up everything for you. 
-Then you can simply run your all (e.g. TwitterCLIApp.run() method).
+The app uses constructors to insert any necessary dependencies.
+We manually set up the dependency relationship and instantiated each component
+in this TwitterCLIApp using the main method. It might work for a simple
+project, but when you have multiple components, each of which has multiple dependencies,
+it becomes quite difficult to manage (Multiple controllers, services, and DAOs are common in applications).
+All dependencies are managed by the spring framework (it will replace your main method in your TwitterCLIApp).
+With Spring, you can define the relationship between dependencies (e.g., TwitterHttpHelper is a dependent of TwitterDAO),
+and the IoC container will automatically construct all components and dependencies in the appropriate sequence and set everything
+up for you. The TwitterCLIApp.run() method, for instance, can thus be easily executed.
 In the Spring framework, there are two most fundamental components, IoC container, and Beans.
 The components/dependencies are call Beans in the Spring world. 
 In other words, if a component/class/object is created/managed by an IoC container, it's a bean.
