@@ -17,8 +17,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,6 +28,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class TwitterDAOUnitTest {
 
+    // Mock http
     @Mock
     private HttpHelper mockHelper;
     @InjectMocks
@@ -35,7 +36,7 @@ public class TwitterDAOUnitTest {
     private Tweet createdTweet;
     private long time = System.currentTimeMillis();
 
-    @BeforeEach
+    @Before
     public void buildTweet() {
         createdTweet = new Tweet();
 

@@ -2,9 +2,12 @@ package ca.jrvs.apps.twitter.dao;
 
 import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
-import ca.jrvs.apps.twitter.model.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import ca.jrvs.apps.twitter.model.Coordinates;
+import ca.jrvs.apps.twitter.model.Entities;
+import ca.jrvs.apps.twitter.model.Hashtag;
+import ca.jrvs.apps.twitter.model.Tweet;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.core.annotation.Order;
 
 import java.math.BigInteger;
@@ -33,7 +36,7 @@ public class TwitterDAOIntTest{
     private Coordinates x = new Coordinates();
     private List<Double> l = new ArrayList<>();
 
-    @BeforeEach
+    @Before
     public void setup() {
         post = new Tweet();
         post.setText(text);

@@ -4,7 +4,9 @@ Using Twitter's REST API v1, this project intends to provide a backend that can 
 # Quick Start
 ## How to package the app using Maven
 ```bash
-cd core_java/grep
+git clone https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard.git
+cd ./jarviscanada/jarvis_data_eng_BikervensBernard/core_java/twitter
+
 #compile and package your Java code
 mvn clean compile package #same as mvn clean package
 #inspect compiled bytecode/.class files
@@ -15,7 +17,9 @@ jar -tf target/java_apps-1.0-SNAPSHOT.jar
 
 ## How to build the app with Docker
 ```bash
-cd core_java/twitter
+git clone https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard.git
+cd ./jarviscanada/jarvis_data_eng_BikervensBernard/core_java/twitter
+
 docker_user=[docker_user]
 docker login -u ${docker_user}
 #Create dockerfile (make sure you understand all commands)
@@ -79,35 +83,35 @@ The TwitterCLIApp specifically creates instances of the classes `TwitterHelper`,
 
 ## Componenta(app/main, controller, service, DAO)
 
-- **[`TwitterDao`](./src/main/java/ca/jrvs/apps/twitter/dao/TwitterDAO.java)**: 
-DAO layer classes only handle data with external storage, such as REST APIs. 
-In this implementation TwitterDao contains methods to CR*D tweet. It communicates directly to twitter's api with the help of HttpHelper.
-It also parse the http response into a Tweet object (model)
+- **[`TwitterDao`](./src/main/java/ca/jrvs/apps/twitter/dao/TwitterDAO.java)**:
+  DAO layer classes only handle data with external storage, such as REST APIs.
+  In this implementation TwitterDao contains methods to CR*D tweet. It communicates directly to twitter's api with the help of HttpHelper.
+  It also parse the http response into a Tweet object (model)
 
-- **[`TwitterHttpHelper`](./src/main/java/ca/jrvs/apps/twitter/dao/helper/TwitterHttpHelper.java)**: 
-sends Http post and Http get request using oauth.signpost and org.apache.http.client library.
-- **[`TwitterService`](./src/main/java/ca/jrvs/apps/twitter/service/TwitterService.java)**: 
-The service layer classes handled the business logic of the application. In this app, although business logic is very simple, 
-it usually very completed (most codes are about business logic).
+- **[`TwitterHttpHelper`](./src/main/java/ca/jrvs/apps/twitter/dao/helper/TwitterHttpHelper.java)**:
+  sends Http post and Http get request using oauth.signpost and org.apache.http.client library.
+- **[`TwitterService`](./src/main/java/ca/jrvs/apps/twitter/service/TwitterService.java)**:
+  The service layer classes handled the business logic of the application. In this app, although business logic is very simple,
+  it usually very completed (most codes are about business logic).
 
   - **Business logic:**
 
     - When you post a tweet, the service layer is responsible to check if the tweet text exceeds 140 characters and if lon/lat is out of range.
     - When you search for a Tweet, you need to check if user input IDs are in the correct format.
 - **[`TwitterController`](./src/main/java/ca/jrvs/apps/twitter/controller/TwitterController.java)**:
-This layer consumes user input (args in this app) and calls the corresponding service layer method. 
-It does not handle any business logic.
+  This layer consumes user input (args in this app) and calls the corresponding service layer method.
+  It does not handle any business logic.
 - **[`TwitterCliApp`](./src/main/java/ca/jrvs/apps/twitter/spring/TwitterCLISpringBoot.java)**:
-TwitterCLIApp with SpringBoot. The app's entry point. Spring Boot is basically an extension of the Spring framework 
-which eliminated the boilerplate configurations required for setting up a Spring application. 
-In addition, Spring Boot also comes with a default web servlet. 
-@SpringBootApplication is a composition of multiple annotations which help you to configure Spring automatically. 
-This is out of scope for this project. For now, you need to know this defines a SpringBoot app
-    
+  TwitterCLIApp with SpringBoot. The app's entry point. Spring Boot is basically an extension of the Spring framework
+  which eliminated the boilerplate configurations required for setting up a Spring application.
+  In addition, Spring Boot also comes with a default web servlet.
+  @SpringBootApplication is a composition of multiple annotations which help you to configure Spring automatically.
+  This is out of scope for this project. For now, you need to know this defines a SpringBoot app
+
 ## Models
-Models are implemented with POJOs which is a class with private member variables and public getter and setters. 
-This class encapsulates **simplified** Tweet data ([Tweet Objects](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/intro-to-tweet-json)) 
-which often display in {} JSON format. 
+Models are implemented with POJOs which is a class with private member variables and public getter and setters.
+This class encapsulates **simplified** Tweet data ([Tweet Objects](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/intro-to-tweet-json))
+which often display in {} JSON format.
 In this application, we use the same Tweet model as Data Transfer Model (or DTO) and Data access model (or domain model).
 The simplified model goes at follow:
 
@@ -125,31 +129,33 @@ The simplified model goes at follow:
 | `retweeted`      | Boolean    | Indicates whether this Tweet has been Retweeted by the authenticating user.                  |
 
 ## Spring
-The app inject required dependencies via constructors. In this TwitterCLIApp, we used the main method to 
-instantiate all components and set up the dependency relationship manually. 
-Although it may work for a simple project, it will become extremely hard to manage when you have dozens of 
-components and each one requires more than one dependency. 
-(it's very normal for an application to have multiple controllers, services, and DAOs).
-Spring framework you manage all dependencies (it will replace your main method in your TwitterCLIApp).
-With spring you defining the dependency relationship (e.g. TwitterHttpHelper is a dependency of TwitterDAO), 
-and IoC container will automatically create all components/dependencies in the correct order and set up everything for you. 
-Then you can simply run your all (e.g. TwitterCLIApp.run() method).
+The app uses constructors to insert any necessary dependencies.
+We manually set up the dependency relationship and instantiated each component
+in this TwitterCLIApp using the main method. It might work for a simple
+project, but when you have multiple components, each of which has multiple dependencies,
+it becomes quite difficult to manage (Multiple controllers, services, and DAOs are common in applications).
+All dependencies are managed by the spring framework (it will replace your main method in your TwitterCLIApp).
+With Spring, you can define the relationship between dependencies (e.g., TwitterHttpHelper is a dependent of TwitterDAO),
+and the IoC container will automatically construct all components and dependencies in the appropriate sequence and set everything
+up for you. The TwitterCLIApp.run() method, for instance, can thus be easily executed.
 In the Spring framework, there are two most fundamental components, IoC container, and Beans.
-The components/dependencies are call Beans in the Spring world. 
+The components/dependencies are call Beans in the Spring world.
 In other words, if a component/class/object is created/managed by an IoC container, it's a bean.
-In TwitterCLIApp, `TwitterController`, `TwitterService`, `TwitterDao`, and `TwitterHttpHelper` are Beans 
-since they care created by the `main` method which is the IoC container. 
+In TwitterCLIApp, `TwitterController`, `TwitterService`, `TwitterDao`, and `TwitterHttpHelper` are Beans
+since they care created by the `main` method which is the IoC container.
 Models are not Beans since they are not managed by the `main` method.
-Spring Framework implementation of the Inversion of Control (IoC) principle is a process whereby objects define their dependencies only through constructor arguments. 
+Spring Framework implementation of the Inversion of Control (IoC) principle is a process whereby objects define their dependencies only through constructor arguments.
 The IoC container then injects those dependencies when it creates the bean.
 
 # Test
-The app was tested using JUnit and Mockito. 
+The app was tested using JUnit and Mockito.
 JUnit was used for integration testing and unit testing for `TwitterController`, `TwitterService`, `TwitterDao`.
 
 ## Deployment
 ```bash
+#go to core_java/twitter given your curent directory
 cd core_java/twitter
+
 docker_user=[docker_user]
 docker login -u ${docker_user} 
 #Create dockerfile (make sure you understand all commands)
