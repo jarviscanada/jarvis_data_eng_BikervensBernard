@@ -1,12 +1,12 @@
 # Bikervens Bernard . Jarvis Consulting
 
-My name is Bernard, and I'm a software developer. My job is to design computer applications or programs. I do this by building a complex architecture in an array of different technologies based on current needs. I design, implement, test and deploy modern solutions to everyday technological concerns. I went on to complete a 3-year DEC degree in computer science technology (software development) at Maisonneuve College in Montreal I am very passionate about technology and software development because it has allowed me to express my creativity while resolving my need to always learn and work and solve problems. It started from myspace.com allowing me as a kid to edit basic HTML/CSS. It was an amazing feeling to be able to express my creativity in such a medium and this is why now I'm very passionate about this industry.
+My name is Bernard, and I'm a software developer. My job is to design computer applications or programs. I do this by building a complex architecture in an array of different technologies based on current needs. I design, implement, test and deploy modern solutions to everyday technological concerns. I went on to complete a 3-year DEC degree in computer science technology (software development) at Maisonneuve College in Montreal I am very passionate about technology and software development because it has allowed me to express my creativity while resolving my need to always learn and work and solve problems. It started from myspace.com allowing me as a kid to edit basic HTML/CSS. It was an amazing feeling to be able to express my creativity in this way and this is why now I'm very passionate about this industry.
 
 ## Skills
 
-**Proficient:** Java, Linux/Bash, RDBMS and non RDBMS such as MongoDB, Agile/Scrum, Git, Vue.js/Node.js
+**Proficient:** Java (OOP), Linux | Bash, RDBMS and non RDBMS such as MongoDB and SQL, Agile approach, Scrum framework, Github version control system, Vue.js | Node.js
 
-**Competent:** HTML/CSS, .NET framework C#/selenium, Docker, JavaScript, Graphql
+**Competent:** HTML | CSS, .NET framework C# | selenium, Docker, JavaScript, Graphql
 
 **Familiar:** React, AWS, Firebase, C++, Android studio
 
@@ -19,11 +19,11 @@ Project source code: [https://github.com/jarviscanada/jarvis_data_eng_BikervensB
 
 **Core Java Apps** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/core_java)]:
       
-  - Twitter App: Developed a Java app which can post/show/delete Twitter post via Twitter REST API
+  - Twitter App: Developed a Java app which can post|show|delete Twitter post via Twitter REST API
   - JDBC App: Developed a Java tool with JDBC to get data into and out of an application (using any relational database)
   - Grep App: Developed a simple grep app in Java. The app searches for a text pattern recursively in a given directory, and output matched lines to a file
 
-**Springboot App** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/springboot)]: Not started
+**Springboot App** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/springboot)]: Developed a trading system with the microservice architecture and Springboot framework. Since this is a PoC (proof of concept), I did not need to deal with the real banking or exchange systems. This PoC project focuses on features (e.g. functionalities, and feasibilities) rather than performance and security. The trading platform is a REST API consumed by the front-end applications. The application allows users to manage client profiles and accounts, monitor portfolio performance, and trade securities. The Springboot app fetches data from IEX Cloud which offers free market data (e.g. stock price) via its REST API. 
 
 **Python Data Analytics** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/python_data_anlytics)]: Not started
 
@@ -35,11 +35,11 @@ Project source code: [https://github.com/jarviscanada/jarvis_data_eng_BikervensB
 
 
 ## Highlighted Projects
-**Go game**: Implemented a Go game (an abstract strategy board game for two players in which the aim is to surround more territory than the opponent) in java while using jSwing widget toolkit for the GUI
+**Go game (Education)**: Implemented a Go game (an abstract strategy board game for two players in which the aim is to surround more territory than the opponent) in java while using jSwing widget toolkit for the GUI
 
-**Schedule planing**: Implemented a c# api to retrieve access to the ministry of education's course descriptions and requirements in order to help teachers from Maisonneuve college build each semester's syllabus. A document that communicates information about a specific academic course or class and defines expectations and responsibilities was generated and downloadable. The application was available via the school's portal and the api was used for the mobile app as well.
+**Schedule planing**: Implemented a c# api to access to the ministry of education's course descriptions and requirements in order to help teachers from Maisonneuve college build each semester's syllabus. A document that communicates information about a specific academic course or class and defines expectations and responsibilities was generated and downloadable. The application was available via the school's portal and the api was used for the mobile app as well.
 
-**TikTok Clone**: Implemented a TikTok clone to help viewers watch and discover millions of personalized short videos. The video hosting was made using amazon web services and the client side was developed using my web framework of choice, Vue.js and deployed using vercel.com The back-end was fully made in javascript using tool like Node.js for the server and graphql and mongodb for the database. The goal was mostly to show how I as a Developer would implement a huge architecture like tiktok and how i would use OOP to implement different design pattern to roll out an engaging algorithm.
+**TikTok Clone (PoC)**: Implemented a TikTok clone to help viewers watch and discover a multitude of personalized short videos. The video hosting was made using amazon web services and the client side was developed using my web framework of choice, Vue.js and deployed using vercel.com The back-end was fully made in javascript using tool like Node.js for the server and graphql and mongodb fo the database. The goal was mostly to show how I, as a Developer, would implement a huge architecture like tiktok and how i would use OOP to implement different design pattern to roll out an engaging algorithm.
 
 
 ## Professional Experiences
