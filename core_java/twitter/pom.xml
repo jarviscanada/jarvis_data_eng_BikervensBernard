@@ -23,7 +23,7 @@
                             <goal>repackage</goal>
                         </goals>
                         <configuration>
-                            <mainClass>ca.jrvs.apps.twitter.run.TwitterCliApp</mainClass>
+                            <mainClass>ca.jrvs.apps.twitter.spring.TwitterCLISpringBoot</mainClass>
                         </configuration>
                     </execution>
                 </executions>
