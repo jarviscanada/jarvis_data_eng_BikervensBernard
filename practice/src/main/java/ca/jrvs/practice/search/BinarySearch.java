@@ -40,11 +40,11 @@ public class BinarySearch {
     }
 
     /**
-     * find the the target index in a sorted array
+     * find the target index in a sorted array
      *
-     * @param arr input arry is sorted
+     * @param arr input arr (is sorted)
      * @param target value to be searched
-     * @return target index or Optional.empty() if not ound
+     * @return target index or Optional.empty() if not found
      */
     public <E> Optional<Integer> binarySearchIteration(E[] arr, E target) {
         if (arr.length == 0) {return Optional.empty();}
