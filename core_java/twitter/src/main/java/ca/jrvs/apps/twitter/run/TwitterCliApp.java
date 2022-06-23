@@ -62,7 +62,7 @@ public class TwitterCliApp{
 
     private void printTweet(Tweet tweet) {
         try {
-            System.out.println(JsonParser.toJson(tweet, true, true));
+            System.out.println(JsonParser.toJson(tweet, true, false));
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Object to String conversion failed", e);
         }
