@@ -1,4 +1,4 @@
-package ca.jrvs.practice.sort;
+package ca.jrvs.practice.sorting;
 
 public class Quicksort {
 

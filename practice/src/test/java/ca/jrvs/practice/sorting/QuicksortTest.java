@@ -1,10 +1,8 @@
-package ca.jrvs.practice.sort;
+package ca.jrvs.practice.sorting;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
