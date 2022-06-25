@@ -1,5 +1,9 @@
 package ca.jrvs.practice.sorting;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Stack;
+
 public class Mergesort {
     public static void sort(int[] inputArray) {
         int inputLength = inputArray.length;
@@ -19,7 +23,6 @@ public class Mergesort {
         for (int i = midIndex; i < inputLength; i++) {
             rightHalf[i - midIndex] = inputArray[i];
         }
-
         //redo all that until a return because i have 1 element in each array
         sort(leftHalf);
         sort(rightHalf);
