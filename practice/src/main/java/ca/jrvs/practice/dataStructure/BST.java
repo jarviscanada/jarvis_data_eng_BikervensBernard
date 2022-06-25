@@ -7,8 +7,11 @@ import java.util.ArrayList;
 public class BST implements ITree<Node>{
 
     public enum Traversal {IN_ORDER, POST_ORDER, PRE_ORDER}
-    public Node root;
+    private Node root;
 
+    public Node getRoot() {
+        return root;
+    }
     private Node insert(Node current, int data) {
         if (current == null) {return new Node(data);}
         if (data < current.data)  {
@@ -103,16 +106,12 @@ public class BST implements ITree<Node>{
 
     @Override
     public Node getMax(Node current) {
-        if (current.rightChild == null) return current;
-        getMax(current.rightChild);
-        return current;
+        return null;
     }
 
     @Override
     public Node getMin(Node current) {
-        if (current.leftChild == null) return current;
-        getMax(current.leftChild);
-        return current;
+        return null;
     }
 
     @Override
