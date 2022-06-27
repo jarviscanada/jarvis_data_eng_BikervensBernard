@@ -6,6 +6,7 @@ public class Node {
     public Node leftChild;
     public Node rightChild;
     public Node(int value) {data = value;}
+
     public Node(Node l, int value, Node r) {
         data = value;leftChild = l;rightChild = r;
     }
