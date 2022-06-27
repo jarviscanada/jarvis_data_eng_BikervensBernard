@@ -1,0 +1,126 @@
+# Preferred name (Characters only)
+name: "Bikervens Bernard"
+# Your GitHub repo root URL
+github_repo_root_url: https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard
+
+# Introduce yourself, your academic and professional background.
+# What excites you about the software industry and your passion. At least 80 words
+summary: My name is Bernard, and I'm a software developer. My job is to design computer applications or programs. I do this by building a complex architecture in an array of different technologies based on current needs. I design, implement, test and deploy modern solutions to everyday technological concerns. I went on to complete a 3-year DEC degree in computer science technology (software development) at Maisonneuve College in Montreal I am very passionate about technology and software development because it has allowed me to express my creativity while resolving my need to always learn and work and solve problems. It started from myspace.com allowing me as a kid to edit basic HTML/CSS. It was an amazing feeling to be able to express my creativity in this way and this is why now I'm very passionate about this industry.
+
+# Group your skills by level.
+# Your skills can be anything software related (e.g. language, frameworks, methodologies, software, etc.).
+skills:
+  # At least 5 skills
+  proficient:
+    - Java (OOP)
+    - Linux | Bash
+    - RDBMS and non RDBMS such as MongoDB and MySQL
+    - Agile approach
+    - Scrum framework
+    - Github version control system
+    - Vue.js | Node.js
+  # At least 5 skills
+  competent:
+    - HTML | CSS
+    - .NET framework C# | selenium
+    - Docker
+    - JavaScript
+    - Graphql
+  # At least 5 skills
+  familiar:
+    - React
+    - AWS
+    - Firebase
+    - C++
+    - Android studio
+
+# List of Jarvis projects
+jarvis_projects:
+  - name: "Cluster Monitor"
+    git_url: "/linux_sql"
+    # The project description allows hiring managers to understand your project and technologies you used(e.g. programming languages, libraries, algorithms, hardware, tools, etc.).
+    # The project description must start with an action verb (https://bit.ly/3guO98u)
+    description: "Developed a CentOS based Linux node cluster agent. This agent keep track of each node's
+    hardware characteristics and real-time resource utilization (e.g. CPU/Memory) 
+    for future resource planning purposes (e.g. add/remove servers that might be too slow or underused). 
+    The data will be saved in a PostgreSQL relational database management system (RDBMS). The SQL queries 
+    will answer business questions such as 'show average memory usage in percentage over 1 minute intervals for each node'."
+
+  - name: "Core Java Apps"
+    git_url: "/core_java"
+    description:
+      - "Twitter App: Developed a Java app which can post|show|delete Twitter post via Twitter REST API"
+      - "JDBC App: Developed a Java tool with JDBC to get data into and out of an application (using any relational database)"
+      - "Grep App: Developed a simple grep app in Java. The app searches for a text pattern recursively in a given directory, and output matched lines to a file"
+  - name: "Springboot App"
+    git_url: "/springboot"
+    description: "Developed a trading system with the microservice architecture and Springboot framework. 
+    Since this is a PoC (proof of concept), I did not need to deal with the real banking or exchange systems. 
+    This PoC project focuses on features (e.g. functionalities, and feasibilities) rather than performance and security.
+    The trading platform is a REST API consumed by the front-end applications. 
+    The application allows users to manage client profiles and accounts, monitor portfolio performance, and trade securities.
+    The Springboot app fetches data from IEX Cloud which offers free market data (e.g. stock price) via its REST API. "
+  - name: "Python Data Analytics"
+    git_url: "/python_data_anlytics"
+    description: "Not started"
+  - name: "Hadoop"
+    git_url: "/hadoop"
+    description: "Not started"
+  - name: "Spark"
+    git_url: "/spark"
+    description: "Not started"
+  - name: "Cloud/DevOps"
+    git_url: "/cloud_devops"
+    description: "Not started"
+
+# List of personal or academic projects
+# Feel free to add more projects
+highlighted_projects:
+  #project name
+  - name: "Go game (Education)"
+    # The project description must start with an action verb (https://bit.ly/3guO98u)
+    description: Implemented a Go game (an abstract strategy board game for two players in which the aim is to surround more territory than the opponent) in java while using jSwing widget toolkit for the GUI
+  - name: "Schedule planing"
+    # The project description must start with an action verb (https://bit.ly/3guO98u)
+    description: Implemented a c# api to access to the ministry of education's course descriptions and requirements in order to help teachers from Maisonneuve college build each semester's syllabus. A document that communicates information about a specific academic course or class and defines expectations and responsibilities was generated and downloadable. The application was available via the school's portal and the api was used for the mobile app as well.
+  - name: "TikTok Clone (PoC)"
+    # The project description must start with an action verb (https://bit.ly/3guO98u)
+    description: Implemented a TikTok clone to help viewers watch and discover a multitude of personalized short videos. The video hosting was made using amazon web services and the client side was developed using my web framework of choice, Vue.js and deployed using vercel.com The back-end was fully made in javascript using tool like Node.js for the server and graphql and mongodb fo the database. The goal was mostly to show how I, as a Developer, would implement a huge architecture like tiktok and how i would use OOP to implement different design pattern to roll out an engaging algorithm.
+
+#List of professional experience
+#The job description allows hiring managers to understand your job and the technologies you used(e.g. programming languages, libraries, algorithms, hardware, tools, etc.).
+#The description must be more than 25 words. If your experience is not software related, please focus on soft skills and achievements (e.g. team collaboration, problem-solving, improvements, communication).
+professional_experience:
+  #Write your Jarvis role as a professional experience rather than training.
+  - title: "Software Developer"
+    company: "Jarvis"
+    duration: "2021-present"
+    # The project description must start with an action verb (https://bit.ly/3guO98u)
+    description: "Implemented, tested, and deployed a Bash script program using Linux command lines, Bash scripts, a PostgreSQL instance, Git Flow, and Docker using Agile/Scrum methodology. Oversaw daily stand-up meetings (daily scrums), which coordinated and tracked team progress. Managed each aspect of the systems development life cycle (SDLC) architecture."
+  - title: "Test automation specialist"
+    company: "Equisoft"
+    duration: "2020-2021"
+    description: "Developed, maintained created and executed End to End clear and concise functional tests cases using selenium and the .NET framework. for the automation. Extended existing test automation or create new scripts to provide a high level of test coverage across existing functionalities."
+
+#List of edcuation
+education:
+  - school_name: "College Maisonneuve"
+    duration: "2017-2019"
+    degree: "DEC in Computer Science Technology"
+    department: "Social Science & Business Technologies"
+    awards_achievements:
+
+others:
+    #category
+  - title: "Certificates"
+    #list of items
+    bullets:
+      - "French High school Diploma, (Montreal)"
+  - title: "Personal Skills"
+    bullets:
+      - "fluent in French/English"
+  - title: "Activities/Hobbies"
+    bullets:
+      - "Basketball player"
+      - "Competitive gaming"
+
