@@ -1,10 +1,10 @@
 # Bikervens Bernard . Jarvis Consulting
 
-My name is Bernard, and I'm a software developer. My job is to design computer applications or programs. I do this by building a complex architecture in an array of different technologies based on current needs. I design, implement, test and deploy modern solutions to everyday technological concerns. I went on to complete a 3-year DEC degree in computer science technology (software development) at Maisonneuve College in Montreal I am very passionate about technology and software development because it has allowed me to express my creativity while resolving my need to always learn and work and solve problems. It started from myspace.com allowing me as a kid to edit basic HTML/CSS. It was an amazing feeling to be able to express my creativity in this way and this is why now I'm very passionate about this industry.
+My name is Bernard, I completed a 3-year DEC degree in computer science technology (software development) at Maisonneuve College in Montreal and I'm a software developer. My job is to design computer applications or programs. I do this by building a complex architecture in an array of different technologies based on current needs. I design, implement, test and deploy modern solutions to everyday technological concerns. I am very passionate about technology and software development because it has allowed me to express my creativity while meeting my need to always learn and work to solve problems.
 
 ## Skills
 
-**Proficient:** Java (OOP), Linux | Bash, RDBMS and non RDBMS such as MongoDB and SQL, Agile approach, Scrum framework, Github version control system, Vue.js | Node.js
+**Proficient:** Java (OOP), Linux | Bash, RDBMS and non RDBMS such as MongoDB and MySQL, Agile approach, Scrum framework, Github version control system, Vue.js | Node.js
 
 **Competent:** HTML | CSS, .NET framework C# | selenium, Docker, JavaScript, Graphql
 
@@ -20,7 +20,7 @@ Project source code: [https://github.com/jarviscanada/jarvis_data_eng_BikervensB
 **Core Java Apps** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/core_java)]:
       
   - Twitter App: Developed a Java app which can post|show|delete Twitter post via Twitter REST API
-  - JDBC App: Developed a Java tool with JDBC to get data into and out of an application (using any relational database)
+  - JDBC App: Developed a Java tool with JDBC to get data in and out of an application (using any relational database)
   - Grep App: Developed a simple grep app in Java. The app searches for a text pattern recursively in a given directory, and output matched lines to a file
 
 **Springboot App** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/springboot)]: Developed a trading system with the microservice architecture and Springboot framework. Since this is a PoC (proof of concept), I did not need to deal with the real banking or exchange systems. This PoC project focuses on features (e.g. functionalities, and feasibilities) rather than performance and security. The trading platform is a REST API consumed by the front-end applications. The application allows users to manage client profiles and accounts, monitor portfolio performance, and trade securities. The Springboot app fetches data from IEX Cloud which offers free market data (e.g. stock price) via its REST API. 
