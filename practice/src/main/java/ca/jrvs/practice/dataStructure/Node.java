@@ -2,7 +2,7 @@ package ca.jrvs.practice.dataStructure;
 
 public class Node {
     public int data;
-    public int height = 0;
+    public int height = 0;//1
     public Node leftChild;
     public Node rightChild;
     public Node(int value) {data = value;}
