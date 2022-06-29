@@ -7,10 +7,20 @@ import static org.junit.Assert.*;
 public class TwoSumTest{
 
     @Test
-    public void twoSum() {
+    public void twoSum_valid() {
+        assertArrayEquals(new int[] {0,3}, new TwoSum().twoSum(new int[]{8,3,4,1},9));
+    }
+    @Test
+    public void twoSum_invalid() {
+        assertArrayEquals(null, new TwoSum().twoSum(new int[]{3,3,4,1},9));
     }
 
     @Test
-    public void testTwoSum() {
+    public void TwoSumBigO_N_valid() {
+        assertArrayEquals(new int[] {0,3}, new TwoSum().twoSum(new int[]{8,3,4,1},9,0));
+    }
+    @Test
+    public void TwoSumBigO_N_invalid() {
+        assertArrayEquals(null, new TwoSum().twoSum(new int[]{1,3,4,1},9,0));
     }
 }
