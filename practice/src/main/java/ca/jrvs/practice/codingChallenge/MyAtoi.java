@@ -1,6 +1,7 @@
 package ca.jrvs.practice.codingChallenge;
 
-//https://www.notion.so/jarvisdev/String-to-Integer-atoi-6722bcda9b0743fda457cca4a4dc65f2
+// https://www.notion.so/jarvisdev/String-to-Integer-atoi-6722bcda9b0743fda457cca4a4dc65f2
+// https://leetcode.com/problems/string-to-integer-atoi/
 public class MyAtoi{
     /**
      * @Big-O: worst O(n)

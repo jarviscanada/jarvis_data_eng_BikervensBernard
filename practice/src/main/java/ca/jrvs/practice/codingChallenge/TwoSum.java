@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 // https://www.notion.so/jarvisdev/Two-Sum-cb7112f7f8e94f5b883dde972235a3fc
+// https://leetcode.com/problems/two-sum/
 public class TwoSum {
 
     /**
      * Given an array of integers and an integer target, return indices of the two numbers such that they add up to target.
-     *
      * You may assume that each input would have exactly one solution, and you may not use the same element twice.
      * @Big-O: worst O(2n)
      * @Justification: double for loop
@@ -31,15 +31,14 @@ public class TwoSum {
 
     /**
      * Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
-     *
      * You may assume that each input would have exactly one solution, and you may not use the same element twice.
      * @Big-O: worst O(n)
-     * @Justification: double for loop
+     * @Justification: single for loop
      * @param numbers arrays of all possible output
      * @param target number we want to sum to
      * @return array containing solution's index or null if no solution exist
      */
-    public static int[] twoSum(int[] numbers, int target, int empty) {
+    public static int[] twoSum(int[] numbers, int target, String bigoOfN) {
         Map<Integer, Integer> map = new HashMap<Integer, Integer>();
         int[] result = new int[2];
         for (int i = 0; i < numbers.length; i++) {

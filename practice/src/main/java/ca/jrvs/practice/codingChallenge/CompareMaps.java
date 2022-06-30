@@ -21,11 +21,11 @@ public class CompareMaps {
     public static <K,V> boolean compareMaps(Map<K,V> m1, Map<K,V> m2){
         boolean same = true;
 
-        if (m1 == null && m2 == null) {return same;}
+        if (m1 == null && m2 == null) {return true;}
         if (m1 == null && m2 != null) {return false;}
         if (m1 != null && m2 == null) {return false;}
         if (m1.size() != m2.size()) {return false;}
-        if (m1.isEmpty() && m2.isEmpty()) {return same;}
+        if (m1.isEmpty() && m2.isEmpty()) {return true;}
 
         Iterator<Map.Entry<K, V>> iterator = m2.entrySet().iterator();
         for (Map.Entry<K, V> entry: m1.entrySet()) {

@@ -1,7 +1,11 @@
 package ca.jrvs.practice.codingChallenge;
 
 // https://www.notion.so/jarvisdev/Rotate-String-2eba05b2a2344344acdba5e29e4bd8d0
+// https://leetcode.com/problems/rotate-string/
 public class RotateString{
+    /**
+     * @Big-O: O(n)
+     * @Justification: iteration over s arrangement*/
     public static boolean rotateString(String s, String goal) {
         for ( int i = 0; i < s.length(); i++) {
             String f = s.substring(0,i+1);
