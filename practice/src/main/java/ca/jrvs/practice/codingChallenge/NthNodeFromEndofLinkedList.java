@@ -7,7 +7,7 @@ public class NthNodeFromEndofLinkedList{
     /**
      * find the nth Node From End of LinkedList
      * @Big-O: O(n)
-     * @Justification: we create a stack containing element of list by iteration
+     * @Justification: we call method clone() which is the dominating time complexity function
      * @param nth input array is sorted
      * @param list contains elements to be searched
      * @return the value of the nth element in the linkedlist (from the end)

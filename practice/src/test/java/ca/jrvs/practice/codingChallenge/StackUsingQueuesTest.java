@@ -21,4 +21,12 @@ public class StackUsingQueuesTest{
     @Test
     public void empty() {
     }
+
+    @Test
+    public void testPush() {
+    }
+
+    @Test
+    public void testPop() {
+    }
 }

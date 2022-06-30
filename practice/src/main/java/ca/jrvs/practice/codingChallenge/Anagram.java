@@ -2,7 +2,19 @@ package ca.jrvs.practice.codingChallenge;
 
 import java.util.HashMap;
 
+// https://www.notion.so/jarvisdev/Valid-Anagram-738a4bd6c455489d80bf309e0b3364ea
 public class Anagram {
+
+    /**
+     * An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase,
+     * typically using all the original letters exactly once.
+     *
+     * @Big-O: O(n)
+     * @Justification: double for loop
+     * @param s arrays of all possible output
+     * @param t number we want to sum to
+     * @return return true if t is an anagram of s, and false otherwise.
+     */
     public static boolean isAnagram(String s, String t) {
         HashMap<Character,Integer> smap=new HashMap<>();
         int sl=s.length();
