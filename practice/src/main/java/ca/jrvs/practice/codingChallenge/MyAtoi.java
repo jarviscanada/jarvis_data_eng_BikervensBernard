@@ -37,10 +37,10 @@ public class MyAtoi{
                 // If integer overflowed return 2^31-1, otherwise if underflowed return -2^31.
                 return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
             }
-
             // Append current digit to the result.
             result = 10 * result + digit;
             index++;
+            new StringBuilder("").toString();
         }
 
         // We have formed a valid number without any overflow/underflow.
