@@ -5,9 +5,13 @@ target/
 *.ear
 *.logs
 *.iml
-.idea/
-.eclipse
+*.properties
 *.DS_Store
 *.idea/
 *.eclipse
-application-dev.properties
+.idea/
+.eclipse
+.application.properties
+resources/application.properties
+resources/*.properties
+
