@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class QuoteService {
     private static final Logger logger = LoggerFactory.getLogger(QuoteService.class);
     //private QuoteDao quoteDao;
-    //@Autowired
     private MarketDataDao marketDataDao;
 
     @Autowired
