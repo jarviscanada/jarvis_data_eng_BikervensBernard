@@ -7,12 +7,16 @@ import ca.jrvs.apps.trading.service.QuoteService;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
 import javax.sql.DataSource;
 
 @org.springframework.context.annotation.Configuration
 public class AppConfig {
+
+    @Value("${token}")
+    private String apiKey;
 
     //@Bean
     public DataSource dataSource() {
@@ -36,16 +40,16 @@ public class AppConfig {
     public MarketDataConfig marketDataConfig() {
         MarketDataConfig marketDataConfig = new MarketDataConfig();
         marketDataConfig.setHost("https://cloud.iexapis.com/v1/");
-        marketDataConfig.setToken(System.getenv("token"));
+        marketDataConfig.setToken(apiKey);
         return marketDataConfig;
     }
 
     @Bean(name = "httpClientConnectionManager")
     public HttpClientConnectionManager httpClientConnectionManager() {
-        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-        cm.setMaxTotal(50);
-        cm.setDefaultMaxPerRoute(50);
-        return cm;
+        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+        connectionManager.setMaxTotal(50);
+        connectionManager.setDefaultMaxPerRoute(50);
+        return connectionManager;
     }
 
     @Bean(name = "marketDataDao")

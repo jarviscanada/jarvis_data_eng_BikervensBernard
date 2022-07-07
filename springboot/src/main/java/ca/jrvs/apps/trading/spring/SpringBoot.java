@@ -15,8 +15,6 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.StandardEnvironment;
 
-import java.util.Arrays;
-
 @SpringBootApplication(
         scanBasePackages = "ca.jrvs.apps.trading",
         exclude = {
@@ -45,7 +43,7 @@ public class SpringBoot implements CommandLineRunner {
         app.setAllowBeanDefinitionOverriding(true);
         Environment env = new StandardEnvironment();
 
-        app.setEnvironment();
+        //app.setEnvironment();
         app.run(args);
     }
 
@@ -58,7 +56,7 @@ public class SpringBoot implements CommandLineRunner {
         //PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
         //cm.setMaxTotal(50);
         //cm.setDefaultMaxPerRoute(50);
-        this.quoteService.findIexQuoteByTicker("Fb");
+        //this.quoteService.findIexQuoteByTicker(args[0]);
         //new QuoteService(new MarketDataDao(cm,marketDataConfig));
         // new SpringBoot().run("aapl");
     }

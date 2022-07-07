@@ -1,7 +1,7 @@
 package ca.jrvs.apps.trading.service;
 
 import ca.jrvs.apps.trading.dao.MarketDataDao;
-import ca.jrvs.apps.trading.model.IexQuoteModel;
+import ca.jrvs.apps.trading.model.IexQuote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class QuoteService {
     }
 
     /***/
-    public IexQuoteModel findIexQuoteByTicker(String ticker) {
+    public IexQuote findIexQuoteByTicker(String ticker) {
         return this.marketDataDao.findById(ticker).orElseThrow(() -> new IllegalArgumentException(ticker+ " is invalid"));
     }
 }
