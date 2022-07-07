@@ -10,4 +10,4 @@ target/
 *.DS_Store
 *.idea/
 *.eclipse
-./springboot/src/main/resources/
+application-dev.properties
