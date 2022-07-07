@@ -6,15 +6,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * https://iexcloud.io/docs/api/#quote
- */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "quote"
 })
-public class IexQuote implements Serializable
-{
+public class IexQuote implements Serializable {
 
     @JsonProperty("quote")
     private Quote quote;
