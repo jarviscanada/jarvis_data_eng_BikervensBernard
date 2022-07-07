@@ -15,8 +15,6 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.StandardEnvironment;
 
-import java.util.Arrays;
-
 @SpringBootApplication(
         scanBasePackages = "ca.jrvs.apps.trading",
         exclude = {
@@ -45,7 +43,7 @@ public class SpringBoot implements CommandLineRunner {
         app.setAllowBeanDefinitionOverriding(true);
         Environment env = new StandardEnvironment();
 
-        app.setEnvironment();
+        //app.setEnvironment();
         app.run(args);
     }
 

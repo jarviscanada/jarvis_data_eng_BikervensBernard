@@ -7,12 +7,16 @@ import ca.jrvs.apps.trading.service.QuoteService;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
 import javax.sql.DataSource;
 
 @org.springframework.context.annotation.Configuration
 public class AppConfig {
+
+    @Value("${token}")
+    private String apiKey;
 
     //@Bean
     public DataSource dataSource() {
