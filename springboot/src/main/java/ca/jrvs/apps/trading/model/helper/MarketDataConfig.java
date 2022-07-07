@@ -1,4 +1,7 @@
 package ca.jrvs.apps.trading.model.helper;
+
+import org.springframework.beans.factory.annotation.Value;
+
 @org.springframework.stereotype.Service
 public class MarketDataConfig {
     //URI Symbols
@@ -8,6 +11,8 @@ public class MarketDataConfig {
     public static final String EQUAL = "=";
     public static final int HTTP_OK = 200;
     private String host;
+
+    @Value("${token}")
     private String token;
 
     public String getHost() {

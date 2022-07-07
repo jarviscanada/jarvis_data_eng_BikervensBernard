@@ -40,16 +40,16 @@ public class AppConfig {
     public MarketDataConfig marketDataConfig() {
         MarketDataConfig marketDataConfig = new MarketDataConfig();
         marketDataConfig.setHost("https://cloud.iexapis.com/v1/");
-        marketDataConfig.setToken(System.getenv("token"));
+        marketDataConfig.setToken(apiKey);
         return marketDataConfig;
     }
 
     @Bean(name = "httpClientConnectionManager")
     public HttpClientConnectionManager httpClientConnectionManager() {
-        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-        cm.setMaxTotal(50);
-        cm.setDefaultMaxPerRoute(50);
-        return cm;
+        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+        connectionManager.setMaxTotal(50);
+        connectionManager.setDefaultMaxPerRoute(50);
+        return connectionManager;
     }
 
     @Bean(name = "marketDataDao")

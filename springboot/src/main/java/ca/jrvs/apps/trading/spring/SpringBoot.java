@@ -56,7 +56,7 @@ public class SpringBoot implements CommandLineRunner {
         //PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
         //cm.setMaxTotal(50);
         //cm.setDefaultMaxPerRoute(50);
-        this.quoteService.findIexQuoteByTicker("Fb");
+        //this.quoteService.findIexQuoteByTicker(args[0]);
         //new QuoteService(new MarketDataDao(cm,marketDataConfig));
         // new SpringBoot().run("aapl");
     }
