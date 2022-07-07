@@ -67,8 +67,7 @@ import java.util.Map;
         "isUSMarketOpen"
 })
 @Generated("jsonschema2pojo")
-public class Quote implements Serializable
-{
+public class Quote implements Serializable, Entity {
 
     @JsonProperty("avgTotalVolume")
     private Integer avgTotalVolume;
@@ -994,5 +993,16 @@ public class Quote implements Serializable
             sb.append(']');
         }
         return sb.toString();
+    }
+
+
+    @Override
+    public Object getId() {
+        return this.symbol;
+    }
+
+    @Override
+    public void setId(Object o) {
+        this.symbol = String.valueOf(o);
     }
 }

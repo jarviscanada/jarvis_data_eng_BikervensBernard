@@ -15,22 +15,29 @@ import javax.sql.DataSource;
 @org.springframework.context.annotation.Configuration
 public class AppConfig {
 
+    // Environment variable from .env file
     @Value("${token}")
-    private String apiKey;
+    private String token;
+    @Value("${jdbcUrl}")
+    private String jdbcUrl;
+    @Value("${PSQL_HOST}")
+    private String PSQL_HOST;
+    @Value("${PSQL_PORT}")
+    private String PSQL_PORT;
+    @Value("${PSQL_DB}")
+    private String PSQL_DB;
+    @Value("${PSQL_USER}")
+    private String PSQL_USER;
+    @Value("${PSQL_PASSWORD}")
+    private String PSQL_PASSWORD;
 
-    //@Bean
+    @Bean
     public DataSource dataSource() {
-        String jdbcUrl = "jdbc:postgresql://" +
-                System.getenv("PSQL_HOST") + ":" +
-                System.getenv("PSQL_PORT") +
-                "/" +
-                System.getenv("PSQL_DB");
-        String user = System.getenv("PSQL_USER");
-        String password = System.getenv("PSQL_PASSWORD");
-
-        //Never log your credentials/secrets. Use IDE debugger instead
+        String url = jdbcUrl+PSQL_HOST+":"+PSQL_PORT+"/"+PSQL_DB;
+        String user = PSQL_USER;
+        String password = PSQL_PASSWORD;
         BasicDataSource basicDataSource = new BasicDataSource();
-        basicDataSource.setUrl(jdbcUrl);
+        basicDataSource.setUrl(url);
         basicDataSource.setUsername(user);
         basicDataSource.setPassword(password);
         return basicDataSource;
@@ -40,7 +47,7 @@ public class AppConfig {
     public MarketDataConfig marketDataConfig() {
         MarketDataConfig marketDataConfig = new MarketDataConfig();
         marketDataConfig.setHost("https://cloud.iexapis.com/v1/");
-        marketDataConfig.setToken(apiKey);
+        marketDataConfig.setToken(token);
         return marketDataConfig;
     }
 
