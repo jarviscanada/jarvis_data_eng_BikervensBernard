@@ -1,19 +1,7 @@
 package ca.jrvs.apps.trading.dao;
 
-import ca.jrvs.apps.trading.model.QuoteContainer;
-import ca.jrvs.apps.trading.model.helper.MarketDataConfig;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.Optional;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 public class MarketDataDaoIntTest {
-
+/*
     private MarketDataDao dao;
     private static final String API = "https://cloud.iexapis.com/";
     private static final String END_POINT = "v1/";
@@ -66,5 +54,5 @@ public class MarketDataDaoIntTest {
         all.forEach((quote) -> assertTrue(
                 quote.getQuote().getCompanyName().equals("Apple Inc"))
         );
-    }
+    }*/
 }

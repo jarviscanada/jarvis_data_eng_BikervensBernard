@@ -32,14 +32,6 @@ public class TestConfig {
 
     @Bean(name = "dataSource")
     public DataSource dataSource() {
-        //jdbcUrl=jdbc:postgresql://
-        //PSQL_HOST=localhost
-        //PSQL_PORT=5432
-        //PSQL_DB={X}
-        //PSQL_USER=postgres
-        //PSQL_PASSWORD={password}
-        //
-        //jdbc:postgresql://localhost:5432/{X}/{postgres}/{password}
         String url = jdbcUrl+PSQL_HOST+":"+PSQL_PORT+"/"+PSQL_DB;
         String user = PSQL_USER;
         String password = PSQL_PASSWORD;

@@ -18,7 +18,8 @@ public class QuoteController {
     @GetMapping(path = "/iex/ticker/{ticker}") @ResponseStatus(HttpStatus.OK) @ResponseBody
     public QuoteContainer getQuote(@PathVariable String ticker) {
         try {
-            return quoteService.findIexQuoteByTicker(ticker);
+            return null;
+            //return quoteService.findIexQuoteByTicker(ticker);
         }catch (Exception e) {
             throw ResponseExeptionUtil.getResponseStatusExecption(e);
         }

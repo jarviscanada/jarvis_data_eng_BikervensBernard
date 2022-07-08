@@ -85,12 +85,12 @@ public class QuoteDao implements CrudRepository<QuoteEntity, String> {
     public <S extends QuoteEntity> Iterable<S> saveAll(Iterable<S> quotes) {
         String updateSql = "UPDATE quote SET last_price=?, bid_price=?, bid_size=?, ask_price=?, ask_size=? WHERE ticker=?";
         List<Object[]> batch = new ArrayList<>();
-        quotes.forEach(quote -> {
-            if (!existsById(quote.getTicker())) {
-                throw new DataRetrievalFailureException("Ticker not found:" + quote.getTicker());
+        quotes.forEach(quoteEntity -> {
+            if (!existsById(quoteEntity.getTicker())) {
+                throw new DataRetrievalFailureException("Ticker not found:" + quoteEntity.getTicker());
             }
-            Object[] values = new Object[]{quote.getLastPrice(), quote.getBidPrice(), quote.getBidSize(),
-                    quote.getAskPrice(), quote.getAskSize(), quote.getTicker()};
+            Object[] values = new Object[]{quoteEntity.getLastPrice(), quoteEntity.getBidPrice(), quoteEntity.getBidSize(),
+                    quoteEntity.getAskPrice(), quoteEntity.getAskSize(), quoteEntity.getTicker()};
             batch.add(values);
         });
         int[] rows = jdbcTemplate.batchUpdate(updateSql, batch);

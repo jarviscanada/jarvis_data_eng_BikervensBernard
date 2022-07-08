@@ -2,10 +2,10 @@ package ca.jrvs.apps.trading;
 
 import ca.jrvs.apps.trading.controller.QuoteController;
 import ca.jrvs.apps.trading.dao.MarketDataDao;
+import ca.jrvs.apps.trading.dao.QuoteDao;
 import ca.jrvs.apps.trading.model.helper.MarketDataConfig;
 import ca.jrvs.apps.trading.service.QuoteService;
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -52,7 +52,7 @@ public class AppConfig {
     }
 
     @Bean(name = "httpClientConnectionManager")
-    public HttpClientConnectionManager httpClientConnectionManager() {
+    public PoolingHttpClientConnectionManager httpClientConnectionManager() {
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
         connectionManager.setMaxTotal(50);
         connectionManager.setDefaultMaxPerRoute(50);
@@ -64,9 +64,14 @@ public class AppConfig {
         return new MarketDataDao(httpClientConnectionManager(),marketDataConfig());
     }
 
+    @Bean(name = "quoteDao")
+    public QuoteDao quoteDao() {
+        return new QuoteDao(dataSource(), httpClientConnectionManager(),marketDataConfig());
+    }
+
     @Bean(name = "quoteService")
     public QuoteService quoteService() {
-        return new QuoteService(marketDataDao());
+        return new QuoteService(quoteDao() ,marketDataDao());
     }
 
     @Bean(name = "quoteController")
