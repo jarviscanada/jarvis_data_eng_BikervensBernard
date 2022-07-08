@@ -8,24 +8,24 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "quote"
+        "iexQuote"
 })
-public class IexQuote implements Serializable {
+public class QuoteContainer implements Serializable {
 
-    @JsonProperty("quote")
-    private Quote quote;
+    @JsonProperty("iexQuote")
+    private IexQuote iexQuote;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static long serialVersionUID = 20039204801853058L;
 
-    @JsonProperty("quote")
-    public Quote getQuote() {
-        return quote;
+    @JsonProperty("iexQuote")
+    public IexQuote getQuote() {
+        return iexQuote;
     }
 
-    @JsonProperty("quote")
-    public void setQuote(Quote quote) {
-        this.quote = quote;
+    @JsonProperty("iexQuote")
+    public void setQuote(IexQuote iexQuote) {
+        this.iexQuote = iexQuote;
     }
 
     @JsonAnyGetter
@@ -41,10 +41,10 @@ public class IexQuote implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(IexQuote.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("quote");
+        sb.append(QuoteContainer.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append("iexQuote");
         sb.append('=');
-        sb.append(((this.quote == null)?"<null>":this.quote));
+        sb.append(((this.iexQuote == null)?"<null>":this.iexQuote));
         sb.append(',');
         sb.append("additionalProperties");
         sb.append('=');

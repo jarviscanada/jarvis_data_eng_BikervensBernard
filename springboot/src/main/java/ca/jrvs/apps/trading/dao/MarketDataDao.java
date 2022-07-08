@@ -1,6 +1,6 @@
 package ca.jrvs.apps.trading.dao;
 
-import ca.jrvs.apps.trading.model.IexQuote;
+import ca.jrvs.apps.trading.model.QuoteContainer;
 import ca.jrvs.apps.trading.model.helper.JsonParser;
 import ca.jrvs.apps.trading.model.helper.MarketDataConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,7 +25,7 @@ import java.net.URISyntaxException;
 import java.util.*;
 
 @org.springframework.stereotype.Repository
-public class MarketDataDao implements CrudRepository<IexQuote, String> {
+public class MarketDataDao implements CrudRepository<QuoteContainer, String> {
 
     private static final String IEX_BATCH_PATH = "stock/market/batch?";
     private final String IEX_BATCH_URL;
@@ -58,8 +58,8 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
         return Optional.of(httpResponse);
     }
     @Override
-    public Optional<IexQuote> findById(String ticker) {
-        List<IexQuote> quotes = (List<IexQuote>) findAllById(Collections.singletonList(ticker.toLowerCase()));
+    public Optional<QuoteContainer> findById(String ticker) {
+        List<QuoteContainer> quotes = (List<QuoteContainer>) findAllById(Collections.singletonList(ticker.toUpperCase()));
         if (quotes == null || quotes.size() == 0) {
             return Optional.empty();
         } else if (quotes.size() == 1) {
@@ -67,8 +67,8 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
         } else {throw new DataRetrievalFailureException("Unexpected number of quotes");}
     }
     @Override
-    public Iterable<IexQuote> findAllById(Iterable<String> iterable) {
-        ArrayList<IexQuote> list = new ArrayList<>();
+    public Iterable<QuoteContainer> findAllById(Iterable<String> iterable) {
+        ArrayList<QuoteContainer> list = new ArrayList<>();
 
         // build request/URI
         List nameValuePairs = new ArrayList();
@@ -120,8 +120,8 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
                 IexQuotesJson.toMap().forEach((k,v) -> {
                     try {
                         String iexQuoteJson = JsonParser.toJson(v,true,true);
-                        IexQuote iexQuote = JsonParser.toObjectFromJson(iexQuoteJson,IexQuote.class);
-                        list.add(iexQuote);
+                        QuoteContainer quoteContainer = JsonParser.toObjectFromJson(iexQuoteJson, QuoteContainer.class);
+                        list.add(quoteContainer);
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException("Error Processing JsonParser.toJson", e);
                     } catch (IOException e) {
@@ -135,21 +135,21 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
         return list;
     }
     @Override
-    public <S extends IexQuote> S save(S s) {throw new UnsupportedOperationException("Not implemented");}
+    public <S extends QuoteContainer> S save(S s) {throw new UnsupportedOperationException("Not implemented");}
     @Override
-    public <S extends IexQuote> Iterable<S> saveAll(Iterable<S> iterable) {throw new UnsupportedOperationException("Not implemented");}
+    public <S extends QuoteContainer> Iterable<S> saveAll(Iterable<S> iterable) {throw new UnsupportedOperationException("Not implemented");}
     @Override
     public boolean existsById(String s) {throw new UnsupportedOperationException("Not implemented");}
     @Override
-    public Iterable<IexQuote> findAll() {throw new UnsupportedOperationException("Not implemented");}
+    public Iterable<QuoteContainer> findAll() {throw new UnsupportedOperationException("Not implemented");}
     @Override
     public long count() {throw new UnsupportedOperationException("Not implemented");}
     @Override
     public void deleteById(String s) {throw new UnsupportedOperationException("Not implemented");}
     @Override
-    public void delete(IexQuote iexQuote) {throw new UnsupportedOperationException("Not implemented");}
+    public void delete(QuoteContainer quoteContainer) {throw new UnsupportedOperationException("Not implemented");}
     @Override
-    public void deleteAll(Iterable<? extends IexQuote> iterable) {throw new UnsupportedOperationException("Not implemented");}
+    public void deleteAll(Iterable<? extends QuoteContainer> iterable) {throw new UnsupportedOperationException("Not implemented");}
     @Override
     public void deleteAll() {throw new UnsupportedOperationException("Not implemented");}
 }

@@ -1,25 +1,28 @@
 package ca.jrvs.apps.trading.dao;
 
 import ca.jrvs.apps.trading.TestConfig;
-import ca.jrvs.apps.trading.model.Quote;
+import ca.jrvs.apps.trading.model.QuoteEntity;
 import ca.jrvs.apps.trading.model.helper.MarketDataConfig;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {TestConfig.class})
-@Sql({"classpath:schema.sql"})
-public class QuoteDaoIntTest {
+//@Sql({"classpath:schema.sql"})
+public class IexQuoteDaoIntTest {
 
     @Autowired
     private PoolingHttpClientConnectionManager cm;
@@ -27,9 +30,8 @@ public class QuoteDaoIntTest {
     private MarketDataConfig marketDataConfig;
     @Autowired
     private QuoteDao quoteDao;
-    private Quote savedQuote;
-    private static final String API = "https://cloud.iexapis.com/";
-    private static final String END_POINT = "v1/";
+
+    private QuoteEntity savedIexQuote;
     @Value("${token}")
     private String token;
     @Value("${jdbcUrl}")
@@ -42,16 +44,7 @@ public class QuoteDaoIntTest {
     private String PSQL_PASSWORD;
 
     @Before
-    public void init() {
-        /*http
-        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-        cm.setMaxTotal(50);
-        cm.setDefaultMaxPerRoute(50);
-        MarketDataConfig marketDataConfig = new MarketDataConfig();
-        marketDataConfig.setHost(API+END_POINT);
-        marketDataConfig.setToken(token);
-*/
-        //jdbc
+    public void setUp() {
         String url = URL+"localhost:5432/"+DB;
         String user = PSQL_USER;
         String password = PSQL_PASSWORD;
@@ -59,20 +52,76 @@ public class QuoteDaoIntTest {
         basicDataSource.setUrl(url);
         basicDataSource.setUsername(user);
         basicDataSource.setPassword(password);
-
         this.quoteDao = new QuoteDao(basicDataSource, cm, marketDataConfig);
+        savedIexQuote = new QuoteEntity();
+        if(!this.quoteDao.existsById("AAPL")) {
+            savedIexQuote = new QuoteEntity();
+            savedIexQuote.setLastPrice(10.d);
+            savedIexQuote.setAskPrice(10.2d);
+            savedIexQuote.setAskSize(10);
+            savedIexQuote.setBidPrice(14.1d);
+            savedIexQuote.setBidSize(10);
+            savedIexQuote.setTicker("AAPL");
+            savedIexQuote.setId("AAPL");
+            quoteDao.save(savedIexQuote);
+        }
+    }
+
+    @After
+    public void tearDown() {
+        savedIexQuote = new QuoteEntity();
+        if(this.quoteDao.existsById("AAPL")) {
+            this.quoteDao.deleteById("AAPL");
+        }
+    }
+
+    // (C)RUD
+    @Test
+    public void insertOne() {
+        assertTrue(quoteDao.save(savedIexQuote)!=null);
+    }
+
+    // C(R)UD
+    @Test
+    public void existsById() {
+        assertTrue(quoteDao.existsById("AAPL"));
+    }
+
+
+    // C(R)UD
+    @Test
+    public void findAll() {
+        Iterable<QuoteEntity> e = quoteDao.findAll();
+        e.forEach(q->assertTrue(quoteDao.existsById(q.getId())));
     }
 
     @Test
-    public void insertOne() {
-        savedQuote = new Quote();
-        savedQuote.setPreviousClose(10.f);
-        savedQuote.setIexAskPrice(10.2f);
-        savedQuote.setIexAskSize(10);
-        savedQuote.setIexBidPrice(14.1f);
-        savedQuote.setIexBidSize(10);
-        savedQuote.setId("AAPL");
-        savedQuote.setSymbol("AAPL");
-        quoteDao.save(savedQuote);
+    public void findAllById() {
+        savedIexQuote = new QuoteEntity();
+        Iterable<QuoteEntity> e = quoteDao.findAllById(Arrays.asList("AAPL"));
+        e.forEach(q-> {
+            assertTrue(quoteDao.existsById(q.getId()));
+            assertTrue(q.getId().equals("AAPL"));
+        });
     }
+
+    // CR(U)D
+    @Test
+    public void updateOne() {
+        this.savedIexQuote.setLastPrice(1000d);
+        QuoteEntity e = this.quoteDao.save(this.savedIexQuote);
+        assertTrue(e.getLastPrice() == 1000d);
+    }
+
+    // CRU(D)
+    @Test
+    public void deleteById() {
+        try {
+            quoteDao.deleteById("AAPL");
+        } catch (IncorrectResultSizeDataAccessException e) {
+            assertTrue(false);
+        }
+    }
+
+
 }

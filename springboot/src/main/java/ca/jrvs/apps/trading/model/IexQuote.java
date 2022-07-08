@@ -68,70 +68,7 @@ import java.util.Map;
         "isUSMarketOpen"
 })
 @Generated("jsonschema2pojo")
-public class Quote implements Serializable, Entity {
-
-    private String ticker;
-    private Double lastPrice;
-    private Double bidPrice;
-    private Integer bidSize;
-    private Double askPrice;
-
-    public String getTicker() {
-        return ticker;
-    }
-
-    public void setTicker(String ticker) {
-        this.ticker = ticker;
-    }
-
-    public Double getLastPrice() {
-        return lastPrice;
-    }
-
-    public void setLastPrice(Double lastPrice) {
-        this.lastPrice = lastPrice;
-    }
-
-    public Double getBidPrice() {
-        return bidPrice;
-    }
-
-    public void setBidPrice(Double bidPrice) {
-        this.bidPrice = bidPrice;
-    }
-
-    public Integer getBidSize() {
-        return bidSize;
-    }
-
-    public void setBidSize(Integer bidSize) {
-        this.bidSize = bidSize;
-    }
-
-    public Double getAskPrice() {
-        return askPrice;
-    }
-
-    public void setAskPrice(Double askPrice) {
-        this.askPrice = askPrice;
-    }
-
-    public Integer getAskSize() {
-        return askSize;
-    }
-
-    public void setAskSize(Integer askSize) {
-        this.askSize = askSize;
-    }
-
-    public void setIexBidPrice(Float iexBidPrice) {
-        this.iexBidPrice = iexBidPrice;
-    }
-
-    private Integer askSize;
-
-
-
+public class IexQuote implements Serializable {
     @JsonProperty("avgTotalVolume")
     private Double avgTotalVolume;
     @JsonProperty("calculationPrice")
@@ -247,16 +184,6 @@ public class Quote implements Serializable, Entity {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static Long serialVersionUID = -1246767282650210470L;
-
-    public Quote() {}
-    public Quote(String ticker, float last_price, float bid_price, int bid_size, float ask_price, int ask_size) {
-        this.setId(ticker);
-        this.setPreviousClose(last_price);
-        this.setIexBidPrice(bid_price);
-        this.setIexBidSize(bid_size);
-        this.setIexAskPrice(ask_price);
-        this.setIexAskSize(ask_size);
-    }
 
     @JsonProperty("avgTotalVolume")
     public Double getAvgTotalVolume() {
@@ -831,7 +758,7 @@ public class Quote implements Serializable, Entity {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Quote.class.getName()).append('@').append(Double.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(IexQuote.class.getName()).append('@').append(Double.toHexString(System.identityHashCode(this))).append('[');
         sb.append("avgTotalVolume");
         sb.append('=');
         sb.append(((this.avgTotalVolume == null)?"<null>":this.avgTotalVolume));
@@ -1066,16 +993,5 @@ public class Quote implements Serializable, Entity {
             sb.append(']');
         }
         return sb.toString();
-    }
-
-
-    @Override
-    public Object getId() {
-        return this.symbol;
-    }
-
-    @Override
-    public void setId(Object o) {
-        this.symbol = String.valueOf(o);
     }
 }
