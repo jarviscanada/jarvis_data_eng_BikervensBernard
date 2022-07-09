@@ -2,7 +2,7 @@ package ca.jrvs.apps.trading;
 
 import ca.jrvs.apps.trading.controller.QuoteController;
 import ca.jrvs.apps.trading.dao.MarketDataDao;
-import ca.jrvs.apps.trading.dao.QuoteDao;
+import ca.jrvs.apps.trading.dao.QuoteEntityDao;
 import ca.jrvs.apps.trading.model.helper.MarketDataConfig;
 import ca.jrvs.apps.trading.service.QuoteService;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -65,8 +65,8 @@ public class AppConfig {
     }
 
     @Bean(name = "quoteDao")
-    public QuoteDao quoteDao() {
-        return new QuoteDao(dataSource(), httpClientConnectionManager(),marketDataConfig());
+    public QuoteEntityDao quoteDao() {
+        return new QuoteEntityDao(dataSource(), httpClientConnectionManager(),marketDataConfig());
     }
 
     @Bean(name = "quoteService")

@@ -21,18 +21,18 @@ import java.util.*;
 import java.util.stream.StreamSupport;
 
 @org.springframework.stereotype.Repository
-public class QuoteDao implements CrudRepository<QuoteEntity, String> {
+public class QuoteEntityDao implements CrudRepository<QuoteEntity, String> {
 
     public static final String TABLE_NAME="quote";
     public static final String ID_COLUMN_NAME = "ticker";
-    public static final Logger logger = LoggerFactory.getLogger(QuoteDao.class);
+    public static final Logger logger = LoggerFactory.getLogger(QuoteEntityDao.class);
     private final HttpClientConnectionManager httpClientConnectionManager;
     private final MarketDataConfig marketDataConfig;
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert simpleJdbcInsert;
 
     @Autowired
-    public QuoteDao(DataSource dataSource, PoolingHttpClientConnectionManager cm, MarketDataConfig marketDataConfig) {
+    public QuoteEntityDao(DataSource dataSource, PoolingHttpClientConnectionManager cm, MarketDataConfig marketDataConfig) {
         jdbcTemplate = new JdbcTemplate(dataSource);
         simpleJdbcInsert = new SimpleJdbcInsert(dataSource).withTableName(TABLE_NAME);
         this.httpClientConnectionManager = cm;
@@ -73,12 +73,13 @@ public class QuoteDao implements CrudRepository<QuoteEntity, String> {
         };
     }
 
-    private <S extends QuoteEntity> void addOne(S quote) {
+    private <S extends QuoteEntity> int addOne(S quote) {
         SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(quote);
         int row = simpleJdbcInsert.execute(parameterSource);
         if (row != 1) {
             throw new IncorrectResultSizeDataAccessException("Failed to insert",1,row);
         }
+        return row;
     }
 
     @Override
@@ -107,8 +108,10 @@ public class QuoteDao implements CrudRepository<QuoteEntity, String> {
     }
 
     @Override
-    public Optional<QuoteEntity> findById(String s) {
-        return Optional.empty();
+    public Optional<QuoteEntity> findById(String id) {
+        String selectSql = "SELECT * FROM " +TABLE_NAME+" WHERE ticker=?";
+        List<QuoteEntity> res = jdbcTemplate.query(selectSql, new Object[]{id}, BeanPropertyRowMapper.newInstance(QuoteEntity.class) );
+        return Optional.of( res.get(0) );
     }
 
     @Override

@@ -23,7 +23,7 @@ public class TestConfig {
     private String PSQL_HOST;
     @Value("${PSQL_PORT}")
     private String PSQL_PORT;
-    @Value("${PSQL_DB}")
+    @Value("${PSQL_DB_TEST}")
     private String PSQL_DB;
     @Value("${PSQL_USER}")
     private String PSQL_USER;

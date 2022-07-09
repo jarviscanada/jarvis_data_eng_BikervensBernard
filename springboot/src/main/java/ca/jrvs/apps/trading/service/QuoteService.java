@@ -1,7 +1,7 @@
 package ca.jrvs.apps.trading.service;
 
 import ca.jrvs.apps.trading.dao.MarketDataDao;
-import ca.jrvs.apps.trading.dao.QuoteDao;
+import ca.jrvs.apps.trading.dao.QuoteEntityDao;
 import ca.jrvs.apps.trading.model.IexQuote;
 import ca.jrvs.apps.trading.model.QuoteEntity;
 import org.slf4j.Logger;
@@ -15,12 +15,12 @@ import java.util.List;
 @org.springframework.stereotype.Service
 public class QuoteService {
     private static final Logger logger = LoggerFactory.getLogger(QuoteService.class);
-    private final QuoteDao quoteDao;
+    private final QuoteEntityDao quoteEntityDao;
     private final MarketDataDao marketDataDao;
 
     @Autowired
-    public QuoteService(QuoteDao quoteDao, MarketDataDao marketDataDao) {
-        this.quoteDao = quoteDao;
+    public QuoteService(QuoteEntityDao quoteEntityDao, MarketDataDao marketDataDao) {
+        this.quoteEntityDao = quoteEntityDao;
         this.marketDataDao = marketDataDao;
     }
 
@@ -31,40 +31,41 @@ public class QuoteService {
 
 
     public void updateMarketData() {
-        List<QuoteEntity> all = (List<QuoteEntity>) this.quoteDao.findAll();
+        List<QuoteEntity> all = this.findAllQuotes();
         for (int i = 0 ; i < all.size(); i++) {
             QuoteEntity currentEntityData = all.get(i);
             String id = currentEntityData.getId();
             IexQuote updatedData = findIexQuoteByTicker(id);
 
             //update against iex database
-            currentEntityData.setLastPrice(updatedData.getLatestPrice());
             currentEntityData.setTicker(updatedData.getSymbol());
             currentEntityData.setId(updatedData.getSymbol());
-            currentEntityData.setAskPrice(Double.valueOf(updatedData.getIexAskPrice()));
-            currentEntityData.setAskSize(updatedData.getIexAskSize());
-            currentEntityData.setBidPrice(Double.valueOf(updatedData.getIexBidPrice()));
-            currentEntityData.setBidSize(updatedData.getIexBidSize());
+
+            currentEntityData.setLastPrice(updatedData.getLatestPrice() == null ? 0 : updatedData.getLatestPrice());
+            currentEntityData.setAskPrice(updatedData.getIexAskPrice() == null ? 0 : Double.valueOf(updatedData.getIexAskPrice()));
+            currentEntityData.setAskSize(updatedData.getIexAskSize() == null ? 0 : updatedData.getIexAskSize());
+            currentEntityData.setBidPrice(updatedData.getIexBidPrice() == null ? 0 : Double.valueOf(updatedData.getIexBidPrice()));
+            currentEntityData.setBidSize(updatedData.getIexBidSize() == null ? 0 : updatedData.getIexBidSize());
             currentEntityData.setIexQuote(updatedData);
 
-            this.quoteDao.save(currentEntityData);
+            this.quoteEntityDao.save(currentEntityData);
         }
     }
 
-    public QuoteEntity buildAndSaveQuoteDbEntityFromIexQuoteApi(IexQuote updatedData) {
+    public QuoteEntity buildAndSaveQuoteDbEntityFromIexQuote(IexQuote updatedData) {
         QuoteEntity currentEntityData = new QuoteEntity();
 
         //update against iex database
-        currentEntityData.setLastPrice(updatedData.getLatestPrice());
+        currentEntityData.setLastPrice(updatedData.getLatestPrice() == null ? 0 :updatedData.getLatestPrice());
         currentEntityData.setTicker(updatedData.getSymbol());
         currentEntityData.setId(updatedData.getSymbol());
-        currentEntityData.setAskPrice(Double.valueOf(updatedData.getIexAskPrice()));
-        currentEntityData.setAskSize(updatedData.getIexAskSize());
-        currentEntityData.setBidPrice(Double.valueOf(updatedData.getIexBidPrice()));
-        currentEntityData.setBidSize(updatedData.getIexBidSize());
+        currentEntityData.setAskPrice(updatedData.getIexAskPrice() == null ? 0 : Double.valueOf(updatedData.getIexAskPrice()) );
+        currentEntityData.setAskSize(updatedData.getIexAskSize() == null ? 0 : updatedData.getIexAskSize());
+        currentEntityData.setBidPrice(updatedData.getIexBidPrice() == null ? 0 : Double.valueOf(updatedData.getIexBidPrice()) );
+        currentEntityData.setBidSize(updatedData.getIexBidSize()== null ? 0 :updatedData.getIexBidSize());
         currentEntityData.setIexQuote(updatedData);
 
-        return this.quoteDao.save(currentEntityData);
+        return this.quoteEntityDao.save(currentEntityData);
     }
 
     public List<QuoteEntity> saveQuotes(List<String> tickers) {
@@ -72,7 +73,7 @@ public class QuoteService {
         tickers.forEach(t->{
             try {
                 IexQuote updatedData = findIexQuoteByTicker(t);
-                out.add(buildAndSaveQuoteDbEntityFromIexQuoteApi(updatedData));
+                out.add(buildAndSaveQuoteDbEntityFromIexQuote(updatedData));
             } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException(t+ " is invalid");
             }
@@ -81,10 +82,10 @@ public class QuoteService {
     }
 
     public QuoteEntity saveQuote(QuoteEntity quoteEntity) {
-        return this.quoteDao.save(quoteEntity);
+        return this.quoteEntityDao.save(quoteEntity);
     }
 
-    public List<QuoteEntity> findAllQuotes(String ticker) {
-        return (List<QuoteEntity>) this.quoteDao.findAll();
+    public List<QuoteEntity> findAllQuotes() {
+        return (List<QuoteEntity>) this.quoteEntityDao.findAll();
     }
 }

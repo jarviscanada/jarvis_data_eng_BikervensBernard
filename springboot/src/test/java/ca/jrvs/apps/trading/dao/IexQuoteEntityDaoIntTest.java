@@ -3,7 +3,6 @@ package ca.jrvs.apps.trading.dao;
 import ca.jrvs.apps.trading.TestConfig;
 import ca.jrvs.apps.trading.model.QuoteEntity;
 import ca.jrvs.apps.trading.model.helper.MarketDataConfig;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.junit.After;
 import org.junit.Before;
@@ -23,14 +22,14 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {TestConfig.class})
 @Sql({"classpath:schema.sql"})
-public class IexQuoteDaoIntTest {
+public class IexQuoteEntityDaoIntTest {
 
     @Autowired
     private PoolingHttpClientConnectionManager cm;
     @Autowired
     private MarketDataConfig marketDataConfig;
     @Autowired
-    private QuoteDao quoteDao;
+    private QuoteEntityDao quoteEntityDao;
 
     private QuoteEntity savedIexQuote;
 
@@ -47,13 +46,8 @@ public class IexQuoteDaoIntTest {
 
     @Before
     public void setUp() {
-        BasicDataSource basicDataSource = new BasicDataSource();
-        basicDataSource.setUrl(URL+"localhost:5432/"+DB);
-        basicDataSource.setUsername(PSQL_USER);
-        basicDataSource.setPassword(PSQL_PASSWORD);
-        this.quoteDao = new QuoteDao(basicDataSource, cm, marketDataConfig);
         this.savedIexQuote = new QuoteEntity();
-        if(!this.quoteDao.existsById("AAPL")) {
+        if(!this.quoteEntityDao.existsById("AAPL")) {
             this.savedIexQuote = new QuoteEntity();
             this.savedIexQuote.setLastPrice(10.d);
             this.savedIexQuote.setAskPrice(10.2d);
@@ -62,44 +56,44 @@ public class IexQuoteDaoIntTest {
             this.savedIexQuote.setBidSize(10);
             this.savedIexQuote.setTicker("AAPL");
             this.savedIexQuote.setId("AAPL");
-            this.quoteDao.save(savedIexQuote);
+            this.quoteEntityDao.save(savedIexQuote);
         }
     }
 
     @After
     public void tearDown() {
         savedIexQuote = new QuoteEntity();
-        if(this.quoteDao.existsById("AAPL")) {
-            this.quoteDao.deleteById("AAPL");
+        if(this.quoteEntityDao.existsById("AAPL")) {
+            this.quoteEntityDao.deleteById("AAPL");
         }
     }
 
     // (C)RUD
     @Test
     public void insertOne() {
-        assertTrue(this.quoteDao.save(savedIexQuote)!=null);
+        assertTrue(this.quoteEntityDao.save(savedIexQuote)!=null);
     }
 
     // C(R)UD
     @Test
     public void existsById() {
-        assertTrue(this.quoteDao.existsById("AAPL"));
+        assertTrue(this.quoteEntityDao.existsById("AAPL"));
     }
 
 
     // C(R)UD
     @Test
     public void findAll() {
-        Iterable<QuoteEntity> e = this.quoteDao.findAll();
-        e.forEach(q->assertTrue(this.quoteDao.existsById(q.getId())));
+        Iterable<QuoteEntity> e = this.quoteEntityDao.findAll();
+        e.forEach(q->assertTrue(this.quoteEntityDao.existsById(q.getId())));
     }
 
     @Test
     public void findAllById() {
         savedIexQuote = new QuoteEntity();
-        Iterable<QuoteEntity> e = this.quoteDao.findAllById(Arrays.asList("AAPL"));
+        Iterable<QuoteEntity> e = this.quoteEntityDao.findAllById(Arrays.asList("AAPL"));
         e.forEach(q-> {
-            assertTrue(this.quoteDao.existsById(q.getId()));
+            assertTrue(this.quoteEntityDao.existsById(q.getId()));
             assertTrue(q.getId().equals("AAPL"));
         });
     }
@@ -108,7 +102,7 @@ public class IexQuoteDaoIntTest {
     @Test
     public void updateOne() {
         this.savedIexQuote.setLastPrice(1000d);
-        QuoteEntity e = this.quoteDao.save(this.savedIexQuote);
+        QuoteEntity e = this.quoteEntityDao.save(this.savedIexQuote);
         assertTrue(e.getLastPrice() == 1000d);
     }
 
@@ -116,11 +110,9 @@ public class IexQuoteDaoIntTest {
     @Test
     public void deleteById() {
         try {
-            this.quoteDao.deleteById("AAPL");
+            this.quoteEntityDao.deleteById("AAPL");
         } catch (IncorrectResultSizeDataAccessException e) {
             assertTrue(false);
         }
     }
-
-
 }
