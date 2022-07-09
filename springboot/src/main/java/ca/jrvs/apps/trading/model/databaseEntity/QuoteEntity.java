@@ -1,7 +1,9 @@
-package ca.jrvs.apps.trading.model;
+package ca.jrvs.apps.trading.model.databaseEntity;
+
+import ca.jrvs.apps.trading.model.IexQuote;
 
 @org.springframework.stereotype.Component
-public class QuoteEntity implements Entity<String>{
+public class QuoteEntity implements Entity<String> {
     private String ticker;
     private String id;
     private Double lastPrice;

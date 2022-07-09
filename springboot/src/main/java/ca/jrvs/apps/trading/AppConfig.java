@@ -66,7 +66,7 @@ public class AppConfig {
 
     @Bean(name = "quoteDao")
     public QuoteEntityDao quoteDao() {
-        return new QuoteEntityDao(dataSource(), httpClientConnectionManager(),marketDataConfig());
+        return new QuoteEntityDao(dataSource());
     }
 
     @Bean(name = "quoteService")

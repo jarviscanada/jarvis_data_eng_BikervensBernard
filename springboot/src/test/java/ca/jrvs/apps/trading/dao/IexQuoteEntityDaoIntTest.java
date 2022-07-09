@@ -1,7 +1,7 @@
 package ca.jrvs.apps.trading.dao;
 
 import ca.jrvs.apps.trading.TestConfig;
-import ca.jrvs.apps.trading.model.QuoteEntity;
+import ca.jrvs.apps.trading.model.databaseEntity.QuoteEntity;
 import ca.jrvs.apps.trading.model.helper.MarketDataConfig;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.junit.After;

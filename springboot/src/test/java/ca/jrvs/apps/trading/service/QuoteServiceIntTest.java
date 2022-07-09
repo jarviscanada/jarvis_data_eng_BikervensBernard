@@ -3,7 +3,7 @@ package ca.jrvs.apps.trading.service;
 import ca.jrvs.apps.trading.TestConfig;
 import ca.jrvs.apps.trading.dao.QuoteEntityDao;
 import ca.jrvs.apps.trading.model.IexQuote;
-import ca.jrvs.apps.trading.model.QuoteEntity;
+import ca.jrvs.apps.trading.model.databaseEntity.QuoteEntity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

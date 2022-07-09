@@ -3,7 +3,7 @@ package ca.jrvs.apps.trading.service;
 import ca.jrvs.apps.trading.dao.MarketDataDao;
 import ca.jrvs.apps.trading.dao.QuoteEntityDao;
 import ca.jrvs.apps.trading.model.IexQuote;
-import ca.jrvs.apps.trading.model.QuoteEntity;
+import ca.jrvs.apps.trading.model.databaseEntity.QuoteEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

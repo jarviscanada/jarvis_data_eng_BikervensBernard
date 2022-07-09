@@ -1,4 +1,4 @@
-package ca.jrvs.apps.trading.model;
+package ca.jrvs.apps.trading.model.databaseEntity;
 
 import java.sql.Date;
 import java.util.Objects;
@@ -57,6 +57,10 @@ public class TraderEntity implements Entity<Integer> {
         return id;
     }
 
+    /**
+     * this is not to be called by dev. it is to be used by BeanPropertyRowMapper. You would normally not want to set this value
+     * it is auto generated and incremented on db (serial)
+     * i.e. trader.setId(1) is permuted by will probably fail database validation since the field is serial*/
     @Override
     public void setId(Integer integer) {
         id = integer;

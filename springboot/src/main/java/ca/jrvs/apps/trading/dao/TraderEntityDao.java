@@ -1,6 +1,6 @@
 package ca.jrvs.apps.trading.dao;
 
-import ca.jrvs.apps.trading.model.TraderEntity;
+import ca.jrvs.apps.trading.model.databaseEntity.TraderEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -86,30 +86,12 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
 
     @Override
     public <S extends TraderEntity> Iterable<S> saveAll(Iterable<S> traders) {
-        String update_sql = "UPDATE quote SET first_name=?, last_name=?, "
-                + "dob=?, country=?, email=? WHERE id=?";
-        List<Object[]> batch = new ArrayList<>();
-        traders.forEach(traderEntity -> {
-            if (!existsById(traderEntity.getId())) {
-                throw new DataRetrievalFailureException("A trader could not be found");
-            }
-            Object[] values = new Object[]{
-                    traderEntity.getFirstName(), traderEntity.getLastName(), traderEntity.getDob(),
-                    traderEntity.getCountry(), traderEntity.getEmail(), traderEntity.getId()
-            };
-            batch.add(values);
+        traders.forEach(trader -> {
+            this.save(trader);
         });
-        int[] rows = jdbcTemplate.batchUpdate(update_sql, batch);
-        int totalRow = Arrays.stream(rows).sum();
-
-        int size = traders instanceof Collection ?
-                ((Collection<TraderEntity>) traders).size() :
-                Math.toIntExact(StreamSupport.stream(traders.spliterator(), false).count());
-
-        if (totalRow != size) {
-            throw new IncorrectResultSizeDataAccessException("Number of rows ", size, totalRow);
-        }
-        return traders;
+        ArrayList<TraderEntity> added = new ArrayList<>();
+        this.findAll().forEach(traderEntity -> added.add(traderEntity));
+        return (Iterable<S>) added;
     }
 
     @Override
@@ -124,7 +106,7 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
         String selectSql = "SELECT * FROM " + this.getTableName();
         List<TraderEntity> quotes =  jdbcTemplate.query(selectSql, BeanPropertyRowMapper.newInstance(TraderEntity.class));
         for (TraderEntity quote : quotes) {
-            if (quote.getId().equals(id)) {
+            if (quote.getId() !=null && quote.getId().equals(id)) {
                 return true;// exist on table
             }
         }
@@ -163,7 +145,6 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
         if (jdbcTemplate.update(deleteSql, id) != 1) {
             throw new IncorrectResultSizeDataAccessException(1);
         }
-
     }
 
     @Override

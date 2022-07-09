@@ -1,7 +1,7 @@
 package ca.jrvs.apps.trading.controller;
 
 import ca.jrvs.apps.trading.model.IexQuote;
-import ca.jrvs.apps.trading.model.QuoteEntity;
+import ca.jrvs.apps.trading.model.databaseEntity.QuoteEntity;
 import ca.jrvs.apps.trading.service.QuoteService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
