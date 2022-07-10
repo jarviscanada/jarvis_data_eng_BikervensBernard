@@ -11,7 +11,10 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import javax.sql.DataSource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 @org.springframework.stereotype.Repository
@@ -57,6 +60,10 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
             }
         } else {
             this.addOne(trader);
+            trader = (S) this.findByEmail(trader.getEmail()).orElse(null);
+            if (trader == null) {
+                throw new DataRetrievalFailureException("unable to add trader");
+            }
         }
         return trader;
     }
@@ -101,12 +108,18 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
         return Optional.of( res.get(0) );
     }
 
+    private Optional<TraderEntity> findByEmail(String id) {
+        String selectSql = "SELECT * FROM " +this.getTableName()+" WHERE email=?";
+        List<TraderEntity> res = jdbcTemplate.query(selectSql, new Object[]{id}, BeanPropertyRowMapper.newInstance(TraderEntity.class) );
+        return Optional.of( res.get(0) );
+    }
+
     @Override
     public boolean existsById(Integer id) {
         String selectSql = "SELECT * FROM " + this.getTableName();
-        List<TraderEntity> quotes =  jdbcTemplate.query(selectSql, BeanPropertyRowMapper.newInstance(TraderEntity.class));
-        for (TraderEntity quote : quotes) {
-            if (quote.getId() !=null && quote.getId().equals(id)) {
+        List<TraderEntity> traderEntities =  jdbcTemplate.query(selectSql, BeanPropertyRowMapper.newInstance(TraderEntity.class));
+        for (TraderEntity e : traderEntities) {
+            if (e.getId() !=null && e.getId().equals(id)) {
                 return true;// exist on table
             }
         }
@@ -142,8 +155,8 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
             throw new IllegalArgumentException("ID can't be null");
         }
         String deleteSql = "DELETE FROM " + this.getTableName() + " WHERE " + this.getIdColumnName()  + " =?";
-        if (jdbcTemplate.update(deleteSql, id) != 1) {
-            throw new IncorrectResultSizeDataAccessException(1);
+        if (jdbcTemplate.update(deleteSql, id) < 1) {
+            throw new IncorrectResultSizeDataAccessException("deletetion should affect at least 1 row but was found less",1);
         }
     }
 

@@ -102,7 +102,7 @@ public class AccountEntityDao extends JdbcCrudDao<AccountEntity> {
 
     @Override
     public Optional<AccountEntity> findById(Integer id) {
-        String selectSql = "SELECT * FROM " +this.getTableName()+" WHERE id=?";
+        String selectSql = "SELECT * FROM " +this.getTableName()+" WHERE trader_id=?";
         List<AccountEntity> res = jdbcTemplate.query(selectSql, new Object[]{id}, BeanPropertyRowMapper.newInstance(AccountEntity.class) );
         return Optional.of( res.get(0) );
     }
@@ -149,7 +149,18 @@ public class AccountEntityDao extends JdbcCrudDao<AccountEntity> {
         if (id == null) {
             throw new IllegalArgumentException("ID can't be null");
         }
-        String deleteSql = "DELETE FROM " + this.getTableName() + " WHERE " + this.getIdColumnName()  + " =?";
+        String deleteSql = "DELETE FROM " + this.getTableName() + " WHERE  trader_id =?";
+        int row = jdbcTemplate.update(deleteSql, id);
+        if (row < 1) {
+            throw new IncorrectResultSizeDataAccessException("should be more than 1",1);
+        }
+    }
+
+    public void deleteByTraderId(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID can't be null");
+        }
+        String deleteSql = "DELETE FROM " + this.getTableName() + " WHERE trader_id =?";
         if (jdbcTemplate.update(deleteSql, id) != 1) {
             throw new IncorrectResultSizeDataAccessException(1);
         }

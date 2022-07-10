@@ -2,7 +2,11 @@ package ca.jrvs.apps.trading;
 
 import ca.jrvs.apps.trading.controller.QuoteController;
 import ca.jrvs.apps.trading.dao.MarketDataDao;
+import ca.jrvs.apps.trading.dao.PositionEntityDao;
 import ca.jrvs.apps.trading.dao.QuoteEntityDao;
+import ca.jrvs.apps.trading.dao.SecurityOrderEntityDao;
+import ca.jrvs.apps.trading.model.databaseEntity.AccountEntity;
+import ca.jrvs.apps.trading.model.databaseEntity.TraderEntity;
 import ca.jrvs.apps.trading.model.helper.MarketDataConfig;
 import ca.jrvs.apps.trading.service.QuoteService;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -59,19 +63,38 @@ public class AppConfig {
         return connectionManager;
     }
 
+    @Bean(name = "positionEntityDao")
+    public PositionEntityDao positionEntityDao() {
+        return new PositionEntityDao(dataSource());
+    }
+
+    @Bean(name = "traderEntity")
+    public TraderEntity traderEntity() {
+        return new TraderEntity();
+    }
+    @Bean(name = "accountEntity")
+    public AccountEntity accountEntity() {
+        return new AccountEntity();
+    }
+
+    @Bean(name = "securityOrderEntityDao")
+    public SecurityOrderEntityDao securityOrderEntityDao() {
+        return new SecurityOrderEntityDao(dataSource());
+    }
+
     @Bean(name = "marketDataDao")
     public MarketDataDao marketDataDao() {
         return new MarketDataDao(httpClientConnectionManager(),marketDataConfig());
     }
 
-    @Bean(name = "quoteDao")
-    public QuoteEntityDao quoteDao() {
-        return new QuoteEntityDao(dataSource());
-    }
-
     @Bean(name = "quoteService")
     public QuoteService quoteService() {
         return new QuoteService(quoteDao() ,marketDataDao());
+    }
+
+    @Bean(name = "quoteDao")
+    public QuoteEntityDao quoteDao() {
+        return new QuoteEntityDao(dataSource(),httpClientConnectionManager(),marketDataConfig());
     }
 
     @Bean(name = "quoteController")

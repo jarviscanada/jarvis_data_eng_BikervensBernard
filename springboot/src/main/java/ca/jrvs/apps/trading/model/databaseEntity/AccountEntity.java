@@ -2,6 +2,7 @@ package ca.jrvs.apps.trading.model.databaseEntity;
 
 import java.util.Objects;
 
+@org.springframework.stereotype.Component
 public class AccountEntity implements Entity<Integer> {
 
     int id;

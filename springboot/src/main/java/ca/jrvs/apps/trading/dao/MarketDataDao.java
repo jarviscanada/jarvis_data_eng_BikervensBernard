@@ -119,22 +119,9 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
 
                 IexQuotesJson.toMap().forEach((k,v) -> {
                     try {
-                        //String iexQuoteJson = JsonParser.toJson(v,true,true);
-                        //QuoteContainer quoteContainer = JsonParser.toObjectFromJson(iexQuoteJson, QuoteContainer.class);
-
-
-                        //////
                         HashMap x = (HashMap) v;
                         IexQuote q = JsonParser.toObjectFromJson(JsonParser.toJson(x.get("quote"),true,true), IexQuote.class);
                         list.add(q);
-                        /*
-                        //HashMap x = (HashMap) v;x.get("quote");IexQuote i = JsonParser.toJson(x.get("quote"),true,true);
-                        try {
-                            IexQuote q = JsonParser.toObjectFromJson(JsonParser.toJson(x.get("quote"),true,true), IexQuote.class);
-int xw= 2;
-                        } catch (JsonProcessingException e) {
-                            throw new RuntimeException(e);
-                        }*/
 
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException("Error Processing JsonParser.toJson", e);

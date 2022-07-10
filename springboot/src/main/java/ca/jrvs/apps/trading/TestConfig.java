@@ -1,3 +1,4 @@
+
 package ca.jrvs.apps.trading;
 
 import ca.jrvs.apps.trading.model.helper.MarketDataConfig;
@@ -13,7 +14,6 @@ import javax.sql.DataSource;
 @org.springframework.context.annotation.Configuration
 @ComponentScan(basePackages = {"ca.jrvs.apps.trading.dao","ca.jrvs.apps.trading.service"})
 public class TestConfig {
-
     // Environment variable from .env file
     @Value("${token}")
     private String token;

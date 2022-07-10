@@ -13,6 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.Arrays;
 
@@ -23,8 +25,8 @@ import java.util.Arrays;
                 DataSourceAutoConfiguration.class,
                 HibernateJpaAutoConfiguration.class
         })
-//@Configuration
-//@EnableTransactionManagement
+@Configuration()
+@EnableTransactionManagement
 public class SpringBoot implements CommandLineRunner {
 
     private Logger logger = LoggerFactory.getLogger(SpringBoot.class);

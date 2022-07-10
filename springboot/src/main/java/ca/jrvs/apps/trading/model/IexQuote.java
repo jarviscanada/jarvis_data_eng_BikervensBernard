@@ -3,7 +3,6 @@ package ca.jrvs.apps.trading.model;
 import com.fasterxml.jackson.annotation.*;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Generated;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +66,6 @@ import java.util.Map;
         "ytdChange",
         "isUSMarketOpen"
 })
-@Generated("jsonschema2pojo")
 public class IexQuote implements Serializable {
     @JsonProperty("avgTotalVolume")
     private Double avgTotalVolume;
