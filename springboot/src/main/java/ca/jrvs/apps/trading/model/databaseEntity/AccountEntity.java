@@ -1,12 +1,21 @@
 package ca.jrvs.apps.trading.model.databaseEntity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({"id", "traderId", "amount"})
 @org.springframework.stereotype.Component
 public class AccountEntity implements Entity<Integer> {
 
+    @JsonProperty("id")
     int id;
+    @JsonProperty("traderId")
     int traderId;
+    @JsonProperty("amount")
     Double amount;
 
     public int getTraderId() {

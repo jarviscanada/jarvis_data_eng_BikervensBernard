@@ -85,4 +85,33 @@ public class TraderAccountService {
         this.traderEntityDao.deleteById(toRemove.getId());
 
     }
+
+    public AccountEntity deposit(Integer traderId, Double amount) {
+        TraderEntity trader = this.traderEntityDao.findById(traderId).orElse(null);
+        if (trader == null) {
+            throw new DataRetrievalFailureException("unable to find trader with id");
+        }
+        AccountEntity account = this.accountEntityDao.findById(trader.getId()).orElse(null);
+        if (account == null) {
+            throw new DataRetrievalFailureException("unable to find account with id");
+        }
+        account.setAmount(account.getAmount()+amount);
+        return this.accountEntityDao.save(account);
+    }
+
+    public AccountEntity withdraw(Integer traderId, Double amount) {
+        TraderEntity trader = this.traderEntityDao.findById(traderId).orElse(null);
+        if (trader == null) {
+            throw new DataRetrievalFailureException("unable to find trader with id");
+        }
+        AccountEntity account = this.accountEntityDao.findById(trader.getId()).orElse(null);
+        if (account == null) {
+            throw new DataRetrievalFailureException("unable to find account with id");
+        }
+        if (account.getAmount() - amount < 0) {
+            throw new DataRetrievalFailureException("unable to remove this much account with id");
+        }
+        account.setAmount(account.getAmount() - amount);
+        return this.accountEntityDao.save(account);
+    }
 }

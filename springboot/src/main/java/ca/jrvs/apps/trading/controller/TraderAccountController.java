@@ -1,6 +1,7 @@
 package ca.jrvs.apps.trading.controller;
 
 import ca.jrvs.apps.trading.controller.util.ResponseExeptionUtil;
+import ca.jrvs.apps.trading.model.databaseEntity.AccountEntity;
 import ca.jrvs.apps.trading.model.databaseEntity.TraderEntity;
 import ca.jrvs.apps.trading.service.TraderAccountService;
 import ca.jrvs.apps.trading.view.TraderAccountView;
@@ -45,7 +46,7 @@ public class TraderAccountController {
 
     @ApiOperation(value = "Delete a trader", notes = "Delete a trader if its account amount is 0 and no open positions.")
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Unable to delete the trader")})
-    @GetMapping(path = "/traderId/{traderId}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @DeleteMapping(path = "/traderId/{traderId}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     @ResponseStatus(HttpStatus.OK) @ResponseBody
     public void deleteTrader(@PathVariable Integer traderId) {
         try {
@@ -53,5 +54,28 @@ public class TraderAccountController {
         }catch (Exception e) {
             throw ResponseExeptionUtil.getResponseStatusExecption(e);
         }
+    }
+
+
+    @ApiOperation(value = "Deposit fund", notes = "Add fund to the trader account")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "trade id not found"),
+            @ApiResponse(code = 400, message = "Unable to deposit fund to the trader")
+    })
+    @GetMapping(path = "/deposit/trader/{traderId}/amount/{amount}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @ResponseStatus(HttpStatus.OK) @ResponseBody
+    public AccountEntity deposit(@PathVariable Integer traderId, @PathVariable Double amount){
+        return this.service.deposit(traderId,amount);
+    }
+
+    @ApiOperation(value = "Withdraw fund", notes = "Withdraw fund to the trader account")
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "trade id not found"),
+            @ApiResponse(code = 400, message = "Unable to Withdraw fund from trader's account")
+    })
+    @GetMapping(path = "/withdraw/trader/{traderId}/amount/{amount}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @ResponseStatus(HttpStatus.OK) @ResponseBody
+    public AccountEntity withdraw(@PathVariable Integer traderId, @PathVariable Double amount){
+        return this.service.withdraw(traderId,amount);
     }
 }

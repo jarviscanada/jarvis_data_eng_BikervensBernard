@@ -83,10 +83,9 @@ public class AccountEntityDao extends JdbcCrudDao<AccountEntity> {
         return row;
     }
     private <S extends AccountEntity> int updateOne(S accountEntity) {
-        String update_sql = "UPDATE quote SET trader_id=?, amount=? WHERE id=?";
+        String update_sql = "UPDATE "+this.getTableName()+" SET amount=? WHERE trader_id=?";
         return jdbcTemplate.update(
-                update_sql,
-                new Object[]{accountEntity.getTraderId(),accountEntity.getAmount(),accountEntity.getId()}
+                update_sql, new Object[]{accountEntity.getAmount(),accountEntity.getTraderId()}
         );
     }
 
