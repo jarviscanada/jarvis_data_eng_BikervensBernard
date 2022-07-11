@@ -2,18 +2,23 @@ package ca.jrvs.apps.trading.dao;
 
 import ca.jrvs.apps.trading.model.databaseEntity.PositionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
 @org.springframework.stereotype.Repository
-public class PositionEntityDao extends JdbcCrudDao<PositionEntity> {
+public class PositionEntityDao {
     //Position view is  read-only, so you need to disable create and update methods
 
-    public static final String TABLE_NAME = "account";
-    public static final String ID_COLUMN = "id";
-
+    public static final String TABLE_NAME = "position";
+    public static final String FK_ID_COLUMN = "account_id";
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
     private DataSource dataSource;
@@ -27,83 +32,64 @@ public class PositionEntityDao extends JdbcCrudDao<PositionEntity> {
                         usingGeneratedKeyColumns(this.getIdColumnName());
     }
 
-    @Override
     public JdbcTemplate getJdbcTemplate() {
         return this.jdbcTemplate;
     }
 
-    @Override
     public SimpleJdbcInsert getSimpleJdbcInsert() {
         return this.simpleJdbcInsert;
     }
 
-    @Override
     public String getTableName() {
         return this.TABLE_NAME;
     }
 
-    @Override
     public String getIdColumnName() {
-        return this.ID_COLUMN;
+        return this.FK_ID_COLUMN;
     }
 
-    @Override
+    public String getFKIdColumnName() {
+        return this.FK_ID_COLUMN;
+    }
+
     Class<PositionEntity> getEntityClass() {
         return PositionEntity.class;
     }
 
-    @Override
-    public <S extends PositionEntity> S save(S s) {
-        return null;
+    public Optional<PositionEntity> findById(Integer accountid) {
+        String selectSql = "SELECT * FROM " +this.getTableName()+" WHERE "+this.getFKIdColumnName()+"=?";
+        List<PositionEntity> res = jdbcTemplate.query(selectSql, new Object[]{accountid}, BeanPropertyRowMapper.newInstance(this.getEntityClass()) );
+        return Optional.of( res.get(0) );
     }
 
-    @Override
-    public <S extends PositionEntity> Iterable<S> saveAll(Iterable<S> iterable) {
-        return null;
-    }
-
-    @Override
-    public Optional<PositionEntity> findById(Integer integer) {
-        return Optional.empty();
-    }
-
-    @Override
-    public boolean existsById(Integer integer) {
+    public boolean existsById(Integer account_id) {
+        String selectSql = "SELECT * FROM " + this.getTableName();
+        List<PositionEntity> positions =  jdbcTemplate.query(selectSql, BeanPropertyRowMapper.newInstance(this.getEntityClass()));
+        for (PositionEntity positionEntity : positions) {
+            if (positionEntity.getId() !=null && positionEntity.getId().equals(account_id)) {
+                return true;// exist on table
+            }
+        }
         return false;
     }
 
-    @Override
     public Iterable<PositionEntity> findAll() {
-        return null;
+        String selectSql = "SELECT * FROM " + this.getTableName();
+        return jdbcTemplate.query(selectSql, BeanPropertyRowMapper.newInstance(this.getEntityClass()));
     }
 
-    @Override
     public Iterable<PositionEntity> findAllById(Iterable<Integer> iterable) {
-        return null;
+        String selectSql = "SELECT * FROM " + this.getTableName();
+        List<PositionEntity> all = new ArrayList<>(jdbcTemplate.query(selectSql, BeanPropertyRowMapper.newInstance(this.getEntityClass())));
+        List<PositionEntity> filter = new ArrayList<>();
+        for (Integer id: iterable) {
+            all.stream().filter(traderEntity -> traderEntity.getId().equals(id)).forEach(filter::add);
+        }
+        return filter;
     }
 
-    @Override
     public long count() {
-        return 0;
-    }
-
-    @Override
-    public void deleteById(Integer integer) {
-
-    }
-
-    @Override
-    public void delete(PositionEntity positionEntity) {
-
-    }
-
-    @Override
-    public void deleteAll(Iterable<? extends PositionEntity> iterable) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
+        Iterable<PositionEntity> all = this.findAll();
+        return (all instanceof Collection) ? ((Collection<PositionEntity>) all).size() : Math.toIntExact(StreamSupport.stream(all.spliterator(), false).count());
     }
 }
