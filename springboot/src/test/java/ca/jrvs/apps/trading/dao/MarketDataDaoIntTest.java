@@ -1,6 +1,6 @@
 package ca.jrvs.apps.trading.dao;
 
-import ca.jrvs.apps.trading.model.IexQuoteModel;
+import ca.jrvs.apps.trading.model.IexQuote;
 import ca.jrvs.apps.trading.model.helper.MarketDataConfig;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.junit.Before;
@@ -9,7 +9,8 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MarketDataDaoIntTest {
 
@@ -33,8 +34,8 @@ public class MarketDataDaoIntTest {
         Optional optional = dao.findById("aapl");
         assertTrue(optional.isPresent());
         assertTrue(optional.get()!=null);
-        assertTrue(optional.get() instanceof IexQuoteModel);
-        assertEquals("Apple Inc",((IexQuoteModel) optional.get()).getCompanyName());
+        assertTrue(optional.get() instanceof IexQuote);
+        assertEquals("Apple Inc",((IexQuote) optional.get()).getCompanyName());
     }
 
     @Test
@@ -51,7 +52,7 @@ public class MarketDataDaoIntTest {
 
     @Test
     public void findAllById_valid() {
-        Iterable<IexQuoteModel> all = dao.findAllById(Arrays.asList("aapl,fb"));
+        Iterable<IexQuote> all = dao.findAllById(Arrays.asList("aapl,fb"));
         assertTrue(all != null);
         all.forEach((quote) -> assertTrue(
                 quote.getCompanyName().equals("Apple Inc") || quote.getCompanyName().equals("Meta Platforms Inc - Class A"))
@@ -60,7 +61,7 @@ public class MarketDataDaoIntTest {
 
     @Test
     public void findAllById_invalid() {
-        Iterable<IexQuoteModel> all = dao.findAllById(Arrays.asList("aapl,f1awd214b"));
+        Iterable<IexQuote> all = dao.findAllById(Arrays.asList("aapl,f1awd214b"));
         assertTrue(all != null);
         all.forEach((quote) -> assertTrue(
                 quote.getCompanyName().equals("Apple Inc"))
