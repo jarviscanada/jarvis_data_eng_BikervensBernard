@@ -31,7 +31,7 @@ public class SpringBoot implements CommandLineRunner {
 
     private Logger logger = LoggerFactory.getLogger(SpringBoot.class);
 
-    @Value("#{'${initDailyList}'.split(',')}")
+    @Value("${initDailyList}")
     private String[] initDailyList;
 
     @Autowired
