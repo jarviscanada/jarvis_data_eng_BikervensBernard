@@ -101,8 +101,14 @@ public class AccountEntityDao extends JdbcCrudDao<AccountEntity> {
 
     @Override
     public Optional<AccountEntity> findById(Integer id) {
-        String selectSql = "SELECT * FROM " +this.getTableName()+" WHERE trader_id=?";
+        String selectSql = "SELECT * FROM " +this.getTableName()+" WHERE id=?";
         List<AccountEntity> res = jdbcTemplate.query(selectSql, new Object[]{id}, BeanPropertyRowMapper.newInstance(AccountEntity.class) );
+        return Optional.of( res.get(0) );
+    }
+
+    public Optional<AccountEntity> findByTraderId(Integer traderId) {
+        String selectSql = "SELECT * FROM " +this.getTableName()+" WHERE trader_id=?";
+        List<AccountEntity> res = jdbcTemplate.query(selectSql, new Object[]{traderId}, BeanPropertyRowMapper.newInstance(AccountEntity.class) );
         return Optional.of( res.get(0) );
     }
 

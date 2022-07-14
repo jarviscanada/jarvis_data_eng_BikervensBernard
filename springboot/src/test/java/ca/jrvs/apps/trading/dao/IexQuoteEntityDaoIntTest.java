@@ -1,12 +1,13 @@
 package ca.jrvs.apps.trading.dao;
 
+import ca.jrvs.apps.trading.AppConfig;
 import ca.jrvs.apps.trading.TestConfig;
 import ca.jrvs.apps.trading.model.databaseEntity.QuoteEntity;
 import ca.jrvs.apps.trading.model.helper.MarketDataConfig;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.http.HttpHost;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,10 +26,6 @@ import static org.junit.Assert.assertTrue;
 public class IexQuoteEntityDaoIntTest {
 
     @Autowired
-    private PoolingHttpClientConnectionManager cm;
-    @Autowired
-    private MarketDataConfig marketDataConfig;
-    @Autowired
     private QuoteEntityDao quoteEntityDao;
 
     private QuoteEntity savedIexQuote;
@@ -36,11 +33,17 @@ public class IexQuoteEntityDaoIntTest {
     @Value("${token}")
     private String token;
     @Value("${jdbcUrl}")
-    private String URL;
+    private static String URL;
+    @Value("${PSQL_HOST}")
+    private static String PSQL_HOST;
     @Value("${PSQL_DB_TEST}")
-    private String DB;
+    private static String DB;
+    @Value("${PSQL_DB}")
+    private static String MAIN_DB;
     @Value("${PSQL_USER}")
     private String PSQL_USER;
+    @Value("${PSQL_PORT}")
+    private static String PSQL_PORT;
     @Value("${PSQL_PASSWORD}")
     private String PSQL_PASSWORD;
 

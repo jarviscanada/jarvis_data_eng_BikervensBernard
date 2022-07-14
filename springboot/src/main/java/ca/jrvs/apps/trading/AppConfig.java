@@ -37,13 +37,10 @@ public class AppConfig {
 
     @Bean
     public DataSource dataSource() {
-        String url = jdbcUrl+PSQL_HOST+":"+PSQL_PORT+"/"+PSQL_DB;
-        String user = PSQL_USER;
-        String password = PSQL_PASSWORD;
         BasicDataSource basicDataSource = new BasicDataSource();
-        basicDataSource.setUrl(url);
-        basicDataSource.setUsername(user);
-        basicDataSource.setPassword(password);
+        basicDataSource.setUrl(jdbcUrl+PSQL_HOST+":"+PSQL_PORT+"/"+PSQL_DB);
+        basicDataSource.setUsername(PSQL_USER);
+        basicDataSource.setPassword(PSQL_PASSWORD);
         return basicDataSource;
     }
 
