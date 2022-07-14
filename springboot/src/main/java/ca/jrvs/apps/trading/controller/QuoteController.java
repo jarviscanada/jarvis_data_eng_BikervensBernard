@@ -32,8 +32,8 @@ public class QuoteController {
         }catch (Exception e) {
             throw ResponseExeptionUtil.getResponseStatusExecption(e);
         }
-    }
 
+    }
     @ApiOperation(value = "Update quote table against iex data", notes = "Update all quotes in the quote table. Use IEX trading API as market data source")
     @ApiResponses(value = {@ApiResponse(code = 404, message = "404 :/ Ticker not found")})
     @GetMapping(path = "/iex/MarketData") @ResponseStatus(HttpStatus.OK) @ResponseBody
