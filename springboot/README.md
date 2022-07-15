@@ -74,9 +74,7 @@ http://localhost:8080/swagger-ui.html#/
 ## REST API Usage
 ### Swagger
 Swagger is used to describe the structure of your 
-APIs so that machines can read them. 
-The ability of APIs to describe their own structure is the root 
-of all awesomeness in Swagger. 
+APIs so that machines can read them.
 Why is it so great? Well, by reading your API’s structure, 
 we can automatically build beautiful and interactive API documentation.
 Swagger does this by asking your API to return a YAML or JSON that contains a detailed description of your entire API. 
@@ -85,9 +83,6 @@ The specification asks you to include information like:
 What are all the operations that your API supports?
 What are your API’s parameters and what does it return?
 Does your API need some authorization?
-And even fun things like terms, contact information and license to use the API.
-You can write a Swagger spec for your API manually, or have it generated automatically from annotations in your source code. 
-Check swagger.io/open-source-integrations for a list of tools that let you generate Swagger from code.
 ###  [`Quote Controller`](./src/main/java/ca/jrvs/apps/trading/controller/QuoteController.java)
 - High-level description for this controller. Where is market data coming from (IEX) and how did you cache the quote data (PSQL). Briefly talk about data from within your app
 - GET `/quote/iex/addQuoteToDb/{ticker}`: Insert new quote entity into database, if it doest not exist. Using IEX trading API as market data source if quote already exist in database return updated/recent values for this quote entity
