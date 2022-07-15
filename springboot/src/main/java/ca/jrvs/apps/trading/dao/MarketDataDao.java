@@ -48,7 +48,7 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
     }
     private Optional<CloseableHttpResponse> executeHttpGet(HttpGet httpGet) {
 
-        CloseableHttpResponse httpResponse = null;
+        CloseableHttpResponse httpResponse;
         CloseableHttpClient closeableHttpClient = this.getHttpClient();
         try {
             httpResponse = closeableHttpClient.execute(httpGet);
@@ -78,9 +78,6 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
         HttpGet httpGet = new HttpGet(this.IEX_BATCH_URL);
         try {
             httpGet.setURI( new URIBuilder(httpGet.getURI()).addParameters(nameValuePairs).build() );
-            logger.info("url: "+httpGet.getURI());
-            logger.info("display header:");
-            Arrays.stream(httpGet.getAllHeaders()).forEach(i->logger.info( i.toString()));
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
