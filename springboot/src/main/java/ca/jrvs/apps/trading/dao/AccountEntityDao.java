@@ -71,6 +71,10 @@ public class AccountEntityDao extends JdbcCrudDao<AccountEntity> {
             }
         } else {
             this.addOne(accountEntity);
+            accountEntity = (S) this.findByTraderId(accountEntity.getTraderId()).orElse(null);
+            if (accountEntity == null) {
+                throw new DataRetrievalFailureException("unable to add account");
+            }
         }
         return accountEntity;
     }

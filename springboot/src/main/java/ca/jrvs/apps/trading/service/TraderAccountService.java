@@ -43,6 +43,8 @@ public class TraderAccountService {
         AccountEntity accountEntity = new AccountEntity();
         accountEntity.setTraderId(trader.getId());
         accountEntity.setAmount(0d);
+        accountEntity = accountEntityDao.findByTraderId(trader.getId()).orElse(accountEntity);
+
         accountEntityDao.save(accountEntity);
 
         // no position open at creation
@@ -57,7 +59,7 @@ public class TraderAccountService {
             throw new DataRetrievalFailureException("unable to find trader with id");
         }
 
-        AccountEntity account = this.accountEntityDao.findById(toRemove.getId()).orElse(null);
+        AccountEntity account = this.accountEntityDao.findByTraderId(toRemove.getId()).orElse(null);
         if (account != null) {
             if (account.getAmount() == 0) {
                 //delete filled order

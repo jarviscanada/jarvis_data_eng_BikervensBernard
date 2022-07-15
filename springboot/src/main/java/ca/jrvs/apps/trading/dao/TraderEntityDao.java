@@ -76,7 +76,7 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
         return row;
     }
     private <S extends TraderEntity> int updateOne(S traderEntity) {
-        String update_sql = "UPDATE quote SET first_name=?, last_name=?, "
+        String update_sql = "UPDATE "+this.getTableName()+" SET first_name=?, last_name=?, "
                 + "dob=?, country=?, email=? WHERE id=?";
         return jdbcTemplate.update(update_sql, makeUpdateValues( traderEntity ));
     }
@@ -105,7 +105,7 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
     public Optional<TraderEntity> findById(Integer id) {
         String selectSql = "SELECT * FROM " +this.getTableName()+" WHERE id=?";
         List<TraderEntity> res = jdbcTemplate.query(selectSql, new Object[]{id}, BeanPropertyRowMapper.newInstance(TraderEntity.class) );
-        return Optional.of( res.get(0) );
+        return res.size() == 0 ? Optional.empty() : Optional.of( res.get(0) );
     }
 
     private Optional<TraderEntity> findByEmail(String id) {
@@ -155,8 +155,9 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
             throw new IllegalArgumentException("ID can't be null");
         }
         String deleteSql = "DELETE FROM " + this.getTableName() + " WHERE " + this.getIdColumnName()  + " =?";
-        if (jdbcTemplate.update(deleteSql, id) < 1) {
-            throw new IncorrectResultSizeDataAccessException("deletetion should affect at least 1 row but was found less",1);
+        int row = jdbcTemplate.update(deleteSql, id);
+        if (row < 1) {
+            throw new IncorrectResultSizeDataAccessException("deletion should affect at least 1 row but was found less",1);
         }
     }
 

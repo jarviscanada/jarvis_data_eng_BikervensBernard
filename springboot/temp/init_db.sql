@@ -1,2 +1,0 @@
-CREATE DATABASE jrvstrading;
-GRANT ALL PRIVILEGES ON DATABASE jrvstrading TO postgres;
