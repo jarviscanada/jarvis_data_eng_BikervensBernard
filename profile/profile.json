@@ -39,7 +39,7 @@
       "name": "Core Java Apps"
     },
     {
-      "description": "Developed a trading system with the microservice architecture and Springboot framework. Since this is a PoC (proof of concept), I did not need to deal with the real banking or exchange systems. This PoC project focuses on features (e.g. functionalities, and feasibilities) rather than performance and security. The trading platform is a REST API consumed by the front-end applications. The application allows users to manage client profiles and accounts, monitor portfolio performance, and trade securities. The Springboot app fetches data from IEX Cloud which offers free market data (e.g. stock price) via its REST API. ",
+      "description": "Developed a trading system with the microservice architecture and Springboot framework. Since this is a PoC (proof of concept), I did not need to deal with the real banking or exchange systems. This PoC project focuses on features (e.g. functionalities, and feasibility) rather than performance and security. The trading platform is a REST API consumed by the front-end applications. The application allows users to manage client profiles and accounts, monitor portfolio performance, and trade securities. The Springboot app fetches data from IEX Cloud which offers free market data (e.g. stock price) via its REST API. ",
       "git_url": "/springboot",
       "name": "Springboot App"
     },
