@@ -24,7 +24,7 @@ public class TestConfig {
     @Value("${PSQL_PORT}")
     private String PSQL_PORT;
     @Value("${PSQL_DB_TEST}")
-    private String PSQL_DB;
+    private String PSQL_DB_TEST;
     @Value("${PSQL_USER}")
     private String PSQL_USER;
     @Value("${PSQL_PASSWORD}")
@@ -32,7 +32,7 @@ public class TestConfig {
 
     @Bean(name = "dataSource")
     public DataSource dataSource() {
-        String url = jdbcUrl+PSQL_HOST+":"+PSQL_PORT+"/"+PSQL_DB;
+        String url = jdbcUrl+PSQL_HOST+":"+PSQL_PORT+"/"+ PSQL_DB_TEST;
         String user = PSQL_USER;
         String password = PSQL_PASSWORD;
         BasicDataSource basicDataSource = new BasicDataSource();

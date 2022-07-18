@@ -31,7 +31,7 @@ public class SpringBoot implements CommandLineRunner {
 
     private Logger logger = LoggerFactory.getLogger(SpringBoot.class);
 
-    @Value("#{'${initDailyList}'.split(',')}")
+    @Value("${initDailyList}")
     private String[] initDailyList;
 
     @Autowired
@@ -49,6 +49,5 @@ public class SpringBoot implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        this.quoteService.saveQuotes(Arrays.asList(this.initDailyList));
     }
 }

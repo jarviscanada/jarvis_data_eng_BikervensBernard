@@ -25,6 +25,22 @@ public class TraderAccountView implements Serializable {
         this.account = account;
     }
 
+    public TraderEntity getTrader() {
+        return trader;
+    }
+
+    public void setTrader(TraderEntity trader) {
+        this.trader = trader;
+    }
+
+    public AccountEntity getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountEntity account) {
+        this.account = account;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
