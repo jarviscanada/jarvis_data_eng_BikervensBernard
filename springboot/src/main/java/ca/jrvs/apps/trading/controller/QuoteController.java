@@ -15,7 +15,8 @@ import java.util.List;
 
 @org.springframework.stereotype.Controller
 @io.swagger.annotations.Api(value = "quote" , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-@RequestMapping("/quote") /*Root path the controller (optional) e.g., http://localhost:8080/quote*/
+@RequestMapping("/quote")
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class QuoteController {
 
     private QuoteService quoteService;

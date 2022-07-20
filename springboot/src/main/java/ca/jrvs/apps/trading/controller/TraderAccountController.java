@@ -17,7 +17,8 @@ import java.sql.Date;
 
 @org.springframework.stereotype.Controller
 @io.swagger.annotations.Api(value = "Trader" , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-@RequestMapping("/trader") /*Root path the controller (optional) e.g., http://localhost:8080/quote*/
+@RequestMapping("/trader")
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class TraderAccountController {
 
     private TraderAccountService service;
