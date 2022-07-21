@@ -114,4 +114,8 @@ public class TraderAccountService {
         account.setAmount(account.getAmount() - amount);
         return this.accountEntityDao.save(account);
     }
+
+    public Iterable<TraderEntity> getAllTraders() {
+        return traderEntityDao.findAll();
+    }
 }
