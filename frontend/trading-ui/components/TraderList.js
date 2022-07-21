@@ -1,16 +1,17 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FemaleIcon from '@mui/icons-material/Female';
+import MaleIcon from '@mui/icons-material/Male';
 
 const TraderList = () => {
     return (
-        <table class="table is-striped is-narrow is-hoverable">
+        <table className="table is-striped is-narrow is-hoverable">
             <thead>
                 <tr>
                     <th scope="col" className="text-sm font-medium  px-6 py-4 text-left">
                         First Name
                     </th>
                     <th scope="col" className="text-sm font-medium  px-6 py-4 text-left">
-                        First Name
+                        Last Name
                     </th>
                     <th scope="col" className="text-sm font-medium  px-6 py-4 text-left">
                         Email
@@ -32,25 +33,25 @@ const TraderList = () => {
             <tbody>
                 <tr>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        Mark
+                        Beth
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        Otto
+                        Sanchez
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
                         rick@mdo
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        Male
+                        <FemaleIcon />Female
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        Montreal, Canada
+                        Paris, France
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        Mar 12, 2000 08:05 AM
+                        Mar 11, 2001 02:05 AM
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        <FontAwesomeIcon icon={faTrash} />
+                        <DeleteIcon />
                     </td>
                 </tr>
                 <tr>
@@ -61,10 +62,10 @@ const TraderList = () => {
                         Otto
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        rick@mdo
+                        Mark@Otto.com
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        Male
+                        <MaleIcon />Male
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
                         Montreal, Canada
@@ -73,36 +74,34 @@ const TraderList = () => {
                         Mar 12, 2000 08:05 AM
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        <FontAwesomeIcon icon={faTrash} />
+                        <DeleteIcon />
                     </td>
                 </tr>
                 <tr>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        Mark
+                        Rick
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        Otto
+                        Sachez
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        rick@mdo
+                        Rick@Sachez.com
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        Male
+                        <MaleIcon />Male
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        Montreal, Canada
+                        Los angeles, United states
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
                         Mar 12, 2000 08:05 AM
                     </td>
                     <td className="text-sm font-light px-6 py-4 whitespace-nowrap">
-                        <FontAwesomeIcon icon={faTrash} />
+                        <DeleteIcon />
                     </td>
                 </tr>
             </tbody>
         </table>
-
-
     );
 };
 
