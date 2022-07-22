@@ -32,6 +32,7 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
 
     private final Logger logger = LoggerFactory.getLogger(MarketDataDao.class);
     private final HttpClientConnectionManager httpClientConnectionManager;
+
     private final MarketDataConfig marketDataConfig;
 
     @Autowired

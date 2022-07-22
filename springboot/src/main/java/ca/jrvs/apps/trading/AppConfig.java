@@ -10,13 +10,17 @@ import ca.jrvs.apps.trading.model.databaseEntity.TraderEntity;
 import ca.jrvs.apps.trading.model.helper.MarketDataConfig;
 import ca.jrvs.apps.trading.service.QuoteService;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 import javax.sql.DataSource;
 
+
 @org.springframework.context.annotation.Configuration
+@ComponentScan(basePackages = {"ca.jrvs.apps.trading","ca.jrvs.apps.trading.dao","ca.jrvs.apps.trading.service"})
 public class AppConfig {
 
     // Environment variable from .env file
@@ -37,7 +41,7 @@ public class AppConfig {
 
     @Bean
     public DataSource dataSource() {
-        String url = jdbcUrl+PSQL_HOST+":"+PSQL_PORT+"/"+PSQL_DB;
+        String url = jdbcUrl+PSQL_HOST+":"+PSQL_PORT+"/"+"jrvstrading";
         String user = PSQL_USER;
         String password = PSQL_PASSWORD;
         BasicDataSource basicDataSource = new BasicDataSource();
@@ -47,7 +51,7 @@ public class AppConfig {
         return basicDataSource;
     }
 
-    @Bean(name = "marketDataConfig")
+   @Bean
     public MarketDataConfig marketDataConfig() {
         MarketDataConfig marketDataConfig = new MarketDataConfig();
         marketDataConfig.setHost("https://cloud.iexapis.com/v1/");
@@ -55,7 +59,7 @@ public class AppConfig {
         return marketDataConfig;
     }
 
-    @Bean(name = "httpClientConnectionManager")
+    @Bean
     public PoolingHttpClientConnectionManager httpClientConnectionManager() {
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
         connectionManager.setMaxTotal(50);
@@ -63,41 +67,42 @@ public class AppConfig {
         return connectionManager;
     }
 
-    @Bean(name = "positionEntityDao")
+    @Bean
     public PositionEntityDao positionEntityDao() {
         return new PositionEntityDao(dataSource());
     }
 
-    @Bean(name = "traderEntity")
+    @Bean
     public TraderEntity traderEntity() {
         return new TraderEntity();
     }
-    @Bean(name = "accountEntity")
+
+    @Bean
     public AccountEntity accountEntity() {
         return new AccountEntity();
     }
 
-    @Bean(name = "securityOrderEntityDao")
+    @Bean
     public SecurityOrderEntityDao securityOrderEntityDao() {
         return new SecurityOrderEntityDao(dataSource());
     }
 
-    @Bean(name = "marketDataDao")
+    @Bean
     public MarketDataDao marketDataDao() {
         return new MarketDataDao(httpClientConnectionManager(),marketDataConfig());
     }
 
-    @Bean(name = "quoteService")
+    @Bean
     public QuoteService quoteService() {
         return new QuoteService(quoteDao() ,marketDataDao());
     }
 
-    @Bean(name = "quoteDao")
+    @Bean
     public QuoteEntityDao quoteDao() {
         return new QuoteEntityDao(dataSource(),httpClientConnectionManager(),marketDataConfig());
     }
 
-    @Bean(name = "quoteController")
+    @Bean
     public QuoteController quoteController() {
         return new QuoteController(quoteService());
     }

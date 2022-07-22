@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import javax.sql.DataSource;
 
 @org.springframework.context.annotation.Configuration
-@ComponentScan(basePackages = {"ca.jrvs.apps.trading.dao","ca.jrvs.apps.trading.service"})
+//@ComponentScan(basePackages = {"ca.jrvs.apps.trading.dao","ca.jrvs.apps.trading.service"})
 public class TestConfig {
     // Environment variable from .env file
     @Value("${token}")
@@ -29,8 +29,8 @@ public class TestConfig {
     private String PSQL_USER;
     @Value("${PSQL_PASSWORD}")
     private String PSQL_PASSWORD;
-
-    @Bean(name = "dataSource")
+/*
+    @Bean
     public DataSource dataSource() {
         String url = jdbcUrl+PSQL_HOST+":"+PSQL_PORT+"/"+PSQL_DB;
         String user = PSQL_USER;
@@ -42,7 +42,7 @@ public class TestConfig {
         return basicDataSource;
     }
 
-    @Bean(name = "marketDataConfig")
+    @Bean
     public MarketDataConfig marketDataConfig() {
         MarketDataConfig marketDataConfig = new MarketDataConfig();
         marketDataConfig.setHost("https://cloud.iexapis.com/v1/");
@@ -50,11 +50,11 @@ public class TestConfig {
         return marketDataConfig;
     }
 
-    @Bean(name = "httpClientConnectionManager")
+    @Bean
     public HttpClientConnectionManager httpClientConnectionManager() {
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
         connectionManager.setMaxTotal(50);
         connectionManager.setDefaultMaxPerRoute(50);
         return connectionManager;
-    }
+    }*/
 }

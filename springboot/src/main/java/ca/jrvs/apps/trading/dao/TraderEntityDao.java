@@ -76,8 +76,8 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
         return row;
     }
     private <S extends TraderEntity> int updateOne(S traderEntity) {
-        String update_sql = "UPDATE quote SET first_name=?, last_name=?, "
-                + "dob=?, country=?, email=? WHERE id=?";
+        String update_sql = "UPDATE "+this.TABLE_NAME+" SET first_name=?, last_name=?, "
+                + "dob=?, country=?, email=?, gender=? WHERE id=?";
         return jdbcTemplate.update(update_sql, makeUpdateValues( traderEntity ));
     }
     private Object[] makeUpdateValues(TraderEntity traderEntity) {
@@ -87,7 +87,8 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
                 traderEntity.getDob(),
                 traderEntity.getCountry(),
                 traderEntity.getEmail(),
-                traderEntity.getId()
+                traderEntity.getGender(),
+                traderEntity.getId(),
         };
     }
 

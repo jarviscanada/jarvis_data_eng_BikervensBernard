@@ -15,6 +15,7 @@ CREATE TABLE public.trader
   dob        date    NOT NULL,
   country    varchar NOT NULL,
   email      varchar NOT NULL,
+  gender     varchar;
   CONSTRAINT trader_pk PRIMARY KEY (id)
 );
 

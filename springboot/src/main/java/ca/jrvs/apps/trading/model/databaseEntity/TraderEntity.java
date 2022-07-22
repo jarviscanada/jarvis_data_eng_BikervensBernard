@@ -13,6 +13,16 @@ public class TraderEntity implements Entity<Integer> {
     private String country ;
     private String email;
 
+    public String getGender() {
+        return Gender;
+    }
+
+    public void setGender(String gender) {
+        Gender = gender;
+    }
+
+    private String Gender;
+
     public String getFirstName() {
         return firstName;
     }
