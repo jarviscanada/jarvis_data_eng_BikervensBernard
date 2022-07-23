@@ -30,31 +30,31 @@ public class AccountEntityDao extends JdbcCrudDao<AccountEntity> {
 
     @Autowired
     public AccountEntityDao(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.simpleJdbcInsert =
+        jdbcTemplate = new JdbcTemplate(dataSource);
+        simpleJdbcInsert =
                 new SimpleJdbcInsert(dataSource).
-                        withTableName(this.getTableName()).
-                        usingGeneratedKeyColumns(this.getIdColumnName());
+                        withTableName(getTableName()).
+                        usingGeneratedKeyColumns(getIdColumnName());
     }
 
     @Override
     public JdbcTemplate getJdbcTemplate() {
-        return this.jdbcTemplate;
+        return jdbcTemplate;
     }
 
     @Override
     public SimpleJdbcInsert getSimpleJdbcInsert() {
-        return this.simpleJdbcInsert;
+        return simpleJdbcInsert;
     }
 
     @Override
     public String getTableName() {
-        return this.TABLE_NAME;
+        return TABLE_NAME;
     }
 
     @Override
     public String getIdColumnName() {
-        return this.ID_COLUMN;
+        return ID_COLUMN;
     }
 
     @Override
@@ -65,12 +65,12 @@ public class AccountEntityDao extends JdbcCrudDao<AccountEntity> {
     @Override
     public <S extends AccountEntity> S save(S accountEntity) {
         if(existsById(accountEntity.getId())) {
-            int updatedRowNo = this.updateOne(accountEntity);
+            int updatedRowNo = updateOne(accountEntity);
             if (updatedRowNo != 1) {
                 throw new DataRetrievalFailureException("unable to update accountEntity");
             }
         } else {
-            this.addOne(accountEntity);
+            addOne(accountEntity);
         }
         return accountEntity;
     }
@@ -83,7 +83,7 @@ public class AccountEntityDao extends JdbcCrudDao<AccountEntity> {
         return row;
     }
     private <S extends AccountEntity> int updateOne(S accountEntity) {
-        String update_sql = "UPDATE "+this.getTableName()+" SET amount=? WHERE trader_id=?";
+        String update_sql = "UPDATE "+getTableName()+" SET amount=? WHERE trader_id=?";
         return jdbcTemplate.update(
                 update_sql, new Object[]{accountEntity.getAmount(),accountEntity.getTraderId()}
         );
@@ -92,23 +92,23 @@ public class AccountEntityDao extends JdbcCrudDao<AccountEntity> {
     @Override
     public <S extends AccountEntity> Iterable<S> saveAll(Iterable<S> iterable) {
         iterable.forEach(a -> {
-            this.save(a);
+            save(a);
         });
         ArrayList<AccountEntity> added = new ArrayList<>();
-        this.findAll().forEach(a -> added.add(a));
+        findAll().forEach(a -> added.add(a));
         return (Iterable<S>) added;
     }
 
     @Override
     public Optional<AccountEntity> findById(Integer id) {
-        String selectSql = "SELECT * FROM " +this.getTableName()+" WHERE trader_id=?";
+        String selectSql = "SELECT * FROM " +getTableName()+" WHERE trader_id=?";
         List<AccountEntity> res = jdbcTemplate.query(selectSql, new Object[]{id}, BeanPropertyRowMapper.newInstance(AccountEntity.class) );
         return Optional.of( res.get(0) );
     }
 
     @Override
     public boolean existsById(Integer id) {
-        String selectSql = "SELECT * FROM " + this.getTableName();
+        String selectSql = "SELECT * FROM " + getTableName();
         List<AccountEntity> quotes =  jdbcTemplate.query(selectSql, BeanPropertyRowMapper.newInstance(AccountEntity.class));
         for (AccountEntity quote : quotes) {
             if (quote.getId() !=null && quote.getId().equals(id)) {
@@ -120,14 +120,14 @@ public class AccountEntityDao extends JdbcCrudDao<AccountEntity> {
 
     @Override
     public Iterable<AccountEntity> findAll() {
-        String selectSql = "SELECT * FROM " + this.getTableName();
+        String selectSql = "SELECT * FROM " + getTableName();
         return jdbcTemplate.query(selectSql, BeanPropertyRowMapper.newInstance(AccountEntity.class));
 
     }
 
     @Override
     public Iterable<AccountEntity> findAllById(Iterable<Integer> iterable) {
-        String selectSql = "SELECT * FROM " + this.getTableName();
+        String selectSql = "SELECT * FROM " + getTableName();
         List<AccountEntity> all = new ArrayList<>(jdbcTemplate.query(selectSql, BeanPropertyRowMapper.newInstance(AccountEntity.class)));
         List<AccountEntity> filter = new ArrayList<>();
         for (Integer id: iterable) {
@@ -138,7 +138,7 @@ public class AccountEntityDao extends JdbcCrudDao<AccountEntity> {
 
     @Override
     public long count() {
-        Iterable<AccountEntity> all = this.findAll();
+        Iterable<AccountEntity> all = findAll();
         return (all instanceof Collection) ? ((Collection<AccountEntity>) all).size() : Math.toIntExact(StreamSupport.stream(all.spliterator(), false).count());
 
     }
@@ -148,7 +148,7 @@ public class AccountEntityDao extends JdbcCrudDao<AccountEntity> {
         if (id == null) {
             throw new IllegalArgumentException("ID can't be null");
         }
-        String deleteSql = "DELETE FROM " + this.getTableName() + " WHERE  trader_id =?";
+        String deleteSql = "DELETE FROM " + getTableName() + " WHERE  trader_id =?";
         int row = jdbcTemplate.update(deleteSql, id);
         if (row < 1) {
             throw new IncorrectResultSizeDataAccessException("should be more than 1",1);
@@ -159,7 +159,7 @@ public class AccountEntityDao extends JdbcCrudDao<AccountEntity> {
         if (id == null) {
             throw new IllegalArgumentException("ID can't be null");
         }
-        String deleteSql = "DELETE FROM " + this.getTableName() + " WHERE trader_id =?";
+        String deleteSql = "DELETE FROM " + getTableName() + " WHERE trader_id =?";
         if (jdbcTemplate.update(deleteSql, id) != 1) {
             throw new IncorrectResultSizeDataAccessException(1);
         }

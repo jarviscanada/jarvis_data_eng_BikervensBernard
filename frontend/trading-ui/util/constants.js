@@ -1,9 +1,7 @@
 export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8080";
-export const tradersUrl = BACKEND_URL + "/dashboard/traders";
-export const createTraderUrl = BACKEND_URL + "/trader";
-export const getAllTraderUrl = BACKEND_URL + "/trader/traders";
-export const deleteTraderUrl = BACKEND_URL + "/trader/traderId";
-export const dailyListQuotesUrl = BACKEND_URL + "/quote/dailyList";
-export const traderAccountUrl = BACKEND_URL + "/dashboard/profile/traderId/";
-export const depositFundsUrl = BACKEND_URL + "/trader/deposit/traderId/";
-export const withdrawFundsUrl = BACKEND_URL + "/trader/withdraw/traderId/";
+export const TRADER_ENDPOINT = BACKEND_URL + "/trader";
+export const getAllTraderUrl = TRADER_ENDPOINT + "/traders";
+export const deleteTraderUrl = TRADER_ENDPOINT + "/delete/traderid";
+export const QUOTE_ENDPOINT = BACKEND_URL + "/quote";
+export const dailyListQuotesUrl = QUOTE_ENDPOINT + "/dailylist/";
+export const getQuotes = QUOTE_ENDPOINT + "/iex/MarketData";

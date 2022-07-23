@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @org.springframework.stereotype.Controller
@@ -40,6 +41,20 @@ public class QuoteController {
     @GetMapping(path = "/iex/MarketData") @ResponseStatus(HttpStatus.OK) @ResponseBody
     public List<QuoteEntity> updateMarketData() {
         try {
+            quoteService.updateMarketData();
+            return quoteService.findAllQuotes();
+        } catch (Exception e) {
+            throw ResponseExeptionUtil.getResponseStatusExecption(e);
+        }
+    }
+
+    @ApiOperation(value = "Add in backend the specified daily list quotes", notes = "Fetch iex data fo specified quotes, save data to table and return list")
+    @ApiResponses(value = {@ApiResponse(code = 404, message = "404 :/ Ticker not found")})
+    @GetMapping(path = "/dailylist/{tickers}") @ResponseStatus(HttpStatus.OK) @ResponseBody
+    public List<QuoteEntity> dailyList(@PathVariable String tickers) {
+        try {
+            String[] initDailyList = tickers.split(",");
+            quoteService.saveQuotes(Arrays.asList(initDailyList));
             quoteService.updateMarketData();
             return quoteService.findAllQuotes();
         } catch (Exception e) {

@@ -1,6 +1,6 @@
-import Navbar from './components/NavBar';
-import TraderList from './components/TraderList';
-import AddTraderModal from './components/AddTraderModal';
+import Navbar from '../pages/components/NavBar';
+import TraderList from '../pages/components/TraderList';
+import AddTraderModal from '../pages/components/AddTraderModal';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 const fetchData = async () => await axios.get('https://jsonplaceholder.typicode.com/users')

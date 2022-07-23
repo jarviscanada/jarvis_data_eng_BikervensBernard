@@ -1,15 +1,12 @@
 import Navbar from './components/NavBar';
-import TraderList from './components/TraderList';
-import AddTraderModal from './components/AddTraderModal';
 import { useState } from 'react';
-import { getAllTraderUrl } from '../util/constants'
+import { getQuotes } from '../util/constants'
 import axios from 'axios';
 import Head from 'next/head'
+import QuoteList from './components/QuoteList';
 
-function Dashboard({ traders, error }) {
-    const [showAddTraderModal, setShowAddTraderModal] = useState(false);
-    const [getTraders, setTraders] = useState(traders);
-    const colForDashboardPageTable = ["First Name", "Last Name", "Email", "Gender", "Country", "Date of Birth", "Action"];
+function quotes({ quotes, error }) {
+    const [getQuotes, setQuotes] = useState(quotes);
     const colForQuotePageTable = ["Tiker", "Last price", "Bid Price", "Bid Size", "Ask Price", "Ask Size"];
 
     return (
@@ -27,26 +24,25 @@ function Dashboard({ traders, error }) {
             <div className="w-full h-full sm:p-4 md:p-8 overflow-y-auto">
                 <div className=" items-center justify-center border-4 border-dotted">
             
-                    <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Dashboard</h1>
-                    <p className="w-full leading-relaxed text-gray-500">Welcome to dashboard view. It is here that you will be able to manage all trader's account! press the "Add trader" button to add a new trader and start managing it's account</p>
-                    <button className='button bg-gray-100 my-3 p-2 rounded-lg hover:bg-gray-200'><p onClick={() => { setShowAddTraderModal(!showAddTraderModal) }}> + Add trader</p></button>
-                    {showAddTraderModal ? <AddTraderModal closeModal={setShowAddTraderModal} traders={setTraders} allTraders={getTraders} /> : null}
-                    <TraderList col={colForDashboardPageTable} initialAllTraders={getTraders} />
+                    <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Quotes</h1>
+                    <p className="w-full leading-relaxed text-gray-500">IEX Cloud is a platform that makes financial data and services accessible to everyone.</p>
+                    <button className='button bg-gray-100 my-3 p-2 rounded-lg hover:bg-gray-200'><p onClick={() => { setShowAddTraderModal(!showAddTraderModal) }}> + Add quote</p></button>
+                    <QuoteList initialAllQuotes={getQuotes} col={colForQuotePageTable}/>
                 </div>
             </div>
 
         </div>
     );
 };
-export default Dashboard;
+export default quotes;
 
 const fetchData = async () =>
-    await axios.get(getAllTraderUrl).then(res => ({
+    await axios.get(getQuotes).then(res => ({
         error: false,
-        traders: res.data,
+        quotes: res.data,
     })).catch(() => ({
         error: true,
-        traders: [],
+        quotes: [],
     }),
 );
 

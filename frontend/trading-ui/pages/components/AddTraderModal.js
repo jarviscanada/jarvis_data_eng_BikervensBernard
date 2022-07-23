@@ -1,52 +1,77 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { createTraderUrl } from '../../util/constants'
+import { TRADER_ENDPOINT } from '../../util/constants'
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
+import CountrySelect from './CountrySelect';
+import Router from 'next/router';
 
 const AddTraderModal = ({ closeModal, traders, allTraders }) => {
-  const [getFirstName, setFirstName] = useState('Jon');
-  const [getLastName, setLastName] = useState('Doe');
-  const [getEmail, setEmail] = useState('Jon@gmail.com');
-  const [getGender, setGender] = useState('Male');
-  const [getCountry, setCountry] = useState('Montreal, Canada');
-  const [getDob, setDob] = useState('1999-10-11');
+  const [getFirstName, setFirstName] = useState("");
+  const [getLastName, setLastName] = useState("");
+  const [getEmail, setEmail] = useState("");
+  const [getGender, setGender] = useState("");
+  const [getCountry, setCountry] = useState("");
+  const [getDob, setDob] = useState("");
   const add = async () => {
     var letters = /^[A-Za-z]+$/;
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-    setFirstName(document.getElementById('first-name').value);
-    setLastName(document.getElementById('last-name').value);
-    setEmail(document.getElementById('email').value);
-    setGender(document.getElementById('gender').value);
-    setCountry(document.getElementById('country').value);
-    setDob(document.getElementById('dob').value);
+    const firstname = document.getElementById('first-name').value;
+    const lastname = document.getElementById('last-name').value;
+    const email = document.getElementById('email').value;
+    const gender = getGender;
+    const country = document.getElementById('country').value;
+    const dob = document.getElementById('dob').value;
 
     resetUi();
-    if (!document.getElementById('first-name').value.match(letters)) {
+    if (!firstname.match(letters)) {
       document.getElementById('first-name').classList.remove('appearance-none');
       document.getElementById('first-name').classList.add('border-red-600');
       document.getElementById('first-name').classList.add('red');
       document.getElementById('first-name-error').classList.remove('hidden');
       document.getElementById('first-name-error').innerText = "name can't contains non-alphebetic characters";
     }
-    else if (!document.getElementById('last-name').value.match(letters)) {
+    else if (!lastname.match(letters)) {
       document.getElementById('first-name').classList.remove('appearance-none');
       document.getElementById('first-name').classList.add('border-red-600');
       document.getElementById('first-name').classList.add('red');
       document.getElementById('first-name-error').classList.remove('hidden');
       document.getElementById('first-name-error').innerText = "name can't contains non-alphebetic characters";
     }
-    else if (!document.getElementById('email').value.match(mailformat)) {
+    else if (!email.match(mailformat)) {
       document.getElementById('email').classList.remove('appearance-none');
       document.getElementById('email').classList.add('border-red-600');
       document.getElementById('email').classList.add('red');
       document.getElementById('email-error').classList.remove('hidden');
       document.getElementById('email-error').innerText = 'please give a valid email';
     }
+    else if (gender === "") {
+      document.getElementById('gender-error').classList.remove('hidden');
+      document.getElementById('gender-error').innerText = 'Please select a sexe';
+    }
+    else if (country === "") {
+      document.getElementById('country-error').classList.remove('hidden');
+      document.getElementById('country-error').innerText = 'Please select a country';
+    }
+    else if (dob === "") {
+      document.getElementById('dob-error').classList.remove('hidden');
+      document.getElementById('dob-error').innerText = 'Please select your date of birth';
+    }
     else {
-      addRequest();
-      closeModal(false);
+      await axios.get(TRADER_ENDPOINT + 
+      '/firstname/' + firstname + 
+      '/lastname/' + lastname + 
+      '/dob/' + dob + 
+      '/country/' + country + 
+      '/email/' + email + 
+      '/gender/' + gender).then(res => {
+        console.log(res)
+        allTraders.push(res.data.trader);
+        traders(allTraders);
+        closeModal(false);
+        Router.reload(window.location.pathname);
+      });
     }
   }
 
@@ -63,6 +88,10 @@ const AddTraderModal = ({ closeModal, traders, allTraders }) => {
     document.getElementById('email').classList.remove('appearance-none');
     document.getElementById('email').classList.remove('border-red-600');
     document.getElementById('email-error').classList.add('hidden');
+
+    document.getElementById('gender-error').classList.add('hidden');
+    document.getElementById('country-error').classList.add('hidden');
+    document.getElementById('dob-error').classList.add('hidden');
   }
 
   const addRequest = async () => {
@@ -114,10 +143,10 @@ const AddTraderModal = ({ closeModal, traders, allTraders }) => {
                   <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
                     Sexe
                   </label>
-                  <input className='appearance-none block w-full hidden bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white' id='gender' type='text' placeholder='Male' />
-                  <nav class='pagination' role='navigation' aria-label='pagination'>
-                    <a class='pagination-previous' id='male'><MaleIcon/>Male</a>
-                    <a class='pagination-next' id='female'><FemaleIcon/>Female</a>
+                  <p id='gender-error' className='text-red-500 text-xs italic hidden'>Please select a sexe</p>
+                  <nav className='flex'>
+                    <a className='button flex-1 mr-2' id='male' onClick={()=>{document.getElementById('male').classList.add('is-success');document.getElementById('female').classList.remove('is-success');setGender("Male")}}><MaleIcon/>Male</a>
+                    <a className='button flex-1' id='female' onClick={()=>{document.getElementById('female').classList.add('is-success');document.getElementById('male').classList.remove('is-success');setGender("Female")}}><FemaleIcon/>Female</a>
                   </nav>
                 </div>
               </div>
@@ -126,7 +155,7 @@ const AddTraderModal = ({ closeModal, traders, allTraders }) => {
                   <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
                     Country
                   </label>
-                  <input className='appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white' id='country' type='text' placeholder='Canada' />
+                  <CountrySelect/>
                   <p id='country-error' className='text-red-500 text-xs italic hidden'>Please fill out this field.</p>
                 </div>
               </div>

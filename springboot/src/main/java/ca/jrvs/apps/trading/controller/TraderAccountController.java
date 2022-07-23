@@ -57,7 +57,7 @@ public class TraderAccountController {
 
     @ApiOperation(value = "Delete a trader", notes = "Delete a trader if its account amount is 0 and no open positions.")
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Unable to delete the trader")})
-    @DeleteMapping(path = "/traderId/{traderId}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @DeleteMapping(path = "/delete/traderid/{traderId}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     @ResponseStatus(HttpStatus.OK) @ResponseBody
     public void deleteTrader(@PathVariable Integer traderId) {
         try {

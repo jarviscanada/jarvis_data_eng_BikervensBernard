@@ -48,7 +48,5 @@ public class SpringBoot implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        this.quoteService.saveQuotes(Arrays.asList(this.initDailyList));
-    }
+    public void run(String... args) throws Exception {}
 }

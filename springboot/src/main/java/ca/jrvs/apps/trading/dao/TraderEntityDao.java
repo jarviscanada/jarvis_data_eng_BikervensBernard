@@ -29,24 +29,24 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
 
     @Autowired
     public TraderEntityDao(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.simpleJdbcInsert =
+        jdbcTemplate = new JdbcTemplate(dataSource);
+        simpleJdbcInsert =
                 new SimpleJdbcInsert(dataSource).
-                withTableName(this.getTableName()).
-                usingGeneratedKeyColumns(this.getIdColumnName());
+                withTableName(getTableName()).
+                usingGeneratedKeyColumns(getIdColumnName());
     }
 
     @Override
-    public JdbcTemplate getJdbcTemplate() {return this.jdbcTemplate;}
+    public JdbcTemplate getJdbcTemplate() {return jdbcTemplate;}
 
     @Override
-    public SimpleJdbcInsert getSimpleJdbcInsert() {return this.simpleJdbcInsert;}
+    public SimpleJdbcInsert getSimpleJdbcInsert() {return simpleJdbcInsert;}
 
     @Override
-    public String getTableName() {return this.TABLE_NAME;}
+    public String getTableName() {return TABLE_NAME;}
 
     @Override
-    public String getIdColumnName() {return this.ID_COLUMN;}
+    public String getIdColumnName() {return ID_COLUMN;}
 
     @Override
     Class<TraderEntity> getEntityClass() {return TraderEntity.class;}
@@ -54,13 +54,13 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
     @Override
     public <S extends TraderEntity> S save(S trader) {
         if(existsById(trader.getId())) {
-            int updatedRowNo = this.updateOne(trader);
+            int updatedRowNo = updateOne(trader);
             if (updatedRowNo != 1) {
                 throw new DataRetrievalFailureException("unable to update trader");
             }
         } else {
-            this.addOne(trader);
-            trader = (S) this.findByEmail(trader.getEmail()).orElse(null);
+            addOne(trader);
+            trader = (S) findByEmail(trader.getEmail()).orElse(null);
             if (trader == null) {
                 throw new DataRetrievalFailureException("unable to add trader");
             }
@@ -76,7 +76,7 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
         return row;
     }
     private <S extends TraderEntity> int updateOne(S traderEntity) {
-        String update_sql = "UPDATE "+this.TABLE_NAME+" SET first_name=?, last_name=?, "
+        String update_sql = "UPDATE "+TABLE_NAME+" SET first_name=?, last_name=?, "
                 + "dob=?, country=?, email=?, gender=? WHERE id=?";
         return jdbcTemplate.update(update_sql, makeUpdateValues( traderEntity ));
     }
@@ -95,29 +95,29 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
     @Override
     public <S extends TraderEntity> Iterable<S> saveAll(Iterable<S> traders) {
         traders.forEach(trader -> {
-            this.save(trader);
+            save(trader);
         });
         ArrayList<TraderEntity> added = new ArrayList<>();
-        this.findAll().forEach(traderEntity -> added.add(traderEntity));
+        findAll().forEach(traderEntity -> added.add(traderEntity));
         return (Iterable<S>) added;
     }
 
     @Override
     public Optional<TraderEntity> findById(Integer id) {
-        String selectSql = "SELECT * FROM " +this.getTableName()+" WHERE id=?";
+        String selectSql = "SELECT * FROM " +getTableName()+" WHERE id=?";
         List<TraderEntity> res = jdbcTemplate.query(selectSql, new Object[]{id}, BeanPropertyRowMapper.newInstance(TraderEntity.class) );
         return Optional.of( res.get(0) );
     }
 
     private Optional<TraderEntity> findByEmail(String id) {
-        String selectSql = "SELECT * FROM " +this.getTableName()+" WHERE email=?";
+        String selectSql = "SELECT * FROM " +getTableName()+" WHERE email=?";
         List<TraderEntity> res = jdbcTemplate.query(selectSql, new Object[]{id}, BeanPropertyRowMapper.newInstance(TraderEntity.class) );
         return Optional.of( res.get(0) );
     }
 
     @Override
     public boolean existsById(Integer id) {
-        String selectSql = "SELECT * FROM " + this.getTableName();
+        String selectSql = "SELECT * FROM " + getTableName();
         List<TraderEntity> traderEntities =  jdbcTemplate.query(selectSql, BeanPropertyRowMapper.newInstance(TraderEntity.class));
         for (TraderEntity e : traderEntities) {
             if (e.getId() !=null && e.getId().equals(id)) {
@@ -129,13 +129,13 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
 
     @Override
     public Iterable<TraderEntity> findAll() {
-        String selectSql = "SELECT * FROM " + this.getTableName();
+        String selectSql = "SELECT * FROM " + getTableName();
         return jdbcTemplate.query(selectSql, BeanPropertyRowMapper.newInstance(TraderEntity.class));
     }
 
     @Override
     public Iterable<TraderEntity> findAllById(Iterable<Integer> iterable) {
-        String selectSql = "SELECT * FROM " + this.getTableName();
+        String selectSql = "SELECT * FROM " + getTableName();
         List<TraderEntity> all = new ArrayList<>(jdbcTemplate.query(selectSql, BeanPropertyRowMapper.newInstance(TraderEntity.class)));
         List<TraderEntity> filter = new ArrayList<>();
         for (Integer id: iterable) {
@@ -146,7 +146,7 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
 
     @Override
     public long count() {
-        Iterable<TraderEntity> all = this.findAll();
+        Iterable<TraderEntity> all = findAll();
         return (all instanceof Collection) ? ((Collection<TraderEntity>) all).size() : Math.toIntExact(StreamSupport.stream(all.spliterator(), false).count());
     }
 
@@ -155,7 +155,7 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
         if (id == null) {
             throw new IllegalArgumentException("ID can't be null");
         }
-        String deleteSql = "DELETE FROM " + this.getTableName() + " WHERE " + this.getIdColumnName()  + " =?";
+        String deleteSql = "DELETE FROM " + getTableName() + " WHERE " + getIdColumnName()  + " =?";
         if (jdbcTemplate.update(deleteSql, id) < 1) {
             throw new IncorrectResultSizeDataAccessException("deletetion should affect at least 1 row but was found less",1);
         }

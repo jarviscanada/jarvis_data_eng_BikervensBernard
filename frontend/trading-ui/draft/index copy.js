@@ -1,15 +1,17 @@
-import Navbar from './components/NavBar';
-import TraderList from './components/TraderList';
-import AddTraderModal from './components/AddTraderModal';
+import Navbar from '../pages/components/NavBar';
+import TraderList from '../pages/components/TraderList';
+import AddTraderModal from '../pages/components/AddTraderModal';
 import { useState } from 'react';
 import { getAllTraderUrl } from '../util/constants'
 import axios from 'axios';
+import Head from 'next/head'
 
 function Dashboard({ users, error }) {
     const [showAddTraderModal, setShowAddTraderModal] = useState(false);
     const [getTraders, setTraders] = useState(users);
     return (
         <div className="flex">
+            
             <div className="flex-none">
                 <Navbar />
             </div>
@@ -39,6 +41,7 @@ function Dashboard({ users, error }) {
 
                 </div>
             </div>
+            
         </div>
     );
 };
