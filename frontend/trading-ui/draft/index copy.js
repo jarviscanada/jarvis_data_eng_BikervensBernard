@@ -56,13 +56,9 @@ const fetchData = async () =>
         error: true,
         users: null,
     }),
-    );
+);
 
 export const getServerSideProps = async () => {
     const data = await fetchData();
-    console.log(data);
-    return {
-        props: data,
-    };
-
+    return {props: data,};
 }

@@ -1,6 +1,6 @@
 const CountrySelect = () => {
     return (
-        <select id="country" name="country" className='block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white'>
+        <select id="country" name="country" className='focus:outline-none focus:ring w-full ease-linear transition-all duration-150 block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white'>
             <option value=""></option>
             <option value="Afghanistan">Afghanistan</option>
             <option value="Åland Islands">Åland Islands</option>

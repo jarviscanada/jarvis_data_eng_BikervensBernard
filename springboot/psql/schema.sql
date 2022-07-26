@@ -15,14 +15,14 @@ CREATE TABLE public.trader
   dob        date    NOT NULL,
   country    varchar NOT NULL,
   email      varchar NOT NULL,
-  gender     varchar;
+  gender     varchar,
   CONSTRAINT trader_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE public.account
 (
   id        serial NOT NULL,
-  trader_id int4   NOT NULL,
+  trader_id serial NOT NULL,
   amount    float8 NOT NULL,
   CONSTRAINT account_pk PRIMARY KEY (id),
   CONSTRAINT account_trader_fk FOREIGN KEY (trader_id) REFERENCES trader (id)

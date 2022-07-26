@@ -2,8 +2,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
 import axios from 'axios';
-import { deleteTraderUrl } from '../../util/constants';
-import { getAllTraderUrl } from '../../util/constants';
+import { deleteTraderUrl } from '../../../util/constants';
+import { getAllTraderUrl } from '../../../util/constants';
 import { useState } from 'react';
 
 const TraderList = ( {initialAllTraders, col} ) => {
@@ -14,7 +14,6 @@ const TraderList = ( {initialAllTraders, col} ) => {
                 setTraders(res.data);
             });
         });
-        console.log(traders);
     }
     return (
         <div className="table-wrapper overflow-x-auto">

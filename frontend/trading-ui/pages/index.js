@@ -1,8 +1,8 @@
-import Navbar from './components/NavBar';
-import TraderList from './components/TraderList';
-import AddTraderModal from './components/AddTraderModal';
 import { useState } from 'react';
-import { getAllTraderUrl } from '../util/constants'
+import { getAllTraderUrl } from '../util/constants';
+import Navbar from './components/Navigations/NavBar';
+import TraderList from './components/Tables/TraderList';
+import AddTraderModal from './components/Modals/AddTraderModal';
 import axios from 'axios';
 import Head from 'next/head'
 
@@ -10,8 +10,6 @@ function Dashboard({ traders, error }) {
     const [showAddTraderModal, setShowAddTraderModal] = useState(false);
     const [getTraders, setTraders] = useState(traders);
     const colForDashboardPageTable = ["First Name", "Last Name", "Email", "Gender", "Country", "Date of Birth", "Action"];
-    const colForQuotePageTable = ["Tiker", "Last price", "Bid Price", "Bid Size", "Ask Price", "Ask Size"];
-
     return (
         <div className="flex">
             <Head>
@@ -20,17 +18,19 @@ function Dashboard({ traders, error }) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className="bg-white dark:bg-gray-800 flex flex-col w-18 h-screen px-4 py-8 overflow-y-auto border-r">
-                <div className="flex flex-col justify-between mt-2">
+                <div className="flex flex-col justify-between mt-2" style={{ height: "100%" }}>
                     <Navbar />
                 </div>
             </div>
             <div className="w-full h-full sm:p-4 md:p-8 overflow-y-auto">
                 <div className=" items-center justify-center border-4 border-dotted">
-            
+
                     <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Dashboard</h1>
                     <p className="w-full leading-relaxed text-gray-500">Welcome to dashboard view. It is here that you will be able to manage all trader's account! press the "Add trader" button to add a new trader and start managing it's account</p>
-                    <button className='button bg-gray-100 my-3 p-2 rounded-lg hover:bg-gray-200'><p onClick={() => { setShowAddTraderModal(!showAddTraderModal) }}> + Add trader</p></button>
-                    {showAddTraderModal ? <AddTraderModal closeModal={setShowAddTraderModal} traders={setTraders} allTraders={getTraders} /> : null}
+                    <button className='button bg-gray-100 my-3 p-2 rounded-lg hover:bg-gray-200'><p onClick={() => {
+                        setShowAddTraderModal(!showAddTraderModal);
+                    }}> + Add trader</p></button>
+                    {showAddTraderModal ? <AddTraderModal closeModal={setShowAddTraderModal} setTraders={setTraders} /> : null}
                     <TraderList col={colForDashboardPageTable} initialAllTraders={getTraders} />
                 </div>
             </div>
@@ -38,7 +38,8 @@ function Dashboard({ traders, error }) {
         </div>
     );
 };
-export default Dashboard;
+export default Dashboard;//                    {showAddTraderModal ? <AddTraderModal closeModal={setShowAddTraderModal} setTraders={setTraders} /> : null}
+
 
 const fetchData = async () =>
     await axios.get(getAllTraderUrl).then(res => ({
@@ -52,9 +53,5 @@ const fetchData = async () =>
 
 export const getServerSideProps = async () => {
     const data = await fetchData();
-    console.log(data);
-    return {
-        props: data,
-    };
-
+    return { props: data};
 }

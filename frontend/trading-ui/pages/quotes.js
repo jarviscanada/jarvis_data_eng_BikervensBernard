@@ -1,14 +1,22 @@
-import Navbar from './components/NavBar';
 import { useState } from 'react';
-import { getQuotes } from '../util/constants'
+import { getQuotes, dailyListQuotesUrl } from '../util/constants';
+import Navbar from './components/Navigations/NavBar';
+import QuoteList from './components/Tables/QuoteList';
 import axios from 'axios';
 import Head from 'next/head'
-import QuoteList from './components/QuoteList';
+import TextField from '@mui/material/TextField';
+import Router from 'next/router';
 
 function quotes({ quotes, error }) {
     const [getQuotes, setQuotes] = useState(quotes);
     const colForQuotePageTable = ["Tiker", "Last price", "Bid Price", "Bid Size", "Ask Price", "Ask Size"];
-
+    const addQuote = () => {
+        var ticker = document.getElementById("addQuote").value;
+        axios.get(dailyListQuotesUrl + "/" + ticker).then((res) => {
+            setQuotes(res.data);
+            Router.reload(window.location.pathname);
+        });
+    }
     return (
         <div className="flex">
             <Head>
@@ -17,17 +25,18 @@ function quotes({ quotes, error }) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className="bg-white dark:bg-gray-800 flex flex-col w-18 h-screen px-4 py-8 overflow-y-auto border-r">
-                <div className="flex flex-col justify-between mt-2">
+                <div className="flex flex-col justify-between mt-2" style={{ height: "100%" }}>
                     <Navbar />
                 </div>
             </div>
             <div className="w-full h-full sm:p-4 md:p-8 overflow-y-auto">
                 <div className=" items-center justify-center border-4 border-dotted">
-            
+
                     <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Quotes</h1>
                     <p className="w-full leading-relaxed text-gray-500">IEX Cloud is a platform that makes financial data and services accessible to everyone.</p>
-                    <button className='button bg-gray-100 my-3 p-2 rounded-lg hover:bg-gray-200'><p onClick={() => { setShowAddTraderModal(!showAddTraderModal) }}> + Add quote</p></button>
-                    <QuoteList initialAllQuotes={getQuotes} col={colForQuotePageTable}/>
+                    <TextField id="addQuote" label="Add quote" variant="standard" />
+                    <button className='button is-success my-3 p-2 ml-5'><p onClick={() => { addQuote() }}> confirm </p></button>
+                    <QuoteList initialAllQuotes={getQuotes} col={colForQuotePageTable} />
                 </div>
             </div>
 
@@ -48,9 +57,5 @@ const fetchData = async () =>
 
 export const getServerSideProps = async () => {
     const data = await fetchData();
-    console.log(data);
-    return {
-        props: data,
-    };
-
+    return { props: data,};
 }
