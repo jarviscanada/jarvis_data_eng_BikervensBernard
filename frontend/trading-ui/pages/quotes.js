@@ -30,7 +30,7 @@ function quotes({ quotes, error }) {
                 </div>
             </div>
             <div className="w-full h-full sm:p-4 md:p-8 overflow-y-auto">
-                <div className=" items-center justify-center border-4 border-dotted">
+                <div className=" items-center justify-center">
 
                     <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Quotes</h1>
                     <p className="w-full leading-relaxed text-gray-500">IEX Cloud is a platform that makes financial data and services accessible to everyone.</p>

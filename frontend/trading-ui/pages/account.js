@@ -12,20 +12,20 @@ const account = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="bg-white dark:bg-gray-800 flex flex-col w-18 h-screen px-4 py-8 overflow-y-auto border-r">
-        <div className="flex flex-col justify-between mt-2" style={{height:"100%"}}>
+        <div className="flex flex-col justify-between mt-2" style={{ height: "100%" }}>
           <Navbar />
         </div>
       </div>
       <div className="w-full h-full sm:p-4 md:p-8 overflow-y-auto">
-        <div className=" items-center justify-center border-4 border-dotted">
-        <div className="flex flex-wrap">
-        <div className="w-full lg:w-8/12 px-4">
-          <CardSettings />
-        </div>
-        <div className="w-full lg:w-4/12 px-4">
-          <CardProfile />
-        </div>
-      </div>
+        <div className=" items-center justify-center">
+          <div className="flex flex-wrap">
+            <div className="w-full lg:w-8/12 px-4">
+              <CardSettings />
+            </div>
+            <div className="w-full lg:w-4/12 px-4">
+              <CardProfile />
+            </div>
+          </div>
 
         </div>
       </div>
