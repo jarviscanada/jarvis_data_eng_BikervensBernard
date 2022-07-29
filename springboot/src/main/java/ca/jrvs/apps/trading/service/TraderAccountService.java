@@ -118,4 +118,26 @@ public class TraderAccountService {
     public Iterable<TraderEntity> getAllTraders() {
         return traderEntityDao.findAll();
     }
+
+    public Iterable<AccountEntity> getAllAccounts() {
+        return accountEntityDao.findAll();
+    }
+
+    public TraderAccountView getTraderAndAccount(int id) {
+        TraderEntity trader = traderEntityDao.findById(id).orElse(null);
+        AccountEntity account = accountEntityDao.findById(trader.getId()).orElse(null);
+        return new TraderAccountView(trader,account);
+    }
+
+    public TraderEntity updateTraderEntity(TraderEntity entity) {
+        TraderEntity trader = this.traderEntityDao.findById(entity.getId()).orElse(null);
+        if (trader != null) {
+            trader.setGender(entity.getGender());
+            trader.setCountry(entity.getCountry());
+            trader.setEmail(entity.getEmail());
+            trader.setFirstName(entity.getFirstName());
+            trader.setLastName(entity.getLastName());
+        }
+        return this.traderEntityDao.save(trader);
+    }
 }

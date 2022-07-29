@@ -55,7 +55,7 @@ public class TraderEntityDao extends JdbcCrudDao<TraderEntity> {
     public <S extends TraderEntity> S save(S trader) {
         if(existsById(trader.getId())) {
             int updatedRowNo = updateOne(trader);
-            if (updatedRowNo != 1) {
+            if (updatedRowNo < 1) {
                 throw new DataRetrievalFailureException("unable to update trader");
             }
         } else {

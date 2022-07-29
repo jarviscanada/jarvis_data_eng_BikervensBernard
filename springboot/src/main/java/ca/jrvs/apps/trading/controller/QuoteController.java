@@ -61,4 +61,16 @@ public class QuoteController {
             throw ResponseExeptionUtil.getResponseStatusExecption(e);
         }
     }
+
+    @ApiOperation(value = "Remove in backend the specified daily list quotes")
+    @ApiResponses(value = {@ApiResponse(code = 404, message = "404 :/ Ticker not found")})
+    @DeleteMapping(path = "/dailylist/delete/{tickers}") @ResponseStatus(HttpStatus.OK) @ResponseBody
+    public List<QuoteEntity> deleteFromDailyList(@PathVariable String tickers) {
+        try {
+            String[] list = tickers.toUpperCase().split(",");
+            return quoteService.deleteQuotes(list);
+        } catch (Exception e) {
+            throw ResponseExeptionUtil.getResponseStatusExecption(e);
+        }
+    }
 }

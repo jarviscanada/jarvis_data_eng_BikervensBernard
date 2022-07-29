@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { getQuotes, dailyListQuotesUrl } from '../util/constants';
+import { useState, useEffect} from 'react';
+import { getQuotes, dailyListQuotesUrl, dailyListDeleteQuotesUrl} from '../util/constants';
 import Navbar from './components/Navigations/NavBar';
 import QuoteList from './components/Tables/QuoteList';
 import axios from 'axios';
@@ -13,6 +13,13 @@ function quotes({ quotes, error }) {
     const addQuote = () => {
         var ticker = document.getElementById("addQuote").value;
         axios.get(dailyListQuotesUrl + "/" + ticker).then((res) => {
+            setQuotes(res.data);
+            Router.reload(window.location.pathname);
+        });
+    }
+    const deleteQuote = () => {
+        var ticker = document.getElementById("addQuote").value;
+        axios.delete(dailyListDeleteQuotesUrl + "/" + ticker).then((res) => {
             setQuotes(res.data);
             Router.reload(window.location.pathname);
         });
@@ -31,11 +38,11 @@ function quotes({ quotes, error }) {
             </div>
             <div className="w-full h-full sm:p-4 md:p-8 overflow-y-auto">
                 <div className=" items-center justify-center">
-
                     <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Quotes</h1>
                     <p className="w-full leading-relaxed text-gray-500">IEX Cloud is a platform that makes financial data and services accessible to everyone.</p>
                     <TextField id="addQuote" label="Add quote" variant="standard" />
-                    <button className='button is-success my-3 p-2 ml-5'><p onClick={() => { addQuote() }}> confirm </p></button>
+                    <button className='button is-success my-3 p-2 ml-5 uppercase'><p onClick={() => { addQuote(); }}> Confirm </p></button>
+                    <button className='button is-danger my-3 p-2 ml-1 uppercase'><p onClick={() => { deleteQuote(); }}> Delete </p></button>
                     <QuoteList initialAllQuotes={getQuotes} col={colForQuotePageTable} />
                 </div>
             </div>

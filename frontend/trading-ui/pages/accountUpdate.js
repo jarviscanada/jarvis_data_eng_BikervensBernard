@@ -1,15 +1,12 @@
 import Head from 'next/head';
+import CardProfile from './components/Cards/CardProfile';
+import CardSettings from './components/Cards/CardSettings';
 import Navbar from './components/Navigations/NavBar';
-import TraderList from './components/Tables/TraderList';
-import AddTraderModal from './components/Modals/AddTraderModal';
 import axios from 'axios';
-import { useState } from 'react';
 import { getAllTraderUrl } from '../util/constants';
 
-const account = ({ traders, error }) => {
-  const [showUpdateTraderModal, setShowUpdateTraderModal] = useState(false);
-  const [getTraders, setTraders] = useState(traders);
-  const colForDashboardPageTable = ["First Name", "Last Name", "Email", "Gender", "Country", "Date of Birth", "Action"];
+
+const accountUpdate = ({id}) => {
   return (
     <div className="flex">
       <Head>
@@ -22,20 +19,26 @@ const account = ({ traders, error }) => {
           <Navbar />
         </div>
       </div>
-
       <div className="w-full h-full sm:p-4 md:p-8 overflow-y-auto">
         <div className=" items-center justify-center">
-          <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Accounts</h1>          
-          {showUpdateTraderModal ? <AddTraderModal closeModal={setShowAddTraderModal} setTraders={setTraders} /> : null}
-          <TraderList col={colForDashboardPageTable} initialAllTraders={getTraders} actions={"update"}/>
+          <div className="flex flex-wrap">
+          
+            <div className="w-full lg:w-8/12 px-4">
+              <CardSettings id={id}/>
+            </div>
+            <div className="w-full lg:w-4/12 px-4">
+              <CardProfile id={id}/>
+            </div>
+          </div>
+
         </div>
       </div>
+
     </div>
   );
 };
 
-export default account;
-
+export default accountUpdate;
 
 const fetchData = async () =>
     await axios.get(getAllTraderUrl).then(res => ({
@@ -47,7 +50,9 @@ const fetchData = async () =>
     }),
 );
 
-export const getServerSideProps = async () => {
-    const data = await fetchData();
-    return { props: data};
+export const getServerSideProps = async ({ query }) => {
+    const all = await fetchData();
+    const data = all.traders.filter((e) =>{return e.id == query.id;})[0];
+    const id = data.id;
+    return { props: {id}};
 }

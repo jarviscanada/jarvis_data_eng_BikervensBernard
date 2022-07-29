@@ -30,7 +30,7 @@ function Dashboard({ traders, error }) {
                     <button className='button bg-gray-100 my-3 p-2 rounded-lg hover:bg-gray-200'><p onClick={() => {
                         setShowAddTraderModal(!showAddTraderModal);
                     }}> + Add trader</p></button>
-                    {showAddTraderModal ? <AddTraderModal closeModal={setShowAddTraderModal} setTraders={setTraders} /> : null}
+                    {showAddTraderModal ? <AddTraderModal closeModal={setShowAddTraderModal} setTraders={setTraders} data={null} /> : null}
                     <TraderList col={colForDashboardPageTable} initialAllTraders={getTraders} />
                 </div>
             </div>
@@ -38,8 +38,7 @@ function Dashboard({ traders, error }) {
         </div>
     );
 };
-export default Dashboard;//                    {showAddTraderModal ? <AddTraderModal closeModal={setShowAddTraderModal} setTraders={setTraders} /> : null}
-
+export default Dashboard;
 
 const fetchData = async () =>
     await axios.get(getAllTraderUrl).then(res => ({

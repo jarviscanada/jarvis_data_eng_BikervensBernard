@@ -18,3 +18,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation6.MuiSnackbarContent-root.css-1eqdgzv-MuiPaper-root-MuiSnackbarContent-root {
+  background-color: #48c78e;
+}

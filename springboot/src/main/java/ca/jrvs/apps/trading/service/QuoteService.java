@@ -88,4 +88,11 @@ public class QuoteService {
     public List<QuoteEntity> findAllQuotes() {
         return (List<QuoteEntity>) this.quoteEntityDao.findAll();
     }
+
+    public List<QuoteEntity> deleteQuotes(String[] quotes) {
+        for (String q: quotes) {
+            this.quoteEntityDao.deleteById(q);
+        }
+        return this.findAllQuotes();
+    }
 }
