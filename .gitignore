@@ -1,0 +1,17 @@
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.logs
+*.iml
+*.properties
+*.DS_Store
+*.idea/
+*.eclipse
+.idea/
+.eclipse
+.application.properties
+resources/application.properties
+resources/*.properties
+
