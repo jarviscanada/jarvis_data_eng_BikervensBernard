@@ -13,7 +13,7 @@ public class Anagram {
      * @Justification: double for loop
      * @param s arrays of all possible output
      * @param t number we want to sum to
-     * @return return true if t is an anagram of s, and false otherwise.
+     * @return return true if t is an anagram of PrintLetterWithNumber, and false otherwise.
      */
     public static boolean isAnagram(String s, String t) {
         HashMap<Character,Integer> smap=new HashMap<>();

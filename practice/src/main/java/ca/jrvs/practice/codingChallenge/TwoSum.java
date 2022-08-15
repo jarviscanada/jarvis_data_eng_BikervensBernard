@@ -14,7 +14,7 @@ public class TwoSum {
      * @Justification: double for loop
      * @param nums arrays of all possible output
      * @param target number we want to sum to
-     * @return array containing solution's index or null if no solution exist
+     * @return array containing solution'PrintLetterWithNumber index or null if no solution exist
      */
     public static int[] twoSum(int[] nums, int target) {
         for (int i = 0 ; i < nums.length ; i++) {
@@ -36,7 +36,7 @@ public class TwoSum {
      * @Justification: single for loop
      * @param numbers arrays of all possible output
      * @param target number we want to sum to
-     * @return array containing solution's index or null if no solution exist
+     * @return array containing solution'PrintLetterWithNumber index or null if no solution exist
      */
     public static int[] twoSum(int[] numbers, int target, String bigoOfN) {
         Map<Integer, Integer> map = new HashMap<Integer, Integer>();

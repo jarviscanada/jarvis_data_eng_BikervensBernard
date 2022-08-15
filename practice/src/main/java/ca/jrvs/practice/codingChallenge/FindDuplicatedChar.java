@@ -2,7 +2,7 @@ package ca.jrvs.practice.codingChallenge;
 
 import java.util.*;
 
-public class FindingDuplicatedChar {
+public class FindDuplicatedChar {
     public static Object[] find(String s) {
         Set<Character> set = new HashSet<>();
         s = s.toLowerCase().replaceAll("\\s+","");
@@ -18,6 +18,6 @@ public class FindingDuplicatedChar {
     }
 
     public static void main(String[] args) {
-        System.out.println(Arrays.toString( FindingDuplicatedChar.find("A black cat died on a road")));
+        System.out.println(Arrays.toString( FindDuplicatedChar.find("A black cat died on a road")));
     }
 }

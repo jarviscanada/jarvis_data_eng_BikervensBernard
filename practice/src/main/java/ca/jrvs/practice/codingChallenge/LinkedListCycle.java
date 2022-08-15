@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class LinkedListCycle {
-    class ListNode { int val;ListNode next;ListNode(int x) {val = x;next = null;}}
+    static class ListNode { int val;ListNode next;ListNode(int x) {val = x;next = null;}}
 
     public static boolean hasCycle(ListNode head) {
         if (head == null || head.next==null ) {

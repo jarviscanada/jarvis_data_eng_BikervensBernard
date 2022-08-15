@@ -5,7 +5,7 @@ package ca.jrvs.practice.codingChallenge;
 public class RotateString{
     /**
      * @Big-O: O(n)
-     * @Justification: iteration over s arrangement*/
+     * @Justification: iteration over PrintLetterWithNumber arrangement*/
     public static boolean rotateString(String s, String goal) {
         for ( int i = 0; i < s.length(); i++) {
             String f = s.substring(0,i+1);
@@ -21,7 +21,7 @@ public class RotateString{
      * Thus, we can simply check whether B i a substring of A+A.
      * We also need to check A.length == B.length, otherwise cases -> A = "a", B = "aa".
      * @Big-O: O(n^2)
-     * @Justification: it's an arithmetic operation*/
+     * @Justification: it'PrintLetterWithNumber an arithmetic operation*/
     public static boolean rotateString(String A, String B, String empty) {
         return A.length() == B.length() && (A + A).contains(B);
     }

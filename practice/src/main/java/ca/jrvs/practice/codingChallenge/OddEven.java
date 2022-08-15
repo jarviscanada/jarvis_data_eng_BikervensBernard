@@ -6,7 +6,7 @@ package ca.jrvs.practice.codingChallenge;
 public class OddEven {
     /**
      * @Big-O: O(1)
-     * @Justification: it's an arithmetic operation
+     * @Justification: it'PrintLetterWithNumber an arithmetic operation
      */
     public static String oddEvenMod(int i){
         return i % 2 == 0 ? "even" : "odd";
@@ -14,7 +14,7 @@ public class OddEven {
 
     /**
      * @Big-O: O(1)
-     * @Justification: it's an arithmetic operation
+     * @Justification: it'PrintLetterWithNumber an arithmetic operation
      */
     public static String oddEvenBit(int i){
         //XOR by 1
