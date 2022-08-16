@@ -32,6 +32,7 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
 
     private final Logger logger = LoggerFactory.getLogger(MarketDataDao.class);
     private final HttpClientConnectionManager httpClientConnectionManager;
+
     private final MarketDataConfig marketDataConfig;
 
     @Autowired
@@ -59,7 +60,7 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
     }
     @Override
     public Optional<IexQuote> findById(String ticker) {
-        List<IexQuote> quotes = (List<IexQuote>) findAllById(Collections.singletonList(ticker.toLowerCase()));
+        List<IexQuote> quotes = (List<IexQuote>) findAllById(Collections.singletonList(ticker.toUpperCase()));
         if (quotes == null || quotes.size() == 0) {
             return Optional.empty();
         } else if (quotes.size() == 1) {
@@ -119,9 +120,10 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
 
                 IexQuotesJson.toMap().forEach((k,v) -> {
                     try {
-                        String iexQuoteJson = JsonParser.toJson(v,true,true);
-                        IexQuote iexQuote = JsonParser.toObjectFromJson(iexQuoteJson,IexQuote.class);
-                        list.add(iexQuote);
+                        HashMap x = (HashMap) v;
+                        IexQuote q = JsonParser.toObjectFromJson(JsonParser.toJson(x.get("quote"),true,true), IexQuote.class);
+                        list.add(q);
+
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException("Error Processing JsonParser.toJson", e);
                     } catch (IOException e) {
@@ -147,7 +149,7 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
     @Override
     public void deleteById(String s) {throw new UnsupportedOperationException("Not implemented");}
     @Override
-    public void delete(IexQuote iexQuote) {throw new UnsupportedOperationException("Not implemented");}
+    public void delete(IexQuote quoteContainer) {throw new UnsupportedOperationException("Not implemented");}
     @Override
     public void deleteAll(Iterable<? extends IexQuote> iterable) {throw new UnsupportedOperationException("Not implemented");}
     @Override
