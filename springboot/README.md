@@ -9,7 +9,7 @@ Table of contents
 # Introduction
 A legacy system, a monolithic application that is challenging to grow and operate, is being replaced by this application. I created a new trading system using the microservice architecture and Springboot framework as a member of the backend team. The architecture of the project makes it easier to scale and manage since the idea is to split your application into a set of smaller, interconnected services instead of building a single monolithic application. Each microservice is a small application that has its own hexagonal architecture consisting of business logic along with various adapters. 
 
-## what does your project does?
+## What does your project does?
 I don't have to deal with the actual banking or exchange systems because this is just a proof of concept. More initiative will be done if the PoC is a success. Instead of emphasising performance and security, the PoC project concentrates on features (such as functions and feasibility). The application is a REST API consumed by the front-end applications (e.g. web or mobile apps). The application allows users to manage client profiles and accounts, monitor portfolio performance, and trade securities. 
 
 ## Technologies used
