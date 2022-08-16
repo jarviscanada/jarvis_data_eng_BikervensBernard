@@ -62,7 +62,7 @@ docker container stop trading-app-demo-local trading-psql-demo-local
 
 # Implemenation
 ## Architecture
-[assets\spring.png](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/blob/release/springboot/assets/spring.png?raw=true)
+![assets\spring.png](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/blob/release/springboot/assets/spring.png?raw=true)
 
 - briefly explain the following components and services (3-5 sentences for each)
   - `The Controller`: The conductor of operations for a request. It controls the transaction scope and manages the session related information for the request. The controller first dispatches to a command and then calls the appropriate view processing logic to render the response
@@ -98,7 +98,7 @@ JUnit4 was used to do automated integration testing. To guarantee that productio
 
 # Deployment
 - docker diagram including images, containers, network, and docker hub
-[dockerimage](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/blob/release/springboot/assets/docker%20image.png?raw=true)
+![dockerimage](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/blob/release/springboot/assets/docker%20image.png?raw=true)
 - Description:
 	- `Docker CLI`: the commands used in the CLI to build/run/create/etc. the components in `Docker Host`. See `Quick Start`(#Quick-Start) for more information.
 	- `Docker Host`:
