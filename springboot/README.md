@@ -45,7 +45,7 @@ docker run
 -e POSTGRES_PASSWORD=password 
 -e POSTGRES_USER=postgres 
 --network trading-net 
--d -p 5432:5432 trading-psql
+-d -p 5432:5432 bernard76/trading-psql:latest
 
 docker run --name trading-app-dev 
 -e "PSQL_URL=jdbc:postgresql://trading-psql-dev:5432/jrvstrading" 
@@ -53,7 +53,7 @@ docker run --name trading-app-dev
 -e "PSQL_PASSWORD=password" 
 -e "IEX_PUB_TOKEN=${IEX_PUB_TOKEN}" 
 --network trading-net 
--p 8080:8080 -t trading-app
+-p 8080:8080 -t bernard76/trading-app:latest
 
 
 #Verify two running docker containers
@@ -61,10 +61,10 @@ docker ps
 ```
 
 ## Expected result
-| ID           | IMAGE                  | COMMAND                | CREATED            | STATUS            | PORTS                  | NAMES                   |
-|--------------|------------------------|------------------------|--------------------|-------------------|------------------------|-------------------------|
-| c590b8e19401 | jrvs/trading           | "java -jar /usr/loca…" | 4 seconds ago      | Up 3 seconds      | 0.0.0.0:8080->8080/tcp | trading-app-demo-local  |
-| 5cf54bfcc928 | jrvs/trading-psql-demo | "docker-entrypoint.s…" | About a minute ago | Up About a minute | 0.0.0.0:5432->5432/tcp | trading-psql-demo-local |
+| ID           | IMAGE                  | COMMAND                | CREATED            | STATUS            | PORTS                  | NAMES            |
+|--------------|------------------------|------------------------|--------------------|-------------------|------------------------|------------------|
+| c590b8e19401 | bernard76/trading-app  | "java -jar /usr/loca…" | 4 seconds ago      | Up 3 seconds      | 0.0.0.0:8080->8080/tcp | trading-app-dev  |
+| 5cf54bfcc928 | bernard76/trading-psql | "docker-entrypoint.s…" | About a minute ago | Up About a minute | 0.0.0.0:5432->5432/tcp | trading-psql-dev |
 
 ## Try trading-app with SwaggerUI
 ```
