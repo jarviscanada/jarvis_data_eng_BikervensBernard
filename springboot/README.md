@@ -21,15 +21,16 @@ The REST API, which manages fundamental business logic including managing trader
 ## Create a docker network
 ```
 #downalod images
-docker pull jrvs/trading-app-demo:latest
-docker pull jrvs/trading-psql-demo:latest
+docker pull bernard76/trading-app:latest
+docker pull bernard76/trading-psql:latest
 
 #create a new docker network
 docker network create --driver bridge trading-net
 
 #Register IEX Cloud free account and obtain credentials https://iexcloud.io/console/tokens
 #Set IEX credential 
-IEX_PUB_TOKEN="pk_XXXXXXXXXXXXXXXX"
+export IEX_PUB_TOKEN=[token given by iex cloud]
+echo $IEX_PUB_TOKEN
 ```
 
 ## Start containers
@@ -39,7 +40,21 @@ IEX_PUB_TOKEN="pk_XXXXXXXXXXXXXXXX"
 docker run --rm --name trading-psql-demo-local -e POSTGRES_PASSWORD=password -e POSTGRES_DB=jrvstrading -e POSTGRES_USER=postgres --network trading-net -d -p 5432:5432 jrvs/trading-psql-demo
 
 #start trading-app container which is attached to the trading-net docker network
-docker run -d --rm --name trading-app-demo-local -e "PSQL_HOST=trading-psql-demo-local" -e "PSQL_PORT=5432" -e "PSQL_USER=postgres" -e "PSQL_DB=jrvstrading" -e "PSQL_PASSWORD=password" -e "IEX_PUB_TOKEN=${IEX_PUB_TOKEN}" --network trading-net -p 5000:5000 -t jrvs/trading-app-demo
+docker run 
+--name trading-psql-dev 
+-e POSTGRES_PASSWORD=password 
+-e POSTGRES_USER=postgres 
+--network trading-net 
+-d -p 5432:5432 trading-psql
+
+docker run --name trading-app-dev 
+-e "PSQL_URL=jdbc:postgresql://trading-psql-dev:5432/jrvstrading" 
+-e "PSQL_USER=postgres" 
+-e "PSQL_PASSWORD=password" 
+-e "IEX_PUB_TOKEN=${IEX_PUB_TOKEN}" 
+--network trading-net 
+-p 8080:8080 -t trading-app
+
 
 #Verify two running docker containers
 docker ps
@@ -48,7 +63,7 @@ docker ps
 ## Expected result
 | ID           | IMAGE                  | COMMAND                | CREATED            | STATUS            | PORTS                  | NAMES                   |
 |--------------|------------------------|------------------------|--------------------|-------------------|------------------------|-------------------------|
-| c590b8e19401 | jrvs/trading           | "java -jar /usr/loca…" | 4 seconds ago      | Up 3 seconds      | 0.0.0.0:5000->5000/tcp | trading-app-demo-local  |
+| c590b8e19401 | jrvs/trading           | "java -jar /usr/loca…" | 4 seconds ago      | Up 3 seconds      | 0.0.0.0:8080->8080/tcp | trading-app-demo-local  |
 | 5cf54bfcc928 | jrvs/trading-psql-demo | "docker-entrypoint.s…" | About a minute ago | Up About a minute | 0.0.0.0:5432->5432/tcp | trading-psql-demo-local |
 
 ## Try trading-app with SwaggerUI
@@ -58,7 +73,7 @@ http://localhost:5000/swagger-ui.html
 http://localhost:8080/swagger-ui.html
 
 #stop containers
-docker container stop trading-app-demo-local trading-psql-demo-local
+docker container stop bernard76/trading-app bernard76/trading-psql
 ```
 
 # Implemenation
