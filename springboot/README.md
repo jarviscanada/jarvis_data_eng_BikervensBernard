@@ -46,15 +46,16 @@ docker ps
 ```
 
 ## Expected result
-|ID|IMAGE|COMMAND|CREATED|STATUS|PORTS|NAMES|
-|---|---|---|---|---|---|---|
-|c590b8e19401|jrvs/trading|"java -jar /usr/loca…"|4 seconds ago|Up 3 seconds|0.0.0.0:5000->5000/tcp|trading-app-demo-local|
-|5cf54bfcc928|jrvs/trading-psql-demo|"docker-entrypoint.s…"|About a minute ago|Up About a minute|0.0.0.0:5432->5432/tcp|trading-psql-demo-local|
+| ID           | IMAGE                  | COMMAND                | CREATED            | STATUS            | PORTS                  | NAMES                   |
+|--------------|------------------------|------------------------|--------------------|-------------------|------------------------|-------------------------|
+| c590b8e19401 | jrvs/trading           | "java -jar /usr/loca…" | 4 seconds ago      | Up 3 seconds      | 0.0.0.0:5000->5000/tcp | trading-app-demo-local  |
+| 5cf54bfcc928 | jrvs/trading-psql-demo | "docker-entrypoint.s…" | About a minute ago | Up About a minute | 0.0.0.0:5432->5432/tcp | trading-psql-demo-local |
 
 ## Try trading-app with SwaggerUI
 ```
 #Try REST APIs with your browser
 http://localhost:5000/swagger-ui.html
+http://localhost:8080/swagger-ui.html
 
 #stop containers
 docker container stop trading-app-demo-local trading-psql-demo-local
