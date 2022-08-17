@@ -46,7 +46,6 @@ function quotes({ quotes, error }) {
                     <QuoteList initialAllQuotes={getQuotes} col={colForQuotePageTable} />
                 </div>
             </div>
-
         </div>
     );
 };
