@@ -93,7 +93,7 @@ docker container stop bernard76/trading-app bernard76/trading-psql
 - Application and data store (database) are decoupled. Therefore, if an application instance (e.g. JVM) crushed, the historical data will not be lost.
 - You can scale up/down your application by launching more/fewer application instances (e.g. running multiple java applications on different servers) in order to handle more traffic (e.g. HTTP request). All java applications will talk to the same database which usually has higher throughput.
 
-![assets\spring.png](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/blob/release/springboot/assets/spring.png?raw=true)
+![assets\spring.png](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/blob/feature/springboot_backend/springboot/assets/spring.png?raw=true)
 
 - `The Controller`: The conductor of operations for a HTTP request. It controls the transaction scope and manages the session related information for the request. The controller first dispatches to a command and then calls the appropriate view processing logic to render the response
   - `Service layer`: Mediates communication between a controller and repository layer. The service layer contains business logic. In particular, it contains validation logic.
@@ -128,7 +128,7 @@ JUnit4 was used to do automated integration testing. To guarantee that productio
 
 # Deployment
 - docker diagram including images, containers, network, and docker hub
-![dockerimage](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/blob/release/springboot/assets/docker%20image.png?raw=true)
+![dockerimage](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/blob/feature/springboot_backend/springboot/assets/docker%20image.png?raw=true)
 - Description:
 	- `Docker CLI`: the commands used in the CLI to build/run/create/etc. the components in `Docker Host`. See `Quick Start`(#Quick-Start) for more information.
 	- `Docker Host`:
