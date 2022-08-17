@@ -78,12 +78,27 @@ docker container stop bernard76/trading-app bernard76/trading-psql
 
 # Implemenation
 ## Architecture
+### MVC Architectural pattern
+- Controller layer handles HTTP requests
+- Service layer handles business logical (e.g. process an order)
+- Data access layer persist and retrieve data from external database sources
+- Instead of using views (HTML), the REST API return JSON documents to user.
+
+### Three-Tier Architecture
+- Client tier: users can use HTTP clients to consume the REST (e.g. chrome, postman, curl, java, javascript, etc.)
+- Application tier: a Springboot java program which only processes data.
+- Database Tier: application data are stored in a database instance. If the Java application failed/crushed, the entire application does not lose any history data.
+
+### Benefits
+- Application and data store (database) are decoupled. Therefore, if an application instance (e.g. JVM) crushed, the historical data will not be lost.
+- You can scale up/down your application by launching more/fewer application instances (e.g. running multiple java applications on different servers) in order to handle more traffic (e.g. HTTP request). All java applications will talk to the same database which usually has higher throughput.
+
 ![assets\spring.png](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/blob/release/springboot/assets/spring.png?raw=true)
 
-- `The Controller`: The conductor of operations for a request. It controls the transaction scope and manages the session related information for the request. The controller first dispatches to a command and then calls the appropriate view processing logic to render the response
+- `The Controller`: The conductor of operations for a HTTP request. It controls the transaction scope and manages the session related information for the request. The controller first dispatches to a command and then calls the appropriate view processing logic to render the response
   - `Service layer`: Mediates communication between a controller and repository layer. The service layer contains business logic. In particular, it contains validation logic.
   - `DAO layer`: Provides an abstract interface to some type of database or other persistence mechanisms. By mapping application calls to the persistence layer, DAOs provide some specific data operations without exposing details of the database.
-  - `SpringBoot`: webservlet/TomCat and IoC SpringBoot is used for IoC (Inversion of Control) dependency injection. Furthermore, it creates and manages the WebServlet container/Apache Tomcat, which hosts the webpage for this app.
+  - `SpringBoot`: WebServlet/TomCat and IoC SpringBoot is used for IoC (Inversion of Control) dependency injection. WebServlet is an API (or interface). Tomcat is a WebServlet implementation that Springboot uses by default. In the architecture diagram, as part of the Springboot app, a WebServlet is listening on a port for HTTP requests (WebServlet is managed by Springboot automatically). When an HTTP request arrives, the WebServlet and Springboot framework will work together and call the corresponding controller methods base on the HTTP request URL and method (e.g. in this case, the HTTP request is GET /iex/ticker/{ticker}). As a developer, you only need to use spring annotation to specify the mapping relationship (e.g maps an HTTP request to a controller method). 
   - `PSQL` and `IEX`: PostgreSQL is used for all data persistence on this project. IEX Cloud provides the REST API for all their market data (namely to generate quotes).
 
 ## REST API Usage
