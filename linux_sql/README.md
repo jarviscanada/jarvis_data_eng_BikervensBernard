@@ -5,10 +5,10 @@ This tool's goal is to keep track of group of connected node's hardware, charact
 
 # Implementation
 I will be in charge of designing and implementing a monitoring tool that will assist a potential business need using 
- - Linux command lines
- - Bash scripts
- - PostgreSQL
- - Docker
+ - Linux command lines to get all the node's information
+ - Bash scripts to automate the project
+ - PostgreSQL to save the data
+ - Docker for distribution
 
 ## **Architecture**
 
