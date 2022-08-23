@@ -1,5 +1,5 @@
 # Introduction
-Using Twitter's REST API v1, this project intends to provide a backend that can CR(*)D (Create, Read, *, and Delete) tweets. This java programme follow the MVC architecture and use java Sprintboot and Spring framework with the @ComponentScan to manage all dependencies. HTTP client, basic Java libraries, maven, and SpringBoot are used to complete this operation. This app is available on [DockerHub].
+Using Twitter's REST API v1, this project intends to provide a backend that can CR(*)D (Create, Read, *, and Delete) tweets. This java program follow the MVC architecture and use java Sprintboot and Spring framework with the @ComponentScan to manage all dependencies. HTTP client, basic Java libraries, maven, and SpringBoot are used to complete this operation. This app is available on [DockerHub].
 
 # Quick Start
 ## How to package the app using Maven
