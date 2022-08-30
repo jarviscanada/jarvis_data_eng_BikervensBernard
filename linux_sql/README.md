@@ -1,14 +1,14 @@
 # Introduction
 
-A CentOS based Linux node cluster agent This tool's goal is to keep track of each node's hardware characteristics and real-time resource utilization (e.g. CPU/Memory) for future resource planning purposes (e.g. add/remove servers that might be too slow or underused). The data will be saved in a PostgreSQL relational database management system (RDBMS). The SQL queries will answer business questions such as 'show average memory usage in percentage over 1 minute intervals for each node'.
+A CentOS based Linux node cluster agent:
+This tool's goal is to keep track of group of connected node's hardware, characteristics and real-time resource utilization (e.g. CPU/Memory) for future resource planning purposes (e.g. add/remove servers that might be too slow or underused). The data will be saved in a PostgreSQL (relational database management system) dockerized container. The SQL queries will answer business questions such as 'show average memory usage in percentage over 1 minute intervals for each node'.
 
 # Implementation
-
 I will be in charge of designing and implementing a monitoring tool that will assist a potential business need using 
- - Linux command lines
- - Bash scripts
- - PostgreSQL
- - Docker
+ - Linux command lines to get all the node's information
+ - Bash scripts to automate the project
+ - PostgreSQL to save the data
+ - Docker for distribution
 
 ## **Architecture**
 
