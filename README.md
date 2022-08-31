@@ -1,52 +1,46 @@
 # Bikervens Bernard . Jarvis Consulting
 
-My name is Bernard, I completed a 3-year DEC degree in computer science technology (software development) at Maisonneuve College in Montreal and I'm a software developer. My job is to design computer applications or programs. I do this by building a complex architecture in an array of different technologies based on current needs. I design, implement, test and deploy modern solutions to everyday technological concerns. I am very passionate about technology and software development because it has allowed me to express my creativity while meeting my need to always learn and work to solve problems.
+My name is Bernard, and I am passionate about technology and software development. It is the reason why I completed a 3-year DEC degree in computer science technology (software development) at Maisonneuve College in Montreal. I love expressing my creativity and love creating and building things in general. I found that technology is a perfect medium to explore those aspects of my personality this is why I joined the Jarvis consulting firm. At Jarvis, I was put in situations where I had to learn fast, touched many new technologies, and solve and answer business problems. I got to design, implement, test, and deploy many applications including a Linux/SQL server usage bot, a Java grep implementation, a JDBC app, a Twitter CRUD backend app, a full-stack Next.js app, and a SpringBoot stock management app.
 
 ## Skills
 
-**Proficient:** Java (OOP), Linux | Bash, RDBMS and non RDBMS such as MongoDB and MySQL, Agile approach, Scrum framework, Github version control system, Vue.js | Node.js
+**Proficient:** Java, Linux/Bash, PostgreSQL/MySQL and MongoDB, Agile approach, Git, Vue.js/Next.js and Node.js
 
-**Competent:** HTML | CSS, .NET framework C# | selenium, Docker, JavaScript, Graphql
+**Competent:** HTML/CSS, .NET, C#, Selenium, Docker, JavaScript, Graphql
 
-**Familiar:** React, AWS, Firebase, C++, Android studio
+**Familiar:** AWS, Firebase, C++, Android studio, Xcode
 
 ## Jarvis Projects
 
 Project source code: [https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard)
 
 
-**Cluster Monitor** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/linux_sql)]: Developed a CentOS based Linux node cluster agent. This agent keep track of each node's hardware characteristics and real-time resource utilization (e.g. CPU/Memory) for future resource planning purposes (e.g. add/remove servers that might be too slow or underused). The data will be saved in a PostgreSQL relational database management system (RDBMS). The SQL queries will answer business questions such as 'show average memory usage in percentage over 1 minute intervals for each node'.
+**Cluster Monitor** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/linux_sql)]: Developed a CentOS-based Linux node monitoring agent. This agent keeps track of each node's hardware characteristics and real-time resource utilization (e.g. CPU/Memory) for future resource planning purposes. The data is saved in a PostgreSQL database.
 
-**Core Java Apps** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/core_java)]:
+**Core Java Apps** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/core_Java)]:
       
-  - Twitter App: Developed a Java app which can post|show|delete Twitter post via Twitter REST API
-  - JDBC App: Developed a Java tool with JDBC to get data in and out of an application (using any relational database)
-  - Grep App: Developed a simple grep app in Java. The app searches for a text pattern recursively in a given directory, and output matched lines to a file
+  - Twitter App: Developed a Java app that used a DAO to post, show and delete Twitter posts via Twitter's REST API. Springboot was used to handle app dependencies and to ensure all the app layers functioned accordingly. The app was built using Maven and deployed through Dockerhub as a Docker image for easy execution and distribution.
+  - JDBC App: Developed a Java tool with JDBC to get data in and out of a PSQL docker instance Database. the app, built using Maven, uses for easy application layer and database management the DAO pattern.
+  - Grep App: Developed a grep app in Java. The app searches recursively for a text pattern in a given directory and outputs matched lines to a file. The app was dockerized and deployed on Dockerhub for easy access and distribution.
 
-**Springboot App** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/springboot)]: Developed a trading system with the microservice architecture and Springboot framework. Since this is a PoC (proof of concept), I did not need to deal with the real banking or exchange systems. This PoC project focuses on features (e.g. functionalities, and feasibilities) rather than performance and security. The trading platform is a REST API consumed by the front-end applications. The application allows users to manage client profiles and accounts, monitor portfolio performance, and trade securities. The Springboot app fetches data from IEX Cloud which offers free market data (e.g. stock price) via its REST API. 
+**Springboot App** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/springboot)]: Developed a trading system microservice using the Springboot framework. This PoC (proof of concept) project focuses on features (e.g. functionalities and feasibilities). The trading platform is a REST API consumed by a front-end application that I implemented separately  using Next.js. The application allows users to manage client profiles, and accounts, monitor portfolio performance, and trade securities.
 
-**Python Data Analytics** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/python_data_anlytics)]: Not started
-
-**Hadoop** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/hadoop)]: Not started
-
-**Spark** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/spark)]: Not started
-
-**Cloud/DevOps** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/cloud_devops)]: Not started
+**Trading app Frontend** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/frontend)]: Designed, implemented, tested, and deployed a frontend app built upon the SpringBoot project's backend listed above. The app lets users with a modern UI where they can add accounts, check stock quotes, and read/update their account info and balance. All components were created with React.js, stylized with Tailwind's utility-first CSS framework, managed with NPM, tested in the browser, and then released on GitHub.
 
 
 ## Highlighted Projects
-**Go game (Education)**: Implemented a Go game (an abstract strategy board game for two players in which the aim is to surround more territory than the opponent) in java while using jSwing widget toolkit for the GUI
+**Go game (Education)**: Implemented a Go game (an abstract strategy board game for two players in which the aim is to surround more territory than the opponent) in Java using JSwing widget toolkit for a platform-independent and lightweight GUI. The project was later deployed using a modern tech stack. The MVC architecture was used with the MERN stack (MongoDB as a database for players' information, Express.js as a server-side web framework, React.js as the front end, Node.js as my JavaScript server platform
 
-**Schedule planing**: Implemented a c# api to access to the ministry of education's course descriptions and requirements in order to help teachers from Maisonneuve college build each semester's syllabus. A document that communicates information about a specific academic course or class and defines expectations and responsibilities was generated and downloadable. The application was available via the school's portal and the api was used for the mobile app as well.
+**Schedule planning**: Implemented a C# API to access the ministry of education's course descriptions and requirements to help teachers from Maisonneuve college build each semester's syllabus. The syllabus document communicates information about a specific academic course and defines expectations and responsibilities. The document is now programmatically generatable and downloadable to all students. The application is available via the school's portal and the API was used for the mobile app as well.
 
-**TikTok Clone (PoC)**: Implemented a TikTok clone to help viewers watch and discover a multitude of personalized short videos. The video hosting was made using amazon web services and the client side was developed using my web framework of choice, Vue.js and deployed using vercel.com The back-end was fully made in javascript using tool like Node.js for the server and graphql and mongodb fo the database. The goal was mostly to show how I, as a Developer, would implement a huge architecture like tiktok and how i would use OOP to implement different design pattern to roll out an engaging algorithm.
+**TikTok Clone (PoC)**: Implemented a TikTok clone to help viewers watch and discover a multitude of personalized short videos. The video hosting was made using AWS and the client side was developed using Vue.js and deployed using Vercel. Node.js The back-end is a Node.js server and GraphQL and MongoDB for the database. AWS was used for fast video upload and fast streaming. A recommender system was implemented separately using machine learning.
 
 
 ## Professional Experiences
 
-**Software Developer, Jarvis (2021-present)**: Implemented, tested, and deployed a Bash script program using Linux command lines, Bash scripts, a PostgreSQL instance, Git Flow, and Docker using Agile/Scrum methodology. Oversaw daily stand-up meetings (daily scrums), which coordinated and tracked team progress. Managed each aspect of the systems development life cycle (SDLC) architecture.
+**Software Developer, Jarvis (2022-present)**: Designed, utilizing Agile/Scrum methodology, Git Flow, and Docker, I designed, implemented, tested, and deployed software projects related to Linux/Bash scripting, SQL, Java and React. Went through Master Code Review meetings that validate the required expertise and acceptable code quality. Collaborated in a team setting where I was in charge of daily scrum meetings and tracked the progress of the scrum team during sprints.
 
-**Test automation specialist, Equisoft (2020-2021)**: Developed, maintained created and executed End to End clear and concise functional tests cases using selenium and the .NET framework. for the automation. Extended existing test automation or create new scripts to provide a high level of test coverage across existing functionalities.
+**Test Automation Specialist, Equisoft (2020-2022)**: Developed, maintained, created and executed End-to-End clear and concise functional test cases using Selenium and the .NET framework. I Extended existing tests and created new scripts to provide a higher level of test coverage across existing functionalities.
 
 
 ## Education
@@ -55,6 +49,6 @@ Project source code: [https://github.com/jarviscanada/jarvis_data_eng_BikervensB
 
 ## Miscellaneous
 - French High school Diploma, (Montreal)
-- fluent in French/English
+- Fluent in French and English
 - Basketball player
-- Competitive gaming
+- Competitive gaming OW and COD
