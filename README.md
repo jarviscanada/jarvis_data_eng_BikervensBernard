@@ -33,7 +33,7 @@ Project source code: [https://github.com/jarviscanada/jarvis_data_eng_BikervensB
 
 **Schedule planning**: Implemented a C# API to access the ministry of education's course descriptions and requirements to help teachers from Maisonneuve college build each semester's syllabus. The syllabus document communicates information about a specific academic course and defines expectations and responsibilities. The document is now programmatically generatable and downloadable to all students. The application is available via the school's portal and the API was used for the mobile app as well.
 
-**TikTok Clone (PoC)**: Implemented a TikTok clone to help viewers watch and discover a multitude of personalized short videos. The video hosting was made using AWS and the client side was developed using Vue.js and deployed using Vercel. Node.js The back-end is a Node.js server and GraphQL and MongoDB for the database. AWS was used for fast video upload and fast streaming. A recommender system was implemented separately using machine learning.
+**TikTok Clone (PoC)**: Implemented a TikTok clone to help viewers watch and discover a multitude of personalized short videos. The video hosting was made using AWS and the client side was developed using Vue.js and deployed using Vercel. The back-end is a Node.js server and GraphQL and MongoDB for the database. AWS was used for fast video upload and fast streaming. A recommender system was implemented separately using machine learning.
 
 
 ## Professional Experiences

@@ -19,7 +19,7 @@
       "name": "Schedule planning"
     },
     {
-      "description": "Implemented a TikTok clone to help viewers watch and discover a multitude of personalized short videos. The video hosting was made using AWS and the client side was developed using Vue.js and deployed using Vercel. Node.js The back-end is a Node.js server and GraphQL and MongoDB for the database. AWS was used for fast video upload and fast streaming. A recommender system was implemented separately using machine learning.",
+      "description": "Implemented a TikTok clone to help viewers watch and discover a multitude of personalized short videos. The video hosting was made using AWS and the client side was developed using Vue.js and deployed using Vercel. The back-end is a Node.js server and GraphQL and MongoDB for the database. AWS was used for fast video upload and fast streaming. A recommender system was implemented separately using machine learning.",
       "name": "TikTok Clone (PoC)"
     }
   ],
