@@ -25,7 +25,7 @@ Project source code: [https://github.com/jarviscanada/jarvis_data_eng_BikervensB
 
 **Springboot App** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/springboot)]: Developed a trading system microservice using the Springboot framework. This PoC (proof of concept) project focuses on features (e.g. functionalities and feasibilities). The trading platform is a REST API consumed by a front-end application that I implemented separately  using Next.js. The application allows users to manage client profiles, and accounts, monitor portfolio performance, and trade securities.
 
-**Trading app Frontend** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/frontend)]: Designed, implemented, tested, and deployed a frontend app built upon the SpringBoot project's backend listed above. The app lets users with a modern UI where they can add accounts, check stock quotes, and read/update their account info and balance. All components were created with React.js, stylized with Tailwind's utility-first CSS framework, managed with NPM, tested in the browser, and then released on GitHub.
+**Trading app Frontend** [[GitHub](https://github.com/jarviscanada/jarvis_data_eng_BikervensBernard/tree/master/frontend)]: Designed, implemented, tested, and deployed a frontend app built upon the SpringBoot project's backend listed above. The app has a modern UI and allows user to add accounts, check stock quotes, and read/update their account info and balance. All components were created with React.js, stylized with Tailwind's utility-first CSS framework, managed with NPM, tested in the browser, and then released on GitHub.
 
 
 ## Highlighted Projects
