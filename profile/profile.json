@@ -44,7 +44,7 @@
       "name": "Springboot App"
     },
     {
-      "description": "Designed, implemented, tested, and deployed a frontend app built upon the SpringBoot project's backend listed above. The app lets users with a modern UI where they can add accounts, check stock quotes, and read/update their account info and balance. All components were created with React.js, stylized with Tailwind's utility-first CSS framework, managed with NPM, tested in the browser, and then released on GitHub.",
+      "description": "Designed, implemented, tested, and deployed a frontend app built upon the SpringBoot project's backend listed above. The app has a modern UI and allows user to add accounts, check stock quotes, and read/update their account info and balance. All components were created with React.js, stylized with Tailwind's utility-first CSS framework, managed with NPM, tested in the browser, and then released on GitHub.",
       "git_url": "/frontend",
       "name": "Trading app Frontend"
     }
